@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#ffffff"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/imageButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ximenchuixue"
+        android:id="@+id/title"
+        android:layout_alignTop="@+id/imageButton"
+        android:layout_toEndOf="@+id/imageButton"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:textColor="#42c3f7" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="dasdgasgdasfgasdgasdaskdjghkashgoasdgjasljglasdfjglasjfglaskdgjasgasfgasg"
+        android:id="@+id/content"
+        android:layout_below="@+id/title"
+        android:layout_alignStart="@+id/title"
+        android:layout_marginTop="12dp"
+        android:textColor="#999999"
+        android:textSize="12dp" />
+
+    <ImageButton
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:id="@+id/imageButton2"
+        android:layout_below="@+id/content"
+        android:layout_alignStart="@+id/content"
+        android:layout_marginTop="12dp" />
+
+    <ImageButton
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:id="@+id/imageButton3"
+        android:layout_alignBottom="@+id/imageButton2"
+        android:layout_toEndOf="@+id/imageButton2" />
+
+    <ImageButton
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:id="@+id/imageButton4"
+        android:layout_alignBottom="@+id/imageButton3"
+        android:layout_toEndOf="@+id/imageButton3" />
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:id="@+id/imageView5"
+        android:background="#00ff00"
+        android:layout_below="@+id/imageButton2"
+        android:layout_alignStart="@+id/imageButton2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="qinziyundong"
+        android:id="@+id/textView73"
+        android:layout_below="@+id/imageButton2"
+        android:layout_toEndOf="@+id/imageView5"
+        android:textColor="#c7c7c7"
+        android:textSize="11.5dp"
+        android:layout_marginLeft="15dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton5"
+        android:layout_alignTop="@+id/textView73"
+        android:layout_alignStart="@+id/imageButton4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4"
+        android:id="@+id/textView74"
+        android:layout_alignTop="@+id/imageButton5"
+        android:layout_toEndOf="@+id/imageButton5"
+        android:textColor="#666666"
+        android:textSize="13dp"
+        android:layout_marginLeft="5dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton6"
+        android:layout_alignTop="@+id/textView74"
+        android:layout_toEndOf="@+id/textView74"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4"
+        android:id="@+id/textView75"
+        android:textColor="#666666"
+        android:textSize="13dp"
+        android:layout_below="@+id/imageButton4"
+        android:layout_toEndOf="@+id/imageButton6"
+        android:layout_marginLeft="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="shiwufenzhongqian"
+        android:id="@+id/textView76"
+        android:textColor="#c7c7c7"
+        android:textSize="11.5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignTop="@+id/title"
+        android:layout_alignEnd="@+id/imageButton4" />
+
+</RelativeLayout>

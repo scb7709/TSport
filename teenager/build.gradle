@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+    defaultConfig {
+        applicationId "me.lam.maidong"
+        minSdkVersion 17
+        versionCode 10
+        versionName "2.3.1"
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips", "arm64-v8a", "x86_64", "mips64"
+        }
+        resConfigs "zh"//删除国际化语言系统
+    }
+    buildTypes {
+        release {
+            minifyEnabled false//进行Proguard混淆的配置，可大大减小APP大小：
+            shrinkResources true//去除无用资源，
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    productFlavors {
+
+        wandoujia {}
+        QQ {}
+        c360 {}
+        xiaomi {}
+
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+}
+dependencies {
+
+    //  provided fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    compile files('libs/gson-2.2.4.jar')
+    compile 'com.jiechic.library:xUtils:2.6.14'
+    compile files('libs/android-async-http-1.4.7.jar')
+    compile files('libs/mta-sdk-1.6.2.jar')
+    compile files('libs/open_sdk_r5756.jar')
+    compile files('libs/libammsdk.jar')
+    compile files('libs/wire-runtime-1.7.0.jar')
+    compile files('libs/xUtils-3.3.22.jar')
+    compile files('libs/bugly_crash_release.jar')
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile files('libs/converter-gson-2.1.0.jar')
+    compile files('libs/okhttp-3.2.0.jar')
+    compile files('libs/okio-1.6.0.jar')
+    compile files('libs/nineoldandroids-2.4.0.jar')
+    compile files('libs/mpchartlib.jar')
+    compile project(':heartimage')
+    compile project(':PushSDK')
+}

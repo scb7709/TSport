@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/heartimage/heartimage.iml" filepath="$PROJECT_DIR$/heartimage/heartimage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sport.iml" filepath="$PROJECT_DIR$/sport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/teenager/teenager.iml" filepath="$PROJECT_DIR$/teenager/teenager.iml" />
+    </modules>
+  </component>
+</project>

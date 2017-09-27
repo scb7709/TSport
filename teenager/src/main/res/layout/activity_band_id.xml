@@ -1,0 +1,108 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <include
+        layout="@layout/view_publicctitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e3f7ff"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/color"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+
+                android:layout_marginLeft="10dp"
+                android:gravity="center_horizontal"
+                android:text="教育ID"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_pwd"
+                style="@style/accountEditText"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="35dp"
+                android:hint="请输入学生教育ID"
+                android:textColor="#c7c7c7"
+                android:textColorHint="#c7c7c7"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/why"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_gravity="top|center_vertical"
+                android:layout_marginTop="15dp"
+                android:background="@android:color/transparent"
+                android:text="为什么要绑定教育ID？"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#42c3f7"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/first"
+                android:layout_width="133dp"
+                android:layout_height="1dp"
+                android:background="#42c3f7"
+
+                />
+
+
+            <!--  <Button
+                  android:id="@+id/bt_log"
+                  android:layout_width="wrap_content"
+                  android:layout_height="27dp"
+                  android:text="跳过"
+                  android:paddingTop="0dp"
+                  android:background="@android:color/transparent"
+                  android:textColor="#42c3f7"
+                  android:textSize="13dp"
+                  android:layout_marginTop="15dp"
+                  android:layout_gravity="right"
+                  android:gravity="top|center_horizontal|right" />-->
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/button"
+            android:text="绑定并完成注册"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+</LinearLayout>

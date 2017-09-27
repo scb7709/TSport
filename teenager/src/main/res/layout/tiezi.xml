@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e3f7ff"
+    android:orientation="vertical"
+
+    android:weightSum="1">
+
+
+    <!-- android:divider="#ffffff"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:smoothScrollbar="true"-->
+    <!-- <ListView
+         android:id="@+id/listview"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:dividerHeight="10dp"
+          />-->
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/tiezilistview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="10dp"></com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+</LinearLayout>

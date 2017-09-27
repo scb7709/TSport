@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#42c3f7"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_publicctitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></include>
+
+    <TableLayout
+        android:background="@color/white"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:gravity="center_vertical">
+
+        <TableRow
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip">
+
+            <TextView
+                style="@style/dateStyle"
+                android:text="日"
+                android:textColor="#42c3f7" />
+
+            <TextView
+                style="@style/dateStyle"
+                android:text="一"
+                android:textColor="#42c3f7" />
+
+            <TextView
+                style="@style/dateStyle"
+                android:text="二"
+                android:textColor="#42c3f7" />
+
+            <TextView
+                style="@style/dateStyle"
+                android:text="三"
+                android:textColor="#42c3f7" />
+
+            <TextView
+                style="@style/dateStyle"
+                android:text="四"
+                android:textColor="#42c3f7" />
+
+            <TextView
+                style="@style/dateStyle"
+                android:text="五"
+                android:textColor="#42c3f7" />
+
+            <TextView
+                style="@style/dateStyle"
+                android:text="六"
+                android:textColor="#42c3f7" />
+        </TableRow>
+    </TableLayout>
+    <!--
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.8"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip" />-->
+
+    <me.lam.maidong.myview.NoPreloadViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:flipInterval="30"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:persistentDrawingCache="animation"
+
+        />
+
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffff"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_recent"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:layout_weight="1"
+            android:background="#eeeeee"
+            android:text="回到今天"
+            android:textColor="#ffad00"
+            android:textSize="15dp" />
+
+
+    </LinearLayout>
+</LinearLayout>

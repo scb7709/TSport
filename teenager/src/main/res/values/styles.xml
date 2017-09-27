@@ -1,0 +1,76 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+
+    <!--    &lt;!&ndash; Here we setting appcompat’s actionBarStyle &ndash;&gt;
+        <item name="actionBarStyle">@style/MyActionBarStyle</item>
+        &lt;!&ndash; ...and here we setting appcompat’s color theming attrs &ndash;&gt;
+        <item name="colorPrimary">@color/my_awesome_red</item>
+        <item name="colorPrimaryDark">@color/my_awesome_darker_red</item>-->
+        <!-- The rest of your attributes -->
+    </style>
+    <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="Theme.Start" parent="android:Theme">
+        <item name="android:windowBackground">@drawable/launch</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="accountInputBorder">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginLeft">18dp</item>
+        <item name="android:layout_marginRight">18dp</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="accountEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:singleLine">true</item>
+
+
+    </style>
+
+    <style name="buttonBarButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="progress_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <style name="NumberProgressBar_Default">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="progress_max">100</item>
+        <item name="progress_current">0</item>
+
+        <item name="progress_unreached_color">#8ad6f1</item>
+        <item name="progress_reached_color">#eeeeee</item>
+
+        <item name="progress_text_size">12dp</item>
+        <item name="progress_text_color">#bf8103</item>
+
+        <item name="progress_reached_bar_height">30dp</item>
+        <item name="progress_unreached_bar_height">30dp</item>
+    </style>
+</resources>

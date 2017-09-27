@@ -1,0 +1,9 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main"
+    android:fitsSystemWindows="true"
+    android:layout_width="fill_parent"
+    android:background="#42c3f4"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+</LinearLayout>
