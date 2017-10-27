@@ -198,7 +198,7 @@ public class AnalizeFragment extends Fragment {
             public void onResponse(String response) {
                 Log.i("getspvscl", response.toString());
                // try {
-                    spvscl spvscl = new Gson().fromJson(str, spvscl.class);
+                    spvscl spvscl = new Gson().fromJson(response, spvscl.class);
 
                     Log.i("getspvscl", response.toString());
                     if (spvscl != null) {
