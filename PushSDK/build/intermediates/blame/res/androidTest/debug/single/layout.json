@@ -2,5 +2,13 @@
     {
         "merged": "E:\\work\\pro\\qq\\sport\\PushSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\upush_notification.xml",
         "source": "E:\\work\\pro\\qq\\sport\\PushSDK\\build\\intermediates\\bundles\\debug\\res\\layout\\upush_notification.xml"
+    },
+    {
+        "merged": "E:\\work\\pro\\RevisionHistory\\sport\\PushSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\upush_notification.xml",
+        "source": "E:\\work\\pro\\RevisionHistory\\sport\\PushSDK\\build\\intermediates\\bundles\\debug\\res\\layout\\upush_notification.xml"
+    },
+    {
+        "merged": "E:\\work\\ProductTeenager\\RevisionHistory\\sport\\PushSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\upush_notification.xml",
+        "source": "E:\\work\\ProductTeenager\\RevisionHistory\\sport\\PushSDK\\build\\intermediates\\bundles\\debug\\res\\layout\\upush_notification.xml"
     }
 ]

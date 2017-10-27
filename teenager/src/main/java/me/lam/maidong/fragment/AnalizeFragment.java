@@ -198,7 +198,7 @@ public class AnalizeFragment extends Fragment {
             public void onResponse(String response) {
                 Log.i("getspvscl", response.toString());
                // try {
-                    spvscl spvscl = new Gson().fromJson(response, spvscl.class);
+                    spvscl spvscl = new Gson().fromJson(str, spvscl.class);
 
                     Log.i("getspvscl", response.toString());
                     if (spvscl != null) {
@@ -245,6 +245,86 @@ public class AnalizeFragment extends Fragment {
         );*/
 
     }
+
+
+    String str="{\n" +
+            "    \"StatusCode\": 1,\n" +
+            "    \"Data\": {\n" +
+            "        \"Summary\": [\n" +
+            "            {\n" +
+            "                \"StudentID\": \"0\",\n" +
+            "                \"AvgEffectTime\": \"1000\",\n" +
+            "                \"AvgTotalTime\": \"1000\",\n" +
+            "                \"Percentage\": \"\",\n" +
+            "                \"AvgCal\": \"500\",\n" +
+            "                \"TotalCal\": \"1000\",\n" +
+            "                \"TotalDays\": \"0\",\n" +
+            "                \"MaxTotalTime\": \"1500\",\n" +
+            "                \"MaxCalory\": \"100\",\n" +
+            "                \"CaloryRate\": \"\"\n" +
+            "            }\n" +
+            "        ],\n" +
+            "        \"Detail\": [\n" +
+            "            {\n" +
+            "                \"Day\": \"周五\",\n" +
+            "                \"EffectTime\": \"100\",\n" +
+            "                \"TotalTime\": \"300\",\n" +
+            "                \"Calory\": \"50\",\n" +
+            "                \"StatDate\": \"2017-10-20\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"Day\": \"周六\",\n" +
+            "                \"EffectTime\": \"800\",\n" +
+            "                \"TotalTime\": \"1000\",\n" +
+            "                \"Calory\": \"50\",\n" +
+            "                \"StatDate\": \"2017-10-21\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"Day\": \"周日\",\n" +
+            "                \"EffectTime\": \"832\",\n" +
+            "                \"TotalTime\": \"1111\",\n" +
+            "                \"Calory\": \"50\",\n" +
+            "                \"StatDate\": \"2017-10-22\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"Day\": \"周一\",\n" +
+            "                \"EffectTime\": \"800\",\n" +
+            "                \"TotalTime\": \"1500\",\n" +
+            "                \"Calory\": \"50\",\n" +
+            "                \"StatDate\": \"2017-10-23\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"Day\": \"周二\",\n" +
+            "                \"EffectTime\": \"1200\",\n" +
+            "                \"TotalTime\": \"1500\",\n" +
+            "                \"Calory\": \"50\",\n" +
+            "                \"StatDate\": \"2017-10-24\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"Day\": \"周三\",\n" +
+            "                \"EffectTime\": \"700\",\n" +
+            "                \"TotalTime\": \"900\",\n" +
+            "                \"Calory\": \"50\",\n" +
+            "                \"StatDate\": \"2017-10-25\"\n" +
+            "            },\n" +
+            "            {\n" +
+            "                \"Day\": \"周四\",\n" +
+            "                \"EffectTime\": \"880\",\n" +
+            "                \"TotalTime\": \"1100\",\n" +
+            "                \"Calory\": \"50\",\n" +
+            "                \"StatDate\": \"2017-10-26\"\n" +
+            "            }\n" +
+            "        ],\n" +
+            "        \"DayRanking\": {\n" +
+            "            \"SchoolClassName\": \"\",\n" +
+            "            \"EffectTime\": \"\",\n" +
+            "            \"SchoolRanking\": \"100\",\n" +
+            "            \"ClassRanking\": \"60\",\n" +
+            "            \"SameAgeRanking\": \"33\"\n" +
+            "        }\n" +
+            "    },\n" +
+            "    \"StatusMessage\": \"获取成功\"\n" +
+            "}";
 }
 
 

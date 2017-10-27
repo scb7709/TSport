@@ -30,6 +30,7 @@ import me.lam.maidong.R;
 import me.lam.maidong.circle.RoundProgressBar;
 import me.lam.maidong.entity.sevenDataTime;
 import me.lam.maidong.entity.spvscl;
+import me.lam.maidong.utils.StringForTime;
 
 public class SportFragment extends Fragment implements View.OnClickListener {
     @InjectView(R.id.AvgEffectTime)
@@ -122,6 +123,10 @@ public class SportFragment extends Fragment implements View.OnClickListener {
 
         view = inflater.inflate(R.layout.layout_sport, null);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.view);
+        AvgTotalTime = (TextView) view.findViewById(R.id.TotalCal);
+        TotalDays = (TextView) view.findViewById(R.id.TotalDays);
+        MaxTotalTime = (TextView) view.findViewById(R.id.MaxTotalTime);
+        midleTime = (TextView) view.findViewById(R.id.midleTime);
         zhu = (RelativeLayout) view.findViewById(R.id.zhu);
         botomLin = (TextView) view.findViewById(R.id.t1);
         ButterKnife.inject(this, view);
@@ -148,15 +153,11 @@ public class SportFragment extends Fragment implements View.OnClickListener {
                     zhu.getLocationOnScreen(location);
                     x = location[0];
                     y = location[1];
-                    Log.e("zuobiao", "zhux:" + x + "zhuy:" + y);
-                    Log.e("zuobiao", "zhuLeft：" + zhu.getLeft() + "zhuRight：" + zhu.getRight() + "zhuTop：" + zhu.getTop() + "zhuBottom：" + zhu.getBottom());
 
                     int[] location0 = new int[2];
                     botomLin.getLocationOnScreen(location0);
                     int x0 = location0[0];
                     int y0 = location0[1];
-                    Log.e("zuobiao", "botomLinx1:" + x0 + "botomLiny1:" + y0);
-                    Log.e("zuobiao", "botomLint1：" + botomLin.getLeft() + "botomLinRight：" + botomLin.getRight() + "botomLinTop：" + botomLin.getTop() + "botomLinBottom：" + botomLin.getBottom());
                     bootom = zhu.getTop();
                     top = botomLin.getTop();
                     gap = (botomLin.getTop() - zhu.getTop());
@@ -166,80 +167,79 @@ public class SportFragment extends Fragment implements View.OnClickListener {
                         FrameLayout.LayoutParams linearParamsall = (FrameLayout.LayoutParams) btalls.get(i).getLayoutParams();
                         // 取控件aaa当前的布局参数
                         spvscl.DataEntity.DetailEntity detailEntity = spcl.getData().getDetail().get(i);
-                        linearParamsall.height = gap * (detailEntity.getTotalTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60 + 10); // 当控件的高强制设成365象素
+                        linearParamsall.height = gap * (detailEntity.getTotalTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60); //
                         btalls.get(i).setLayoutParams(linearParamsall); // 使设置好的布局参数应用到控件aaa
 
                         FrameLayout.LayoutParams linearParamsshow = (FrameLayout.LayoutParams) shows.get(i).getLayoutParams();
                         // 取控件aaa当前的布局参数
-                        linearParamsshow.height = gap * (detailEntity.getTotalTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60 + 10); // 当控件的高强制设成365象素
+                        linearParamsshow.height = gap * (detailEntity.getTotalTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60); //
                         shows.get(i).setLayoutParams(linearParamsall); // 使设置好的布局参数应用到控件aaa
 
 
                         FrameLayout.LayoutParams linearParams = (FrameLayout.LayoutParams) bts.get(i).getLayoutParams();
                         // 取控件aaa当前的布局参数
-                        linearParams.height = gap * (detailEntity.getEffectTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60 + 10); // 当控件的高强制设成365象素
+                        linearParams.height = gap * (detailEntity.getEffectTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60); // 当控件的高强制设成365象素
                         bts.get(i).setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
                         ts.get(i).setText(spcl.getData().getDetail().get(i).getDay());
                     }
-                    Log.e("zuobiao", "gap:==" + gap);
-                }
-            }
-            if (msg.what == 50) {
-                RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.view);
-                if (count == 1) {
-                    d = new draw(getActivity(), msg.obj, msg.arg1, (msg.arg2 - daohangHigh));
-                    relativeLayout.addView(d);
-                    count++;
-                } else {
-                    relativeLayout.removeView(d);
-                    d = new draw(getActivity(), msg.obj, msg.arg1, (msg.arg2 - daohangHigh));
-                    relativeLayout.addView(d);
-                }
-            }
 
+                }
+            }
         }
     };
     int count;
     draw d;
     RelativeLayout relativeLayout;
 
- public class draw extends View {
-     int x = 0;
-     int y = 0;
-     sevenDataTime data = null;
+    public class draw extends View {
+        int x = 0;
+        int y = 0;
+        String effect;
+        String tatal;
 
-     public draw(Context context, Object data, int x, int y) {
-         super(context);
-         setWillNotDraw(false);
-         Log.e("0000", x + "开始画了---1111" + y + "开始画了");
-         this.data = (sevenDataTime) data;
-         this.x = x;
-         this.y = y;
-     }
+        public draw(Context context, String effect,String tatal, int x, int y) {
+            super(context);
+            setWillNotDraw(false);
+            this.effect = effect;
+            this.tatal = tatal;
+            this.x = x;
+            this.y = y;
+        }
 
-     @Override
-     public void onDraw(Canvas canvas) {
-         super.onDraw(canvas);
-         setWillNotDraw(false);
-         Log.e("0000", x + "开始画了---22222" + y + "开始画了");
-         Paint paint = new Paint();
-         paint.setStyle(Paint.Style.FILL);
-         paint.setAntiAlias(true);
-         paint.setColor(Color.parseColor("#42c3f4"));
-         paint.setStrokeWidth((float) 1.0);
-         if (screenWidth < 1080) {
-             paint.setTextSize(22);
-         } else {
-             paint.setTextSize(32);
-         }
-         canvas.drawText(data.getEffect(), x, y - 85, paint);
-         canvas.drawLine(x - 10, y - 77, x + zhouyi.getWidth() + 10, y - 77, paint);
-         canvas.drawText(data.getTotal(), x, y - 50, paint);
-         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
-         canvas.drawBitmap(bitmap, x + zhouyi.getWidth() / 4, y - 45, paint);
-     }
- }
+        @Override
+        public void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+            setWillNotDraw(false);
 
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.FILL);
+            paint.setAntiAlias(true);
+            paint.setColor(Color.parseColor("#42c3f4"));
+            paint.setStrokeWidth((float) 1.0);
+            if (screenWidth < 1080) {
+                paint.setTextSize(22);
+            } else {
+                paint.setTextSize(32);
+            }
+
+
+          /*  canvas.drawText(data.getEffect(), x, y - 85, paint);
+            canvas.drawLine(x - 10, y - 77, x + zhouyi.getWidth() + 10, y - 77, paint);
+            canvas.drawText(data.getTotal(), x, y - 50, paint);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
+            canvas.drawBitmap(bitmap, x + zhouyi.getWidth() / 4, y - 45, paint);*/
+
+            int effectwidth = x + (zhouyiall.getWidth() - getTextWidth(effect, paint)) / 2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
+            int tatalwidth = x + (zhouyiall.getWidth() - getTextWidth(tatal, paint)) / 2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
+            canvas.drawText(effect, effectwidth, y - 90, paint);
+            canvas.drawLine(x, y - 85, x + zhouyi.getWidth(), y - 85, paint);
+            canvas.drawText(tatal, tatalwidth, y - 60, paint);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
+            canvas.drawBitmap(bitmap, x + zhouyi.getWidth() / 4, y - 50, paint);
+
+
+        }
+    }
 
 
     spvscl spcl;
@@ -254,9 +254,8 @@ public class SportFragment extends Fragment implements View.OnClickListener {
     public SportFragment() {
     }
 
-    String avgTal;
-    String avgEffec;
 
+    int ShowPossition = 0;
   /*  @Override
     public void onp() {
         super.onDestroy();
@@ -309,170 +308,22 @@ public class SportFragment extends Fragment implements View.OnClickListener {
         ts.add(t5);
         ts.add(t6);
         ts.add(t7);
-       final List<spvscl.DataEntity.DetailEntity>  detailEntities=spcl.getData().getDetail();
+
 
         if (spcl.getStatus() != 0) {
-            show1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String effect = "" + detailEntities.get(0).getEffectTime() / 60;
-                    effect = effect + "'" + detailEntities.get(0).getEffectTime() % 60 + "''";
-                    String tatal = "" +detailEntities.get(0).getTotalTime() / 60;
-                    tatal = tatal + "'" + detailEntities.get(0).getTotalTime() % 60 + "''";
-                    sevenDataTime sdt = new sevenDataTime();
-                    sdt.setEffect(effect);
-                    sdt.setTotal(tatal);
-                    int[] location55 = new int[2];
-                    show1.getLocationOnScreen(location55);
-                    Message mssg = h.obtainMessage();
-                    mssg.what = 50;
-                    mssg.obj = sdt;
-                    mssg.arg1 = location55[0];
-                    mssg.arg2 = location55[1];
-                    h.sendMessage(mssg);
+            for (int ShowPossition=0 ; ShowPossition < shows.size(); ShowPossition++) {
+                setOnClickListener(ShowPossition);
 
-
-                }
-            });
-            show2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String effect = "" + detailEntities.get(1).getEffectTime() / 60;
-                    effect = effect + "'" + detailEntities.get(1).getEffectTime() % 60 + "''";
-                    String tatal = "" + detailEntities.get(1).getTotalTime() / 60;
-                    tatal = tatal + "'" + detailEntities.get(1).getTotalTime() % 60 + "''";
-                    sevenDataTime sdt = new sevenDataTime();
-                    sdt.setEffect(effect);
-                    sdt.setTotal(tatal);
-                    int[] location55 = new int[2];
-                    show2.getLocationOnScreen(location55);
-                    Message mssg = h.obtainMessage();
-                    mssg.what = 50;
-                    mssg.obj = sdt;
-                    mssg.arg1 = location55[0];
-                    mssg.arg2 = location55[1];
-                    h.sendMessage(mssg);
-                }
-            });
-            show3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String effect = "" + detailEntities.get(2).getEffectTime() / 60;
-                    effect = effect + "'" + detailEntities.get(2).getEffectTime() % 60 + "''";
-                    String tatal = "" + detailEntities.get(2).getTotalTime() / 60;
-                    tatal = tatal + "'" + detailEntities.get(2).getTotalTime() % 60 + "''";
-                    sevenDataTime sdt = new sevenDataTime();
-                    sdt.setEffect(effect);
-                    sdt.setTotal(tatal);
-                    int[] location55 = new int[2];
-                    show3.getLocationOnScreen(location55);
-                    Message mssg = h.obtainMessage();
-                    mssg.what = 50;
-                    mssg.obj = sdt;
-                    mssg.arg1 = location55[0];
-                    mssg.arg2 = location55[1];
-                    h.sendMessage(mssg);
-                }
-            });
-            show4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String effect = "" +detailEntities.get(3).getEffectTime() / 60;
-                    effect = effect + "'" +detailEntities.get(3).getEffectTime() % 60 + "''";
-                    String tatal = "" +detailEntities.get(3).getTotalTime() / 60;
-                    tatal = tatal + "'" +detailEntities.get(3).getTotalTime() % 60 + "''";
-                    sevenDataTime sdt = new sevenDataTime();
-                    sdt.setEffect(effect);
-                    sdt.setTotal(tatal);
-                    int[] location55 = new int[2];
-                    show4.getLocationOnScreen(location55);
-                    Message mssg = h.obtainMessage();
-                    mssg.what = 50;
-                    mssg.obj = sdt;
-                    mssg.arg1 = location55[0];
-                    mssg.arg2 = location55[1];
-                    h.sendMessage(mssg);
-                }
-            });
-            show5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String effect = "" + detailEntities.get(4).getEffectTime() / 60;
-                    effect = effect + "'" +detailEntities.get(4).getEffectTime() % 60 + "''";
-                    String tatal = "" + detailEntities.get(4).getTotalTime() / 60;
-                    tatal = tatal + "'" + detailEntities.get(4).getTotalTime() % 60 + "''";
-                    sevenDataTime sdt = new sevenDataTime();
-                    sdt.setEffect(effect);
-                    sdt.setTotal(tatal);
-                    int[] location55 = new int[2];
-                    show5.getLocationOnScreen(location55);
-                    Message mssg = h.obtainMessage();
-                    mssg.what = 50;
-                    mssg.obj = sdt;
-                    mssg.arg1 = location55[0];
-                    mssg.arg2 = location55[1];
-                    h.sendMessage(mssg);
-                }
-            });
-            show6.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String effect = "" + detailEntities.get(5).getEffectTime() / 60;
-                    effect = effect + "'" + detailEntities.get(5).getEffectTime() % 60 + "''";
-                    String tatal = "" + detailEntities.get(5).getTotalTime() / 60;
-                    tatal = tatal + "'" + detailEntities.get(5).getTotalTime() % 60 + "''";
-                    sevenDataTime sdt = new sevenDataTime();
-                    sdt.setEffect(effect);
-                    sdt.setTotal(tatal);
-                    int[] location55 = new int[2];
-                    show6.getLocationOnScreen(location55);
-                    Message mssg = h.obtainMessage();
-                    mssg.what = 50;
-                    mssg.obj = sdt;
-                    mssg.arg1 = location55[0];
-                    mssg.arg2 = location55[1];
-                    h.sendMessage(mssg);
-                }
-            });
-            show7.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String effect = "" + detailEntities.get(6).getEffectTime() / 60;
-                    effect = effect + "'" + detailEntities.get(6).getEffectTime() % 60 + "''";
-                    String tatal = "" + detailEntities.get(6).getTotalTime() / 60;
-                    tatal = tatal + "'" + detailEntities.get(6).getTotalTime() % 60 + "''";
-                    sevenDataTime sdt = new sevenDataTime();
-                    sdt.setEffect(effect);
-                    sdt.setTotal(tatal);
-                    int[] location55 = new int[2];
-                    show7.getLocationOnScreen(location55);
-                    Message mssg = h.obtainMessage();
-                    mssg.what = 50;
-                    mssg.obj = sdt;
-                    mssg.arg1 = location55[0];
-                    mssg.arg2 = location55[1];
-                    h.sendMessage(mssg);
-                }
-            });
-            AvgTotalTime = (TextView) view.findViewById(R.id.TotalCal);
-            TotalDays = (TextView) view.findViewById(R.id.TotalDays);
-            MaxTotalTime = (TextView) view.findViewById(R.id.MaxTotalTime);
-            midleTime = (TextView) view.findViewById(R.id.midleTime);
+            }
             spvscl.DataEntity.SummaryEntity summaryEntity = spcl.getData().getSummary().get(0);
-
-            avgTal = "" + (summaryEntity.getAvgTotalTime() / 60);
-            avgTal = (avgTal + "") + "'" + (summaryEntity.getAvgTotalTime()) % 60 + "''";
-            AvgTotalTime.setText(avgTal);
-            avgEffec = "" + (summaryEntity.getAvgEffectTime() / 60);
-            avgEffec = (avgEffec + "") + "'" + (summaryEntity.getAvgEffectTime()) % 60 + "''";
-            AvgEffectTime.setText(avgEffec);
+            AvgTotalTime.setText(StringForTime.stringForTime3(summaryEntity.getAvgTotalTime()));
+            AvgEffectTime.setText(StringForTime.stringForTime3(summaryEntity.getAvgEffectTime()));
             TotalDays.setText("共运动：" + summaryEntity.getTotalDays() + "天");
-            MaxTotalTime.setText((summaryEntity.getMaxTotalTime() / 60 )+"");
+            MaxTotalTime.setText((summaryEntity.getMaxTotalTime() / 60) + "");
             midleTime.setText("" + (summaryEntity.getMaxTotalTime() / 60) / 2);
             roundnum = (summaryEntity.getAvgEffectTime());
-
             mRoundProgressBar2.setMax(summaryEntity.getAvgTotalTime());
-          //  sleep = (int) (Math.random() * (4000 / roundnum - 2000 / roundnum + 1) + 2000 / roundnum);//最多不超过4秒 最低不少于2秒
+            //  sleep = (int) (Math.random() * (4000 / roundnum - 2000 / roundnum + 1) + 2000 / roundnum);//最多不超过4秒 最低不少于2秒
             progress = 0;
             new Thread(new Runnable() {
                 @Override
@@ -491,8 +342,35 @@ public class SportFragment extends Fragment implements View.OnClickListener {
             }).start();
             h.sendEmptyMessageDelayed(1, 1);
         }
+
     }
 
+    private void setOnClickListener(final int ShowPossition){
+        final List<spvscl.DataEntity.DetailEntity> detailEntities = spcl.getData().getDetail();
+        final Button show = shows.get(ShowPossition);
+        show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[] location55 = new int[2];
+                show.getLocationOnScreen(location55);
+                String effect = StringForTime.stringForTime3(detailEntities.get(ShowPossition).getEffectTime());
+                String tatal = StringForTime.stringForTime3(detailEntities.get(ShowPossition).getTotalTime());
+                showdraw(effect,tatal,location55[0],location55[1]);
+
+
+            }
+        });
+    }
+
+    private void showdraw(String effect,String tatal,int x,int y) {
+        if (d != null) {
+            relativeLayout.removeView(d);
+            d = null;
+        }
+        d = new draw(getContext(), effect,tatal, x, (y - daohangHigh));
+        relativeLayout.addView(d);
+
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -506,4 +384,18 @@ public class SportFragment extends Fragment implements View.OnClickListener {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
+
+    public static int getTextWidth(String content, Paint paint) {
+        int width = 0;
+        if (content != null && content.length() > 0) {
+            int length = content.length();
+            float[] widths = new float[length];
+            paint.getTextWidths(content, widths);
+            for (int i = 0; i < length; i++) {
+                width += (int) Math.ceil(widths[i]);
+            }
+        }
+        return width;
+    }
+
 }

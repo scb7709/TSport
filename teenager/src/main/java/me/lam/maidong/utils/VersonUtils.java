@@ -1,6 +1,7 @@
 package me.lam.maidong.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -47,15 +48,13 @@ public class VersonUtils {
     /**
      * 安装apk
      */
-    public static void installApk(File file,Activity activity) {
+    public static void installApk(File file,Context activity) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        activity. startActivityForResult(intent, 0);
-        //安转完成后提示打开
-        android.os.Process.killProcess(android.os.Process.myPid());
+        activity.startActivity(intent);
 
 
     }

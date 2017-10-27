@@ -34,6 +34,7 @@ import me.lam.maidong.fragment.NewsActivityFragment2;
 import me.lam.maidong.fragment.SelfActivityFragment;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
+import me.lam.maidong.utils.UpadteApp;
 
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
@@ -73,6 +74,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        activity = this;
+        UpadteApp.updateAPP(activity, true);
         initView();
      /*   maiDongActivityFragment = new MaiDongActivityFragment();
         changeFragment(maiDongActivityFragment, "MaiDongActivityFragment");*/
@@ -97,7 +100,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initView() {
 
-        activity = this;
+
         EduCode = ShareUitls.getString(MainActivity.this, "EducationCode", "");
         LastSportDate = ShareUitls.getString(MainActivity.this, "LastSportDate", "");
         Log.e("log", EduCode + "主界面的到登陆的id？");

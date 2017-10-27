@@ -195,7 +195,8 @@ public class HomeActivity extends OriginalActivity {
 
                 VersionClass versionClass = new Gson().fromJson(checkVersion, VersionClass.class);
                 ShareUitls.putVersion(HomeActivity.this, versionClass);
-                if (versionClass.VersionCode > VersonUtils.getVerisonCode(HomeActivity.this)) {
+                initialize();
+              /*  if (versionClass.VersionCode > VersonUtils.getVerisonCode(HomeActivity.this)) {
                     UpadteApp upadteApp = new UpadteApp(HomeActivity.this, versionClass, false, new UpadteApp.UpdateResult() {
                         @Override
                         public void onSuccess() {
@@ -209,7 +210,7 @@ public class HomeActivity extends OriginalActivity {
                     });
                 } else {
                     initialize();
-                }
+                }*/
             } else {
                 initialize();
             }
