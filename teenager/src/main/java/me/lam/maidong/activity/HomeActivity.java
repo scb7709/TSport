@@ -83,16 +83,19 @@ public class HomeActivity extends OriginalActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         mPager = (ViewPager) this.findViewById(R.id.vPager);
+        checkVersion(this);
+
+
        // ShareUitls.putString(HomeActivity.this, "count", "null");
        // checkVersion(HomeActivity.this);
         // initialize();
-        new Timer().schedule(timerTask, 2000);
+       // new Timer().schedule(timerTask, 2000);
     }
 
     private void initialize() {
         boolean flag = !ShareUitls.getString(HomeActivity.this, "first", "yes").equals("yes");
         if (flag) {
-            new Timer().schedule(timerTask, 2000);
+            new Timer().schedule(timerTask, 1000);
         } else {
             ShareUitls.putString(HomeActivity.this, "first", "no");
             mPager.setVisibility(View.VISIBLE);
@@ -158,7 +161,6 @@ public class HomeActivity extends OriginalActivity {
         if (DeviceToken.length() != 0) {
             Log.i("updateToken", "OK");
             String url = "User?Mobile=" + Phone + "&DeviceToken=" + DeviceToken + "&DeviceType=1";
-            //  String url=" http://192.168.1.250:8085/api/User?Mobile=18611347385&DeviceToken=AhqeuMoLPFLLXCE8T4QMHNvXsnxRTFIIpIh-8ZoyLEAS&DeviceType=1";
             OKHttp.sendRequestRequestParams(TokenActivity, "TokenActivity", false, url, new OKHttp.ResponseListener() {
                 @Override
                 public void onResponse(String response) {
@@ -186,17 +188,18 @@ public class HomeActivity extends OriginalActivity {
         }
         //
     }
-
+String str="{\"VersionCode\":\"11\",\"VersionName\":\"1.3.2\",\"Description\":\"1,aaa;2,bbb;3,cccc\",\"DownloadUrl\":\"https://www.ssp365.com/upload/app/teenager2.3.1.apk\"}";
     Handler checkVersionhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-
-                VersionClass versionClass = new Gson().fromJson(checkVersion, VersionClass.class);
+                VersionClass versionClass = new Gson().fromJson(str, VersionClass.class);
                 ShareUitls.putVersion(HomeActivity.this, versionClass);
-                initialize();
-              /*  if (versionClass.VersionCode > VersonUtils.getVerisonCode(HomeActivity.this)) {
+               // initialize();
+              /*
+                if (versionClass.VersionCode > VersonUtils.getVerisonCode(HomeActivity.this)) {
+
                     UpadteApp upadteApp = new UpadteApp(HomeActivity.this, versionClass, false, new UpadteApp.UpdateResult() {
                         @Override
                         public void onSuccess() {
@@ -212,8 +215,9 @@ public class HomeActivity extends OriginalActivity {
                     initialize();
                 }*/
             } else {
-                initialize();
+                //initialize();
             }
+            initialize();
         }
     };
     String checkVersion;
@@ -223,7 +227,7 @@ public class HomeActivity extends OriginalActivity {
         OKHttp.sendRequestRequestParamsNew(activity, "", false, url, new OKHttp.ResponseListenerNew() {
             @Override
             public void onResponse(String response, PublicDataClass.StatusModel statusModel) {
-                Log.i("myblue", response+"  -------  "+statusModel.toString());
+                Log.i("mybluee", response);
                 if (statusModel.StatusCode == 1) {
 
                     checkVersion = response;

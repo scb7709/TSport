@@ -83,7 +83,13 @@
         <activity
             android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait" />
+        <service android:name=".service.UpdateService">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </service>
         <!-- weixin -->
 
 

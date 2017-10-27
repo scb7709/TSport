@@ -161,7 +161,7 @@ public class OKHttp {
                         waitDialog.dismissDialog();
                     }
                     String result = response.body().string();
-                    Log.i("myblue", result + "  -------  ");
+                  //  Log.i("myblue", result + "  -------  ");
                    /* Person.Organizations.Type objectType = new TypeToken<PublicDataClass<Data>>() {}.getType();
                      gson.fromJson(json, objectType);*/
                     JSONObject[] jsonObjects = PublicClassGetJsonObject.getPublicClassGetJsonObject(result);

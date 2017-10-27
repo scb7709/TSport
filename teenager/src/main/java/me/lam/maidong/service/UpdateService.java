@@ -46,7 +46,7 @@ public class UpdateService extends Service {
         Log.e("tag", "UpdateService onCreate()");
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //  filePath = Environment.getExternalStorageDirectory()+"/AppUpdate/czhappy.apk";
-        File tempfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/maidong/apk/" + new Date().getTime() + "Version");
+        File tempfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/teenager/apk/" + new Date().getTime() + "Version");
         if (!tempfile.exists()) {
             tempfile.mkdirs();
         }
