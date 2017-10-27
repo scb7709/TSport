@@ -194,7 +194,7 @@ String str="{\"VersionCode\":\"11\",\"VersionName\":\"1.3.2\",\"Description\":\"
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                VersionClass versionClass = new Gson().fromJson(str, VersionClass.class);
+                VersionClass versionClass = new Gson().fromJson(checkVersion, VersionClass.class);
                 ShareUitls.putVersion(HomeActivity.this, versionClass);
                // initialize();
               /*
