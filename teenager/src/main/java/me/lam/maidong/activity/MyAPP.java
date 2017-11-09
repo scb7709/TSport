@@ -32,7 +32,7 @@ public class MyAPP extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        // Bugly.init(getApplicationContext(), "06096a0224", true);
+        Bugly.init(getApplicationContext(), "06096a0224", true);
 //Xutils3 初始化
         x.Ext.init(this);
         x.Ext.setDebug(false);

@@ -77,6 +77,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         activity = this;
         UpadteApp.updateAPP(activity, true);
         initView();
+
      /*   maiDongActivityFragment = new MaiDongActivityFragment();
         changeFragment(maiDongActivityFragment, "MaiDongActivityFragment");*/
         MaidongFragment maidongFragment = new MaidongFragment();

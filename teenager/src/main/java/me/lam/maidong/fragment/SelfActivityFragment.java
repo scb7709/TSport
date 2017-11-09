@@ -34,6 +34,7 @@ import java.net.URLEncoder;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.lam.maidong.R;
+import me.lam.maidong.activity.MainActivity;
 import me.lam.maidong.activity.SelfDetailActivity;
 
 import me.lam.maidong.activity.WebViewActivity;
@@ -152,8 +153,8 @@ public class SelfActivityFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), WebViewActivity.class);
-                intent.putExtra("title","关于我们");
-                intent.putExtra("URL","http://www.ssp356.com:8080/contract.html");
+                intent.putExtra("title", "关于我们");
+                intent.putExtra("URL", "http://www.ssp356.com:8080/contract.html");
                 startActivity(intent);
             }
         });
@@ -170,7 +171,7 @@ public class SelfActivityFragment extends Fragment {
              /*   ShareUitls.putString(getActivity(), "phone", "");
                ShareUitls.putString(getActivity(), "pwd","");*/
 
-
+                MainActivity.fragmentManager = null;
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), LogActivity.class);
                 Bundle bundle = new Bundle();
@@ -178,6 +179,7 @@ public class SelfActivityFragment extends Fragment {
                 intent.putExtras(bundle);
                 getActivity().startActivity(intent); //这里用
                 getActivity().finish();
+               // MainActivity.activity=null;
             }
         });
     }
@@ -223,7 +225,7 @@ public class SelfActivityFragment extends Fragment {
         OKHttp.sendRequestRequestParams(getActivity(), "", true, url, new OKHttp.ResponseListener() {
             @Override
             public void onResponse(String response) {
-                if(!isend) {
+                if (!isend) {
                     SelfDetailCallBack person = new Gson().fromJson(response, SelfDetailCallBack.class);
                     if (person.getSex() == 1) {
                         imgSex.setImageResource(R.drawable.btn_male_active);

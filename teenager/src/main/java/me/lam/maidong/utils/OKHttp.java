@@ -104,6 +104,7 @@ public class OKHttp {
                     if (waitDialog != null) {
                         waitDialog.dismissDialog();
                     }
+
                     Response=response.body().string();
                     handler.sendEmptyMessage(1);
                    // responseListener.onResponse(response.body().string());
