@@ -223,7 +223,7 @@ public class RegActivity extends BaseActivity  {
         }
     }
 
-    String Message = "fail";
+    String Message = "1234";
     private void getSMS(String phone) {
         String url ="SMS/?Mobile=" + phone;
         OKHttp.sendRequestRequestParams(RegActivity.this, "", true, url, new OKHttp.ResponseListener() {

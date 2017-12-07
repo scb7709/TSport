@@ -188,7 +188,7 @@ public class MaidongFragment extends Fragment {
 
     private void getOKHttp() {
         String LastSportDay = ShareUitls.getString(getActivity(), "LastSportDay", "");
-        Log.i("myblue", "" + LastSportDay);
+        Log.i("myblue", "" + LastSportDay+  "   "+EducationalCode);
         String url = "NewSportDate/?EducationalCode=" + EducationalCode + "&Date=" + LastSportDay;
         OKHttp.sendRequestRequestParams(getActivity(), "", true, url, new OKHttp.ResponseListener() {
             @Override
