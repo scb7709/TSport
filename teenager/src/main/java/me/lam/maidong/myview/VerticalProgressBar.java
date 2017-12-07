@@ -18,8 +18,7 @@ public class VerticalProgressBar  extends View {
     private int width;// 宽度值
     private int height;// 高度值
 
-    public VerticalProgressBar(Context context, AttributeSet attrs,
-                               int defStyleAttr) {
+    public VerticalProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

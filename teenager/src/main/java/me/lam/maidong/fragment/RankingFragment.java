@@ -26,8 +26,7 @@ import java.util.ArrayList;
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.spvscl;
-import me.lam.maidong.myview.NumberProgressBar;
-import me.lam.maidong.myview.VerticalProgressBar;
+
 
 @ContentView(R.layout.fragment_ranking)
 public class RankingFragment extends Fragment {

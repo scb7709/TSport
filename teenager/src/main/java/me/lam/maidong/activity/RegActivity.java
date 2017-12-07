@@ -223,13 +223,13 @@ public class RegActivity extends BaseActivity  {
         }
     }
 
-    String Message = "";
+    String Message = "fail";
     private void getSMS(String phone) {
         String url ="SMS/?Mobile=" + phone;
         OKHttp.sendRequestRequestParams(RegActivity.this, "", true, url, new OKHttp.ResponseListener() {
             @Override
             public void onResponse(String response) {
-                Log.i("json", response);
+                Log.i("getSMS", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getString("Status").equals("1")) {
