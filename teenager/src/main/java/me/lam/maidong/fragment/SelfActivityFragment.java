@@ -171,7 +171,7 @@ public class SelfActivityFragment extends Fragment {
              /*   ShareUitls.putString(getActivity(), "phone", "");
                ShareUitls.putString(getActivity(), "pwd","");*/
 
-                MainActivity.fragmentManager = null;
+
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), LogActivity.class);
                 Bundle bundle = new Bundle();

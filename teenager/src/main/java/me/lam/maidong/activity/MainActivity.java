@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     SelfActivityFragment selfActivityFragment;
     public static FragmentActivity activity;
     Gson gson = new Gson();
-    public static  FragmentManager fragmentManager;
+    public   FragmentManager fragmentManager;
 
 
     @Override
@@ -90,10 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public String LastSportDate;
 
 
-    public static void changeFragment(Fragment fragment, String tag) {
-        if(fragmentManager==null&&activity!=null){
-            fragmentManager = activity.getSupportFragmentManager();
-        }
+    public  void changeFragment(Fragment fragment, String tag) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment, fragment, tag);
         transaction.commit();
@@ -107,6 +104,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         Log.e("log", EduCode + "主界面的到登陆的id？");
         activity_main_tabs.check(activity_main_maindong.getId());
         activity_main_tabs.setOnCheckedChangeListener(this);
+        fragmentManager = getSupportFragmentManager();
     }
 
 

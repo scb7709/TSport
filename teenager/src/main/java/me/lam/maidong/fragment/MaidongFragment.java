@@ -130,11 +130,11 @@ public class MaidongFragment extends Fragment {
         vPager.setAdapter(myFragmentPagerAdapter);
         vPager.setOnPageChangeListener(new MyOnPageChangeListener());
 
-        if (freash) {
+      /*  if (freash) {
             freash = false;
             MaidongFragment maidongFragment = new MaidongFragment();
             MainActivity.changeFragment(maidongFragment, "MaidongFragment");
-        }
+        }*/
         // vPager.setCurrentItem(1);
     }
 

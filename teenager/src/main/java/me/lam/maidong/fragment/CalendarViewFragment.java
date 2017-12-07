@@ -32,6 +32,7 @@ import me.lam.maidong.ClenderUtil.CalendarView;
 import me.lam.maidong.ClenderUtil.CustomDate;
 import me.lam.maidong.ClenderUtil.WaitDialog;
 import me.lam.maidong.R;
+import me.lam.maidong.activity.MainActivity;
 import me.lam.maidong.entity.CalendarData;
 import me.lam.maidong.utils.DataString;
 import me.lam.maidong.utils.OKHttp;
@@ -110,11 +111,15 @@ public class CalendarViewFragment extends BaseFragment {
         public void clickDate(CustomDate date) {
             final String yearmonth = date.year + "-" + getNum(date.month);
             String yearmonthdate = yearmonth + "-" + getNum(date.day);
-            Log.i("myblue",yearmonthdate);
+            Log.i("myblue", yearmonthdate);
             if (DataString.isToDayDate(yearmonthdate + "") != 1) {//不大于今天的
+                if(MainActivity.activity!=null){
+                    MainActivity.activity.finish();
+                }
                 ShareUitls.putString(activity, "LastSportDay", yearmonthdate);
                 ShareUitls.putString(activity, "CLICKDADE", yearmonthdate);
-                ShareUitls.putString(activity,"maidongflag","1");
+                ShareUitls.putString(activity, "maidongflag", "1");
+                activity.startActivity(new Intent(activity, MainActivity.class));
                 activity.finish();
             } else {
                 Toast.makeText(activity, "暂无数据", Toast.LENGTH_SHORT).show();
@@ -126,6 +131,7 @@ public class CalendarViewFragment extends BaseFragment {
         public void initHandler() {
 
         }
+
         @Override
         public void changeDate(CustomDate date) {
 
@@ -141,7 +147,6 @@ public class CalendarViewFragment extends BaseFragment {
     }
 
 
-
     private void getCalendar() {
         waitDialog.showDailog();
         String url = "NewSportCalender/?EducationalCode=" + EduCode + "&YearMonth=" + getdate(calendar);
@@ -150,7 +155,7 @@ public class CalendarViewFragment extends BaseFragment {
             public void onResponse(String response) {
                 Log.i("AAAAAATTTTTTTT", response + "  " + getdate(calendar));
                 fragment_calendarview_layout.removeAllViews();
-                CalendarData   calendarData =gson.fromJson(response, CalendarData.class);
+                CalendarData calendarData = gson.fromJson(response, CalendarData.class);
                 list.clear();
                 for (int i = 0; i < DayCount; i++) {
                     list.add(calendarData.getSportDay().get(i));
@@ -168,6 +173,7 @@ public class CalendarViewFragment extends BaseFragment {
 
 
     }
+
     public String getdate(Calendar calendar) {
         SimpleDateFormat dformat = new SimpleDateFormat("yyyy/MM");
         Date dat = calendar.getTime();

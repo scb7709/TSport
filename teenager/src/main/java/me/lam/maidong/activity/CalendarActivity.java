@@ -115,10 +115,16 @@ public class CalendarActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.bt_recent:
+                if(MainActivity.activity!=null){
+                    MainActivity.activity.finish();
+                }
                 String recent = ShareUitls.getString(getApplicationContext(), "recent", "null");
                 ShareUitls.putString(getApplicationContext(), "LastSportDay", recent);
                 ShareUitls.putString(activity, "CLICKDADE", recent);
                 ShareUitls.putString(getApplicationContext(), "maidongflag", "1");
+
+
+                startActivity(new Intent(activity, MainActivity.class));
                 finish();
                 break;
         }
