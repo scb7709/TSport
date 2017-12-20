@@ -25,6 +25,7 @@ import java.io.File;
 import java.util.Date;
 
 import me.lam.maidong.R;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.utils.VersonUtils;
 
 /**
@@ -40,31 +41,37 @@ public class UpdateService extends Service {
     private RemoteViews views;
     public boolean DownLoading;
     private File file;
-
+    public static boolean DOWNLOADING;//zhengzai xiaz
     @Override
     public void onCreate() {
-        Log.e("tag", "UpdateService onCreate()");
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        //  filePath = Environment.getExternalStorageDirectory()+"/AppUpdate/czhappy.apk";
-        File tempfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/teenager/apk/" + new Date().getTime() + "Version");
-        if (!tempfile.exists()) {
-            tempfile.mkdirs();
+
+        if (!DOWNLOADING) {
+            notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            //  filePath = Environment.getExternalStorageDirectory()+"/AppUpdate/czhappy.apk";
+            File tempfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/maidong/apk/" + new Date().getTime() + "Version");
+            if (!tempfile.exists()) {
+                tempfile.mkdirs();
+            }
+            filePath = tempfile.getPath().toString();
+        } else {
+            MyToash.Toash(UpdateService.this, "新版本正在下载");
         }
-        filePath = tempfile.getPath().toString();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("tag", "UpdateService onStartCommand()");
-        if (intent == null) {
-            notifyUser(getString(R.string.update_download_failed), getString(R.string.update_download_failed), 0);
+        if (!DOWNLOADING) {
+            if (intent == null) {
+                notifyUser(getString(R.string.update_download_failed), getString(R.string.update_download_failed), 0);
 
-            stopSelf();
-            return 0;
+                stopSelf();
+                return 0;
+            }
+            apkUrl = intent.getStringExtra("apkUrl");
+            notifyUser(getString(R.string.update_download_start), getString(R.string.update_download_start), 0);
+            startDownload();
         }
-        apkUrl = intent.getStringExtra("apkUrl");
-        notifyUser(getString(R.string.update_download_start), getString(R.string.update_download_start), 0);
-        startDownload();
         return super.onStartCommand(intent, flags, startId);
     }
 

@@ -188,39 +188,9 @@ public class HomeActivity extends OriginalActivity {
         }
         //
     }
-String str="{\"VersionCode\":\"11\",\"VersionName\":\"1.3.2\",\"Description\":\"1,aaa;2,bbb;3,cccc\",\"DownloadUrl\":\"https://www.ssp365.com/upload/app/teenager2.3.1.apk\"}";
-    Handler checkVersionhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 1) {
-                VersionClass versionClass = new Gson().fromJson(checkVersion, VersionClass.class);
-                ShareUitls.putVersion(HomeActivity.this, versionClass);
-               // initialize();
-              /*
-                if (versionClass.VersionCode > VersonUtils.getVerisonCode(HomeActivity.this)) {
+String str="{\"VersionCode\":\"11\",\"VersionName\":\"3.0.0\",\"Description\":\"1,aaa;2,bbb;3,cccc\",\"DownloadUrl\":\"https://www.ssp365.com/upload/app/teenager2.3.1.apk\"}";
 
-                    UpadteApp upadteApp = new UpadteApp(HomeActivity.this, versionClass, false, new UpadteApp.UpdateResult() {
-                        @Override
-                        public void onSuccess() {
 
-                        }
-
-                        @Override
-                        public void onError() {
-                            initialize();
-                        }
-                    });
-                } else {
-                    initialize();
-                }*/
-            } else {
-                //initialize();
-            }
-            initialize();
-        }
-    };
-    String checkVersion;
 
     public void checkVersion(final Activity activity) {
         String url = "Version";
@@ -229,23 +199,18 @@ String str="{\"VersionCode\":\"11\",\"VersionName\":\"1.3.2\",\"Description\":\"
             public void onResponse(String response, PublicDataClass.StatusModel statusModel) {
                 Log.i("mybluee", response);
                 if (statusModel.StatusCode == 1) {
-
-                    checkVersion = response;
-                    if (checkVersion != null) {
-                        checkVersionhandler.sendEmptyMessage(1);
+                    if (response != null) {
+                        VersionClass versionClass = new Gson().fromJson(response, VersionClass.class);
+                        ShareUitls.putVersion(HomeActivity.this, versionClass);
                     }
-
-
-                } else {
-
-                    checkVersionhandler.sendEmptyMessage(2);
                 }
+                initialize();
             }
 
             @Override
             public void onErrorResponse() {
+                initialize();
 
-                checkVersionhandler.sendEmptyMessage(2);
             }
         });
 

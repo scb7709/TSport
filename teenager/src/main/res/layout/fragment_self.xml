@@ -14,10 +14,8 @@
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:background="#ffffff"
-
-                android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <ImageView
                     android:id="@+id/img_sex"
@@ -27,9 +25,7 @@
                     android:src="@drawable/logo"
                     android:layout_marginLeft="15dp"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp" />
+                  />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

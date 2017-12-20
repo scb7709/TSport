@@ -246,18 +246,4 @@ public class SelfActivityFragment extends Fragment {
             }
         });
     }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            SelfDetailCallBack person = new Gson().fromJson((String) msg.obj, SelfDetailCallBack.class);
-            if (person.getSex() == 1) {
-                imgSex.setImageResource(R.drawable.btn_male_active);
-                tvName.setText(person.getStudentName());
-            } else {
-                imgSex.setImageResource(R.drawable.female_active);
-            }
-        }
-    };
 }
