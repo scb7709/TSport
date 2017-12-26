@@ -18,7 +18,6 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp"
-
             android:background="@drawable/bg_sport_time"
             android_custom:roundColor="@android:color/transparent"
             android_custom:roundProgressColor="#4ad2f2"

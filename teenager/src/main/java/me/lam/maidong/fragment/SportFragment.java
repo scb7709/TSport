@@ -1,6 +1,7 @@
 package me.lam.maidong.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,6 +32,8 @@ import me.lam.maidong.R;
 import me.lam.maidong.circle.RoundProgressBar;
 import me.lam.maidong.entity.sevenDataTime;
 import me.lam.maidong.entity.spvscl;
+import me.lam.maidong.myview.MyToash;
+import me.lam.maidong.utils.ImageUtil;
 import me.lam.maidong.utils.StringForTime;
 
 public class SportFragment extends Fragment implements View.OnClickListener {
@@ -37,46 +41,20 @@ public class SportFragment extends Fragment implements View.OnClickListener {
     TextView AvgEffectTime;
     @InjectView(R.id.zhouyiall)
     Button zhouyiall;
-    @InjectView(R.id.zhouyi)
-    Button zhouyi;
     @InjectView(R.id.zhouerall)
     Button zhouerall;
-    @InjectView(R.id.zhouer)
-    Button zhouer;
     @InjectView(R.id.zhousanall)
     Button zhousanall;
-    @InjectView(R.id.zhousan)
-    Button zhousan;
     @InjectView(R.id.zhousiall)
     Button zhousiall;
-    @InjectView(R.id.zhousi)
-    Button zhousi;
     @InjectView(R.id.zhouwuall)
     Button zhouwuall;
-    @InjectView(R.id.zhouwu)
-    Button zhouwu;
     @InjectView(R.id.zhouliuall)
     Button zhouliuall;
-    @InjectView(R.id.zhouliu)
-    Button zhouliu;
     @InjectView(R.id.zhouriall)
     Button zhouriall;
-    @InjectView(R.id.zhouri)
-    Button zhouri;
-    @InjectView(R.id.t1)
-    TextView t1;
-    @InjectView(R.id.t2)
-    TextView t2;
-    @InjectView(R.id.t3)
-    TextView t3;
-    @InjectView(R.id.t4)
-    TextView t4;
-    @InjectView(R.id.t5)
-    TextView t5;
-    @InjectView(R.id.t6)
-    TextView t6;
-    @InjectView(R.id.t7)
-    TextView t7;
+
+
     @InjectView(R.id.show1)
     Button show1;
     @InjectView(R.id.show2)
@@ -92,6 +70,38 @@ public class SportFragment extends Fragment implements View.OnClickListener {
     @InjectView(R.id.show7)
     Button show7;
 
+    @InjectView(R.id.fragment_layout_sport_zhou1)
+    RelativeLayout fragment_layout_sport_zhou1;
+    @InjectView(R.id.fragment_layout_sport_zhou2)
+    RelativeLayout fragment_layout_sport_zhou2;
+    @InjectView(R.id.fragment_layout_sport_zhou3)
+    RelativeLayout fragment_layout_sport_zhou3;
+    @InjectView(R.id.fragment_layout_sport_zhou4)
+    RelativeLayout fragment_layout_sport_zhou4;
+    @InjectView(R.id.fragment_layout_sport_zhou5)
+    RelativeLayout fragment_layout_sport_zhou5;
+    @InjectView(R.id.fragment_layout_sport_zhou6)
+    RelativeLayout fragment_layout_sport_zhou6;
+    @InjectView(R.id.fragment_layout_sport_zhou7)
+    RelativeLayout fragment_layout_sport_zhou7;
+
+
+    @InjectView(R.id.t1)
+    TextView t1;
+    @InjectView(R.id.t2)
+    TextView t2;
+    @InjectView(R.id.t3)
+    TextView t3;
+    @InjectView(R.id.t4)
+    TextView t4;
+    @InjectView(R.id.t5)
+    TextView t5;
+    @InjectView(R.id.t6)
+    TextView t6;
+    @InjectView(R.id.t7)
+    TextView t7;
+
+
     private int progress = 0;
     private RoundProgressBar mRoundProgressBar2;
     int roundnum = 0;
@@ -99,16 +109,18 @@ public class SportFragment extends Fragment implements View.OnClickListener {
     private TextView AvgTotalTime;
     private TextView TotalDays;
     private TextView MaxTotalTime;
-    private RelativeLayout zhu;
+    private LinearLayout zhu;
     private TextView midleTime;
     private TextView botomLin;
     View view;
-    List<Button> bts = null;
     List<Button> btalls = null;
-    List<Button> shows = null;
     List<TextView> ts = null;
-    int index;
+    List<Button> shows = null;
+    List<RelativeLayout> RelativeLayouts = null;
+    List<spvscl.DataEntity.DetailEntity> detailBeanList;
+    private Activity activity;
     private int screenWidth;
+    int totalColar,lineColar ,effectColar;
     public boolean ISOVER;//由于本界面有网络请求，有延迟线程 所以设立此标记当本Fragment结束时 终止线程 和网络任务
 
     @Override
@@ -121,25 +133,30 @@ public class SportFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.layout_sport, null);
+        view = inflater.inflate(R.layout.fragment_layout_sport, null);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.view);
         AvgTotalTime = (TextView) view.findViewById(R.id.TotalCal);
         TotalDays = (TextView) view.findViewById(R.id.TotalDays);
         MaxTotalTime = (TextView) view.findViewById(R.id.MaxTotalTime);
         midleTime = (TextView) view.findViewById(R.id.midleTime);
-        zhu = (RelativeLayout) view.findViewById(R.id.zhu);
+        zhu = (LinearLayout) view.findViewById(R.id.zhu);
         botomLin = (TextView) view.findViewById(R.id.t1);
         ButterKnife.inject(this, view);
+        activity = getActivity();
+        totalColar = activity.getResources().getColor(R.color.analizegray);
+        lineColar= activity.getResources().getColor(R.color.analizeline);
+        effectColar = activity.getResources().getColor(R.color.analizeeffect);
         return view;
     }
 
-    int x;
-    int y;
-    int bootom;
-    int gap;
-    int top;
+    //int x;
+    //int y;
+    //int bootom;
+    // int gap;
+    // int top;
     int daohangHigh;
-
+    int MaxTime = 0;
+    int MaxHight;
     public Handler h = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -151,36 +168,46 @@ public class SportFragment extends Fragment implements View.OnClickListener {
                     daohangHigh = location666[1];
                     int[] location = new int[2];
                     zhu.getLocationOnScreen(location);
-                    x = location[0];
-                    y = location[1];
-
                     int[] location0 = new int[2];
                     botomLin.getLocationOnScreen(location0);
-                    int x0 = location0[0];
-                    int y0 = location0[1];
-                    bootom = zhu.getTop();
-                    top = botomLin.getTop();
-                    gap = (botomLin.getTop() - zhu.getTop());
+                    MaxHight = zhu.getHeight();
+                    ;
+                    for (int i = 0; i < detailBeanList.size(); i++) {
+                        RelativeLayout.LayoutParams linearParamsall = (RelativeLayout.LayoutParams) btalls.get(i).getLayoutParams();
+                        RelativeLayout.LayoutParams linearParamsshows = (RelativeLayout.LayoutParams) shows.get(i).getLayoutParams();
 
-                    for (int i = 0; i < spcl.getData().getDetail().size(); i++) {
-                        Log.e("zhixin???", "gap:==");
+                        if (MaxTime != 0) {
+
+                            int TotalTime = detailBeanList.get(i).getTotalTime();
+                            linearParamsshows.height = MaxHight * TotalTime / (MaxTime); //
+                            shows.get(i).setLayoutParams(linearParamsshows);
+
+
+                            int EffectTime = detailBeanList.get(i).getEffectTime();
+                            //  MyToash.Log(EffectTime+"    EffectTime"+"  "+MaxTime+"  "+MaxHight);
+                            linearParamsall.height = MaxHight * EffectTime / (MaxTime); //
+                            btalls.get(i).setLayoutParams(linearParamsall);
+                            ts.get(i).setText(detailBeanList.get(i).getDay());
+                        }
+
+                      /* // Log.e("zhixin???", "gap:==");
                         FrameLayout.LayoutParams linearParamsall = (FrameLayout.LayoutParams) btalls.get(i).getLayoutParams();
                         // 取控件aaa当前的布局参数
                         spvscl.DataEntity.DetailEntity detailEntity = spcl.getData().getDetail().get(i);
-                        linearParamsall.height = gap * (detailEntity.getTotalTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60); //
+                        linearParamsall.height = gap * (detailEntity.getTotalTime() / 60) / (summaryEntity.getMaxTotalTime() / 60); //
                         btalls.get(i).setLayoutParams(linearParamsall); // 使设置好的布局参数应用到控件aaa
 
                         FrameLayout.LayoutParams linearParamsshow = (FrameLayout.LayoutParams) shows.get(i).getLayoutParams();
                         // 取控件aaa当前的布局参数
-                        linearParamsshow.height = gap * (detailEntity.getTotalTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60); //
+                        linearParamsshow.height = gap * (detailEntity.getTotalTime() / 60) / (summaryEntity.getMaxTotalTime() / 60); //
                         shows.get(i).setLayoutParams(linearParamsall); // 使设置好的布局参数应用到控件aaa
 
 
                         FrameLayout.LayoutParams linearParams = (FrameLayout.LayoutParams) bts.get(i).getLayoutParams();
                         // 取控件aaa当前的布局参数
-                        linearParams.height = gap * (detailEntity.getEffectTime() / 60) / (spcl.getData().getSummary().get(0).getMaxTotalTime() / 60); // 当控件的高强制设成365象素
+                        linearParams.height = gap * (detailEntity.getEffectTime() / 60) / (summaryEntity.getMaxTotalTime() / 60); // 当控件的高强制设成365象素
                         bts.get(i).setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
-                        ts.get(i).setText(spcl.getData().getDetail().get(i).getDay());
+                        ts.get(i).setText(spcl.getData().getDetail().get(i).getDay());*/
                     }
 
                 }
@@ -197,7 +224,7 @@ public class SportFragment extends Fragment implements View.OnClickListener {
         String effect;
         String tatal;
 
-        public draw(Context context, String effect,String tatal, int x, int y) {
+        public draw(Context context, String effect, String tatal, int x, int y) {
             super(context);
             setWillNotDraw(false);
             this.effect = effect;
@@ -228,15 +255,23 @@ public class SportFragment extends Fragment implements View.OnClickListener {
             canvas.drawText(data.getTotal(), x, y - 50, paint);
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
             canvas.drawBitmap(bitmap, x + zhouyi.getWidth() / 4, y - 45, paint);*/
-
+            int zhouyiall_Width = zhouyiall.getWidth();
             int effectwidth = x + (zhouyiall.getWidth() - getTextWidth(effect, paint)) / 2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
             int tatalwidth = x + (zhouyiall.getWidth() - getTextWidth(tatal, paint)) / 2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
-            canvas.drawText(effect, effectwidth, y - 90, paint);
-            canvas.drawLine(x, y - 85, x + zhouyi.getWidth(), y - 85, paint);
-            canvas.drawText(tatal, tatalwidth, y - 60, paint);
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
-            canvas.drawBitmap(bitmap, x + zhouyi.getWidth() / 4, y - 50, paint);
+        /*    canvas.drawText(effect, effectwidth, y - 90, paint);
+            canvas.drawLine(x, y - 85, x + zhouerall.getWidth(), y - 85, paint);
+            canvas.drawText(tatal, tatalwidth, y - 60, paint);
 
+            canvas.drawBitmap(bitmap, x + zhouerall.getWidth() / 4, y - 50, paint);*/
+            paint.setColor(totalColar);
+            canvas.drawText(tatal, effectwidth, y - ImageUtil.dp2px(activity, 35), paint);
+            paint.setColor(lineColar);
+            canvas.drawLine(x, y - ImageUtil.dp2px(activity, 32), x + zhouyiall_Width, y - ImageUtil.dp2px(activity, 32), paint);
+            paint.setColor(effectColar);
+            canvas.drawText(effect, tatalwidth, y - ImageUtil.dp2px(activity, 20), paint);
+
+            canvas.drawBitmap(bitmap, x + (zhouyiall_Width - bitmap.getWidth()) / 2, y - ImageUtil.dp2px(activity, 12), paint);
 
         }
     }
@@ -274,16 +309,8 @@ public class SportFragment extends Fragment implements View.OnClickListener {
         ISOVER = false;
         WindowManager wm = getActivity().getWindowManager();
         screenWidth = wm.getDefaultDisplay().getWidth();
-
         mRoundProgressBar2 = (RoundProgressBar) getActivity().findViewById(R.id.roundProgressBar2);
-        bts = new ArrayList<>();
-        bts.add(zhouyi);
-        bts.add(zhouer);
-        bts.add(zhousan);
-        bts.add(zhousi);
-        bts.add(zhouwu);
-        bts.add(zhouliu);
-        bts.add(zhouri);
+
         btalls = new ArrayList<>();
         btalls.add(zhouyiall);
         btalls.add(zhouerall);
@@ -292,6 +319,14 @@ public class SportFragment extends Fragment implements View.OnClickListener {
         btalls.add(zhouwuall);
         btalls.add(zhouliuall);
         btalls.add(zhouriall);
+        RelativeLayouts = new ArrayList<>();
+        RelativeLayouts.add(fragment_layout_sport_zhou1);
+        RelativeLayouts.add(fragment_layout_sport_zhou2);
+        RelativeLayouts.add(fragment_layout_sport_zhou3);
+        RelativeLayouts.add(fragment_layout_sport_zhou4);
+        RelativeLayouts.add(fragment_layout_sport_zhou5);
+        RelativeLayouts.add(fragment_layout_sport_zhou6);
+        RelativeLayouts.add(fragment_layout_sport_zhou7);
         shows = new ArrayList<>();
         shows.add(show1);
         shows.add(show2);
@@ -311,18 +346,20 @@ public class SportFragment extends Fragment implements View.OnClickListener {
 
 
         if (spcl.getStatus() != 0) {
-            for (int ShowPossition=0 ; ShowPossition < shows.size(); ShowPossition++) {
+            for (int ShowPossition = 0; ShowPossition < btalls.size(); ShowPossition++) {
                 setOnClickListener(ShowPossition);
 
             }
+            detailBeanList = spcl.getData().getDetail();
             spvscl.DataEntity.SummaryEntity summaryEntity = spcl.getData().getSummary().get(0);
             AvgTotalTime.setText(StringForTime.stringForTime3(summaryEntity.getAvgTotalTime()));
             AvgEffectTime.setText(StringForTime.stringForTime3(summaryEntity.getAvgEffectTime()));
             TotalDays.setText("共运动：" + summaryEntity.getTotalDays() + "天");
-            MaxTotalTime.setText((summaryEntity.getMaxTotalTime() / 60) + "");
+            MaxTotalTime.setText((summaryEntity.getMaxTotalTime() / 60) + "min");
             midleTime.setText("" + (summaryEntity.getMaxTotalTime() / 60) / 2);
             roundnum = (summaryEntity.getAvgEffectTime());
             mRoundProgressBar2.setMax(summaryEntity.getAvgTotalTime());
+            MaxTime = summaryEntity.getMaxTotalTime();
             //  sleep = (int) (Math.random() * (4000 / roundnum - 2000 / roundnum + 1) + 2000 / roundnum);//最多不超过4秒 最低不少于2秒
             progress = 0;
             new Thread(new Runnable() {
@@ -345,32 +382,39 @@ public class SportFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void setOnClickListener(final int ShowPossition){
-        final List<spvscl.DataEntity.DetailEntity> detailEntities = spcl.getData().getDetail();
-        final Button show = shows.get(ShowPossition);
-        show.setOnClickListener(new View.OnClickListener() {
+    private void setOnClickListener(final int ShowPossition) {
+        final RelativeLayout RelativeLayout = RelativeLayouts.get(ShowPossition);
+        RelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//判断 实际有效时间 和目标运动总时间那个大 取数据大的个 对应的控件的 坐标
                 int[] location55 = new int[2];
-                show.getLocationOnScreen(location55);
-                String effect = StringForTime.stringForTime3(detailEntities.get(ShowPossition).getEffectTime());
-                String tatal = StringForTime.stringForTime3(detailEntities.get(ShowPossition).getTotalTime());
-                showdraw(effect,tatal,location55[0],location55[1]);
+                spvscl.DataEntity.DetailEntity detailEntity = detailBeanList.get(ShowPossition);
+                if (detailEntity.getEffectTime() > detailEntity.getTotalTime()) {
+                    btalls.get(ShowPossition).getLocationOnScreen(location55);
+                } else {
+                    shows.get(ShowPossition).getLocationOnScreen(location55);
+                }
+                String effect = StringForTime.stringForTime3(detailEntity.getEffectTime());
+                String tatal = StringForTime.stringForTime3(detailEntity.getTotalTime());
+
+                MyToash.Log("setOnClickListener"+effect+"  "+tatal+"  "+location55[0]+"   "+location55[1]);
+                showdraw(effect, tatal, location55[0], location55[1]);//绘制点击的 时间显示
 
 
             }
         });
     }
 
-    private void showdraw(String effect,String tatal,int x,int y) {
+    private void showdraw(String effect, String tatal, int x, int y) {
         if (d != null) {
             relativeLayout.removeView(d);
             d = null;
         }
-        d = new draw(getContext(), effect,tatal, x, (y - daohangHigh));
+        d = new draw(getContext(), effect, tatal, x, (y - daohangHigh));
         relativeLayout.addView(d);
 
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

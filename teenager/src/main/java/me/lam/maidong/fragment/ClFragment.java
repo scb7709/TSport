@@ -1,6 +1,7 @@
 package me.lam.maidong.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +37,8 @@ import me.lam.maidong.R;
 import me.lam.maidong.circle.RoundProgressBar;
 import me.lam.maidong.circle.RoundProgressBar2;
 import me.lam.maidong.entity.spvscl;
+import me.lam.maidong.myview.MyToash;
+import me.lam.maidong.utils.ImageUtil;
 import me.lam.maidong.utils.StringForTime;
 
 
@@ -51,22 +55,23 @@ public class ClFragment extends Fragment {
     TextView MaxTotalTime;
     @InjectView(R.id.midleTime)
     TextView midleTime;
-    @InjectView(R.id.clzhouyi)
+    @InjectView(R.id.zhouyiall)
     Button clzhouyi;
-    @InjectView(R.id.clzhouer)
+    @InjectView(R.id.zhouerall)
     Button clzhouer;
-    @InjectView(R.id.clzhousan)
+    @InjectView(R.id.zhousanall)
     Button clzhousan;
-    @InjectView(R.id.clzhousi)
+    @InjectView(R.id.zhousiall)
     Button clzhousi;
-    @InjectView(R.id.clzhouwu)
+    @InjectView(R.id.zhouwuall)
     Button clzhouwu;
-    @InjectView(R.id.clzhouliu)
+    @InjectView(R.id.zhouliuall)
     Button clzhouliu;
-    @InjectView(R.id.clzhouri)
+    @InjectView(R.id.zhouriall)
     Button clzhouri;
+
     @InjectView(R.id.zhu)
-    RelativeLayout zhu;
+    LinearLayout zhu;
     RelativeLayout relativeLayout;
     @InjectView(R.id.t1)
     TextView t1;
@@ -89,16 +94,17 @@ public class ClFragment extends Fragment {
     @InjectView(R.id.pingji)
     TextView pingji;
     private int screenWidth;
-
+    private Activity activity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_cl, null);
+        view = inflater.inflate(R.layout.fragment_layout_cl, null);
         ButterKnife.inject(this, view);
 
         botomLin = (TextView) view.findViewById(R.id.t1);
         mRoundProgressBar4 = (RelativeLayout) getActivity().findViewById(R.id.roundProgressBar4);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.view);
+        activity=getActivity();
         return view;
     }
 
@@ -150,9 +156,10 @@ public class ClFragment extends Fragment {
             TotalCal.setText(dataEntity.getSummary().get(0).getAvgCal());//1
             AvgCal.setText(dataEntity.getSummary().get(0).getTotalCal());//1
             TotalDays.setText("共运动：" + dataEntity.getSummary().get(0).getTotalDays() + "天");
-            MaxTotalTime.setText((dataEntity.getSummary().get(0).getMaxCalory()) + "");
+
             int temp=Integer.parseInt(dataEntity.getSummary().get(0).getMaxCalory());
-            midleTime.setText("" + (temp/2) + "");
+            midleTime.setText("" + (temp/2));
+            MaxTotalTime.setText(temp + "千卡");
             pingji.setText(dataEntity.getSummary().get(0).getCaloryRate());
 
 
@@ -223,21 +230,27 @@ public class ClFragment extends Fragment {
             } else {
                 paint.setTextSize(32);
             }
-            int width = x+(clzhouyi.getWidth()-SportFragment.getTextWidth(data,paint))/2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
+          /*  int width = x+(clzhouyi.getWidth()-SportFragment.getTextWidth(data,paint))/2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
             canvas.drawText(data, width, y - 80, paint);
-            canvas.drawBitmap(bitmap, x + clzhouyi.getWidth() / 4, y - 60, paint);
+            canvas.drawBitmap(bitmap, x + clzhouyi.getWidth() / 4, y - 60, paint);*/
+
+            int width = x+(clzhouyi.getWidth()-SportFragment.getTextWidth(data,paint))/2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
+            canvas.drawText(data, width,y - ImageUtil.dp2px(activity,15) , paint);
+            canvas.drawBitmap(bitmap, x + (clzhouyi.getWidth()-bitmap.getWidth())/2, y -ImageUtil.dp2px(activity,12), paint);
+
 
         }
 
     }
 
-    int x;
-    int y;
-    int bootom;
-    int gap;
-    int top;
-    int count;
+   // int x;
+  //  int y;
+  //  int bootom;
+int gap;
+   // int top;
+   // int count;
     int mRoundProgressBar4x;
     int mRoundProgressBar4y;
     int mRoundProgressBargap;
@@ -251,8 +264,8 @@ public class ClFragment extends Fragment {
                     mRoundProgressBar4x = mRoundProgressBar4xlocation[0];
                     mRoundProgressBar4y = mRoundProgressBar4xlocation[1];
                     mRoundProgressBargap = mRoundProgressBar4.getWidth();
-                    Log.e("zuobiao", "zhux:" + mRoundProgressBar4x + "zhuy:" + mRoundProgressBar4y + "mRoundProgressBargap" + mRoundProgressBargap);
-                    Log.e("zuobiao", "zhuLeft：" + mRoundProgressBar4.getLeft() + "zhuRight：" + mRoundProgressBar4.getRight() + "zhuTop：" + mRoundProgressBar4.getTop() + "zhuBottom：" + zhu.getBottom());
+                   // Log.e("zuobiao", "zhux:" + mRoundProgressBar4x + "zhuy:" + mRoundProgressBar4y + "mRoundProgressBargap" + mRoundProgressBargap);
+                  //  Log.e("zuobiao", "zhuLeft：" + mRoundProgressBar4.getLeft() + "zhuRight：" + mRoundProgressBar4.getRight() + "zhuTop：" + mRoundProgressBar4.getTop() + "zhuBottom：" + zhu.getBottom());
 
 
                     int[] location666 = new int[2];
@@ -261,23 +274,25 @@ public class ClFragment extends Fragment {
 
                     int[] location = new int[2];
                     zhu.getLocationOnScreen(location);
-                    x = location[0];
-                    y = location[1];
-                    Log.e("zuobiao", "zhux:" + x + "zhuy:" + y);
-                    Log.e("zuobiao", "zhuLeft：" + zhu.getLeft() + "zhuRight：" + zhu.getRight() + "zhuTop：" + zhu.getTop() + "zhuBottom：" + zhu.getBottom());
+                   // x = location[0];
+                  //  y = location[1];
+                    //Log.e("zuobiao", "zhux:" + x + "zhuy:" + y);
+                   // Log.e("zuobiao", "zhuLeft：" + zhu.getLeft() + "zhuRight：" + zhu.getRight() + "zhuTop：" + zhu.getTop() + "zhuBottom：" + zhu.getBottom());
 
                     int[] location0 = new int[2];
                     botomLin.getLocationOnScreen(location0);
-                    int x0 = location0[0];
-                    int y0 = location0[1];
-                    Log.e("zuobiao", "botomLinx1:" + x0 + "botomLiny1:" + y0);
-                    Log.e("zuobiao", "botomLint1：" + botomLin.getLeft() + "botomLinRight：" + botomLin.getRight() + "botomLinTop：" + botomLin.getTop() + "botomLinBottom：" + botomLin.getBottom());
-                    bootom = zhu.getTop();
-                    top = botomLin.getTop();
-                    gap = (botomLin.getTop() - zhu.getTop());
+                  //  int x0 = location0[0];
+                  //  int y0 = location0[1];
+                    //Log.e("zuobiao", "botomLinx1:" + x0 + "botomLiny1:" + y0);
+                   // Log.e("zuobiao", "botomLint1：" + botomLin.getLeft() + "botomLinRight：" + botomLin.getRight() + "botomLinTop：" + botomLin.getTop() + "botomLinBottom：" + botomLin.getBottom());
+                   // bootom = zhu.getTop();
+                    //top = botomLin.getTop();
+                   // gap = (botomLin.getTop() - zhu.getTop());
+
+                    gap = zhu.getHeight();
                     List<spvscl.DataEntity.DetailEntity>  detailEntities= spcl.getData().getDetail();
                     double temp2=Double.parseDouble(spcl.getData().getSummary().get(0).getMaxCalory() );
-                    for (int i = 0; i < spcl.getData().getDetail().size(); i++) {
+                   /* for (int i = 0; i < detailEntities.size(); i++) {
                         Log.e("zhixin???", "gap:==");
                         FrameLayout.LayoutParams linearParams = (FrameLayout.LayoutParams) bts.get(i).getLayoutParams();
                         // 取控件aaa当前的布局参数
@@ -286,8 +301,18 @@ public class ClFragment extends Fragment {
                         bts.get(i).setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
                         ts.get(i).setText(spcl.getData().getDetail().get(i).getDay());
 
+                    }*/
+                    if(temp2!=0) {
+                        for (int i = 0; i < detailEntities.size(); i++) {
+                            RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) bts.get(i).getLayoutParams();
+                            MyToash.Log("  cl="+temp2+"   "+Double.parseDouble(detailEntities.get(i).getCalory()));
+                            linearParams.height = (int) (gap * (Double.parseDouble(detailEntities.get(i).getCalory()) / (temp2))); //
+                            bts.get(i).setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
+                            ts.get(i).setText(detailEntities.get(i).getDay());
+
+                        }
                     }
-                    Log.e("zuobiao", "gap:==" + gap);
+
                 } else {
                     h.sendEmptyMessageDelayed(1, 1);
                 }

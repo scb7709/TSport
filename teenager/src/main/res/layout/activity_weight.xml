@@ -44,7 +44,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
@@ -56,13 +57,16 @@
 
             <me.lam.maidong.selfdefine.PickerView
                 android:id="@+id/main_wv"
-                android:layout_width="100dp"
-                android:layout_height="300dp" />
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="match_parent" />
 
             <me.lam.maidong.selfdefine.PickerView
+
                 android:id="@+id/main_wv2"
-                android:layout_width="100dp"
-                android:layout_height="300dp" />
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="match_parent" />
 
             <View
                 android:layout_width="0dp"
@@ -70,10 +74,7 @@
                 android:layout_weight="1"></View>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"></View>
+
 
         <Button
             android:id="@+id/bt_next"

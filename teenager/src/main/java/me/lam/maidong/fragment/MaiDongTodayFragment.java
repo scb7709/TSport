@@ -417,9 +417,12 @@ public class MaiDongTodayFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//数据位于底部
         ArrayList<BarEntry> yValues = new ArrayList<BarEntry>();
         //new BarEntry(20, 0)前面代表数据，后面代码柱状图的位置；
-        yValues.add(new BarEntry(low == 0 ? 1 : low, 0));
-        yValues.add(new BarEntry(med == 0 ? 1 : med, 1));
-        yValues.add(new BarEntry(hight == 0 ? 1 : hight, 2));
+     /*   yValues.add(new BarEntry(low == 0 ? ((float) 0.0001) : low, 0));
+        yValues.add(new BarEntry(med == 0 ? (float) 0.0001 : med, 1));
+        yValues.add(new BarEntry(hight == 0 ? (float) 0.0001 : hight, 2));*/
+        yValues.add(new BarEntry( low, 0));
+        yValues.add(new BarEntry(med, 1));
+        yValues.add(new BarEntry(hight, 2));
         //5、、设置柱状图不显示数据
         BarDataSet barDataSet = new BarDataSet(yValues, "");
         barDataSet.setValueFormatter(new ValueFormatter() {

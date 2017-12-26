@@ -43,15 +43,13 @@
 
         <me.lam.maidong.selfdefine.PickerView
             android:id="@+id/main_wv"
-            android:layout_width="200dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp" />
-
-        <View
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"></View>
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+             />
+
+
 
         <Button
             android:id="@+id/bt_next"

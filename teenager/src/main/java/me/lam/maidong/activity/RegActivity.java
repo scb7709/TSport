@@ -223,7 +223,7 @@ public class RegActivity extends BaseActivity  {
         }
     }
 
-    String Message = "1234";
+    String Message = "fail";
     private void getSMS(String phone) {
         String url ="SMS/?Mobile=" + phone;
         OKHttp.sendRequestRequestParams(RegActivity.this, "", true, url, new OKHttp.ResponseListener() {
@@ -233,7 +233,7 @@ public class RegActivity extends BaseActivity  {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getString("Status").equals("1")) {
-                        Message = jsonObject.getString("Message");
+                    Message = jsonObject.getString("Message");
                     } else if (jsonObject.getString("Status").equals("0")) {
                         Toast.makeText(RegActivity.this, "获取获取码失败", Toast.LENGTH_SHORT).show();
                         Message = "fail";

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,8 @@ import java.util.Map;
 import me.lam.maidong.R;
 import me.lam.maidong.fragment.CalendarViewFragment;
 import me.lam.maidong.myview.NoPreloadViewPager;
+import me.lam.maidong.utils.GetWindowSize;
+import me.lam.maidong.utils.ImageUtil;
 import me.lam.maidong.utils.ShareUitls;
 
 /**
@@ -53,7 +56,10 @@ public class CalendarActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        LinearLayout.LayoutParams linearParamsall = (LinearLayout.LayoutParams) noPreloadViewPager.getLayoutParams();
         activity = this;
+        linearParamsall.height= GetWindowSize.getInstance(activity).getGetWindowwidth()- ImageUtil.dp2px(activity,20);
+        noPreloadViewPager.setLayoutParams(linearParamsall);
 
 
         initialize();

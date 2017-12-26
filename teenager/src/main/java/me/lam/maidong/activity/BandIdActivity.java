@@ -109,9 +109,25 @@ public class BandIdActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 if (response != null) {
-                    Message message = Message.obtain();
-                    message.obj = response;
-                    handler.sendMessage(message);
+                    Gson g = new Gson();
+                    callbackRegentity logEntity = g.fromJson(response, callbackRegentity.class);
+                    if (logEntity.getMyStatus().equals("1")) {
+                        Toast.makeText(BandIdActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                        if (regEntity.RegActivityList != null && regEntity.RegActivityList.size() != 0) {
+                            for (Activity activity : regEntity.RegActivityList) {
+                                if (activity != null) {
+                                    activity.finish();
+                                }
+
+                            }
+                        }
+
+                    } else {
+
+                        Toast.makeText(BandIdActivity.this, "注册失败，教育ID不存在", Toast.LENGTH_SHORT).show();
+
+
+                    }
                 }
 
             }
@@ -123,30 +139,4 @@ public class BandIdActivity extends BaseActivity {
         });
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Gson g = new Gson();
-            callbackRegentity logEntity = g.fromJson((String) msg.obj, callbackRegentity.class);
-            if (logEntity.getMyStatus().equals("1")) {
-                Toast.makeText(BandIdActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                if (regEntity.RegActivityList != null && regEntity.RegActivityList.size() != 0) {
-                    for (Activity activity : regEntity.RegActivityList) {
-                        if (activity != null) {
-                            activity.finish();
-                        }
-
-                    }
-                }
-
-            } else {
-
-                Toast.makeText(BandIdActivity.this, "注册失败，教育ID不存在", Toast.LENGTH_SHORT).show();
-
-
-            }
-
-        }
-    };
 }

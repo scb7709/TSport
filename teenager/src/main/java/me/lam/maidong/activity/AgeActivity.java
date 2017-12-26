@@ -40,7 +40,7 @@ public class AgeActivity extends BaseActivity {
 
     static String age;
     public static final String TAG = AgeActivity.class.getSimpleName();
-    private static final String[] PLANETS = new String[]{"10", "11", "12", "13", "14", "15", "16", "17", "18"};
+    private static final String[] PLANETS = new String[]{"6","7","8","9","10", "11", "12", "13", "14", "15", "16", "17", "18"};
 
     RegEntity regEntity;
 
@@ -60,7 +60,7 @@ public class AgeActivity extends BaseActivity {
         view_publictitle_title.setText("青少年个人信息");
         regEntity = RegEntity.getInstance();
         regEntity.RegActivityList.add(this);
-        regEntity.setAge("14");
+        regEntity.setAge("12");
 
         List<String> data = new ArrayList<String>();
         for (int i = 0; i < PLANETS.length; i++) {

@@ -46,14 +46,15 @@
             android:paddingRight="10dp"
             android:text="请输入青少年的准确个人信息，以便给出更精确的信息"
             android:textColor="#8ad6f1" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></View>
         <Button
             android:id="@+id/img_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-
             android:background="@drawable/btn_male_active"
             android:clickable="true" />
 
