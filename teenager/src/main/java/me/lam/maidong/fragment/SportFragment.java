@@ -210,6 +210,8 @@ public class SportFragment extends Fragment implements View.OnClickListener {
                         ts.get(i).setText(spcl.getData().getDetail().get(i).getDay());*/
                     }
 
+                }else {
+                    h.sendEmptyMessageDelayed(1, 1);
                 }
             }
         }

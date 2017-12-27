@@ -82,6 +82,7 @@ public class HomeActivity extends OriginalActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
         mPager = (ViewPager) this.findViewById(R.id.vPager);
         checkVersion(this);
 
@@ -129,6 +130,7 @@ public class HomeActivity extends OriginalActivity {
                     ShareUitls.putString(activity, "maidongflag", "1");//刷新首页数据
                     ShareUitls.putString(activity, "recent", logEntity.LastSportDay);//2017-08-10 logEntity.LastSportDay
                     ShareUitls.putString(activity, "LastSportDay",logEntity.LastSportDay);
+                    ShareUitls.putString(activity, "CLICKDADE", logEntity.LastSportDay);
                     ShareUitls.putString(activity, "EducationCode", logEntity.EducationCode);
 
                     // Log.i("getAsynHttp",logEntity.EducationCode+"  "+logEntity.LastSportDay+"  "+ response.toString());

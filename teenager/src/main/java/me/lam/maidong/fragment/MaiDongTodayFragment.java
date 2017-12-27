@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +43,7 @@ import me.lam.maidong.R;
 import me.lam.maidong.activity.WebViewActivity;
 import me.lam.maidong.circle.RoundProgressBar;
 import me.lam.maidong.entity.dataResualtCallBack;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.myview.NoPreloadViewPager;
 import me.lam.maidong.utils.Constant;
 import tech.linjiang.suitlines.SuitLines;
@@ -58,9 +60,19 @@ public class MaiDongTodayFragment extends Fragment {
     LinearLayout fragment_maidong_heartrate_time_fiveman_layout;
     @ViewInject(R.id.fragment_maidong_heartrate_time_bar_layout)
     LinearLayout fragment_maidong_heartrate_time_bar_layout;
-    @ViewInject(R.id.fragment_maidong_barChart)
-    BarChart fragment_maidong_barChart;
-    private XAxis xAxis;
+
+
+    @ViewInject(R.id.public_barchat_layout)
+    private LinearLayout public_barchat_layout;
+    @ViewInject(R.id.barChart_1)
+    private Button barChart_1;
+    @ViewInject(R.id.barChart_2)
+    private Button barChart_2;
+    @ViewInject(R.id.barChart_3)
+    private Button barChart_3;
+    float low;
+    float med;
+    float hight;
 
 
     @ViewInject(R.id.fragment_maidong_TotalTime)
@@ -186,7 +198,6 @@ public class MaiDongTodayFragment extends Fragment {
         activity_main_title_center = (TextView) getActivity().findViewById(R.id.activity_main_title_center);
         activity_main_title_right = (TextView) getActivity().findViewById(R.id.activity_main_title_right);
         activity_main_title_left = (TextView) getActivity().findViewById(R.id.activity_main_title_left);
-        BarChatIaitialize();
         Log.i("DailySportsize4", size + "  " + location);
         setData();
     }
@@ -272,13 +283,12 @@ public class MaiDongTodayFragment extends Fragment {
         pingjia.setBackgroundResource(R.drawable.layout);
         //柱状图
         Log.i("myblue", dailySportEntity.TotalLowRateTime + "   " + dailySportEntity.TotalMediumRateTime + "  " + dailySportEntity.TotalHighRateTime);
-        if (dailySportEntity.TotalLowRateTime == 0 && dailySportEntity.TotalMediumRateTime == 0 && dailySportEntity.TotalHighRateTime == 0) {
-            Log.i("myblue", "quanshiO");
-            fragment_maidong_barChart.setVisibility(View.INVISIBLE);
-        } else {
-            fragment_maidong_barChart.setVisibility(View.VISIBLE);
-            BarChatSet(dailySportEntity.TotalLowRateTime, dailySportEntity.TotalMediumRateTime, dailySportEntity.TotalHighRateTime);
-        }
+
+        low =dailySportEntity.TotalLowRateTime;
+        med = dailySportEntity.TotalMediumRateTime;
+        hight = dailySportEntity.TotalHighRateTime;
+        BarChatSet();
+
         if (dailySportEntity.TotalTime == 0) {
             mRoundProgressBar2.setMmnun(1000);
         } else {
@@ -382,63 +392,33 @@ public class MaiDongTodayFragment extends Fragment {
             fragment_maidong_jia.setVisibility(View.VISIBLE);
         }
     }
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            BarChatSet();
+        }
+    };
 
-
-    private void BarChatIaitialize() {
-
-        //1、基本设置
-        xAxis = fragment_maidong_barChart.getXAxis();
-        xAxis.setDrawAxisLine(true);
-        xAxis.setDrawGridLines(false);
-        fragment_maidong_barChart.setDrawGridBackground(false); // 是否显示表格颜色
-        fragment_maidong_barChart.getAxisLeft().setDrawAxisLine(false);
-        fragment_maidong_barChart.setTouchEnabled(false); // 设置是否可以触摸
-        fragment_maidong_barChart.setDragEnabled(true);// 是否可以拖拽
-        fragment_maidong_barChart.setScaleEnabled(true);// 是否可以缩放
-        //2、y轴和比例尺
-
-        fragment_maidong_barChart.setDescription("");// 数据描述
-
-        fragment_maidong_barChart.getAxisLeft().setEnabled(false);
-        fragment_maidong_barChart.getAxisRight().setEnabled(false);
-
-        Legend legend = fragment_maidong_barChart.getLegend();//隐藏比例尺
-        legend.setEnabled(false);
-
-        //3、x轴数据,和显示位置
-
-    }
-
-    private void BarChatSet(float low, float med, float hight) {
-        ArrayList<String> xValues = new ArrayList<String>();
-        xValues.add("");
-        xValues.add("");
-        xValues.add("");
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//数据位于底部
-        ArrayList<BarEntry> yValues = new ArrayList<BarEntry>();
-        //new BarEntry(20, 0)前面代表数据，后面代码柱状图的位置；
-     /*   yValues.add(new BarEntry(low == 0 ? ((float) 0.0001) : low, 0));
-        yValues.add(new BarEntry(med == 0 ? (float) 0.0001 : med, 1));
-        yValues.add(new BarEntry(hight == 0 ? (float) 0.0001 : hight, 2));*/
-        yValues.add(new BarEntry( low, 0));
-        yValues.add(new BarEntry(med, 1));
-        yValues.add(new BarEntry(hight, 2));
-        //5、、设置柱状图不显示数据
-        BarDataSet barDataSet = new BarDataSet(yValues, "");
-        barDataSet.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float v) {
-                // int n = (int) v;
-                return "";
-            }
-        });
-        //6、设置柱状图的颜色
-        barDataSet.setColors(new int[]{color[1], color[2], color[3]});
-        //7、显示，柱状图的宽度和动画效果
-        BarData barData = new BarData(xValues, barDataSet);
-        barDataSet.setBarSpacePercent(40f);//值越大，柱状图就越宽度越小；
-        fragment_maidong_barChart.animateY(1000);
-        fragment_maidong_barChart.setData(barData); //
+    private void BarChatSet() {
+        int public_barchat_layout_hight = public_barchat_layout.getHeight();
+        if (public_barchat_layout_hight != 0) {
+            RelativeLayout.LayoutParams linearParams1 = (RelativeLayout.LayoutParams) barChart_1.getLayoutParams();
+            RelativeLayout.LayoutParams linearParams2 = (RelativeLayout.LayoutParams) barChart_2.getLayoutParams();
+            RelativeLayout.LayoutParams linearParams3 = (RelativeLayout.LayoutParams) barChart_3.getLayoutParams();
+            linearParams1.height =(int)(public_barchat_layout_hight * low);
+            linearParams2.height = (int)(public_barchat_layout_hight * med);
+            linearParams3.height = (int)(public_barchat_layout_hight * hight);
+            barChart_1.setLayoutParams(linearParams1);
+            barChart_2.setLayoutParams(linearParams2);
+            barChart_3.setLayoutParams(linearParams3);
+            barChart_1.setBackgroundColor(color[1]);
+            barChart_2.setBackgroundColor(color[2]);
+            barChart_3.setBackgroundColor(color[3]);
+            MyToash.Log(public_barchat_layout_hight+"' "+low+"  "+med+"  "+hight);
+        } else {
+            handler.sendEmptyMessageDelayed(0,1);
+        }
 
     }
 

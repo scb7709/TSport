@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import me.lam.maidong.ClenderUtil.CalendarView;
@@ -112,7 +113,7 @@ public class CalendarViewFragment extends BaseFragment {
             final String yearmonth = date.year + "-" + getNum(date.month);
             String yearmonthdate = yearmonth + "-" + getNum(date.day);
             Log.i("myblue", yearmonthdate);
-            if (DataString.isToDayDate(yearmonthdate + "") != 1) {//不大于今天的
+            if (DataString.isToDayDate(yearmonthdate + "") != 1&&((calendar.get(GregorianCalendar.MONTH)+1)==date.getMonth())) {//只能点击本月不大于今天的
                 if(MainActivity.activity!=null){
                     MainActivity.activity.finish();
                 }
@@ -121,8 +122,10 @@ public class CalendarViewFragment extends BaseFragment {
                 ShareUitls.putString(activity, "maidongflag", "1");
                 activity.startActivity(new Intent(activity, MainActivity.class));
                 activity.finish();
-            } else {
+            } else if(DataString.isToDayDate(yearmonthdate + "") == 1){
                 Toast.makeText(activity, "暂无数据", Toast.LENGTH_SHORT).show();
+            }else {
+
             }
 
         }
@@ -157,8 +160,9 @@ public class CalendarViewFragment extends BaseFragment {
                 fragment_calendarview_layout.removeAllViews();
                 CalendarData calendarData = gson.fromJson(response, CalendarData.class);
                 list.clear();
-                for (int i = 0; i < DayCount; i++) {
-                    list.add(calendarData.getSportDay().get(i));
+                for (int i = 0; i < DayCount; i++) {//calendarData.getSportDay().get(i)
+                  list.add(calendarData.getSportDay().get(i));
+                    //  list.add(i%2);
                 }
                 CalendarView calendarView = new CalendarView(activity, calendar, list, calendarViewClickListener);
                 fragment_calendarview_layout.addView(calendarView);

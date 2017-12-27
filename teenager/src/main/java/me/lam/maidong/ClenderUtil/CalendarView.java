@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -13,6 +14,8 @@ import android.view.ViewConfiguration;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+
+import me.lam.maidong.utils.ShareUitls;
 
 public class CalendarView extends View {
     private static final int TOTAL_COL = 7;
@@ -30,6 +33,8 @@ public class CalendarView extends View {
     private List<Integer> SSSportDay;
     private int SSSportDaySize;
     private Calendar calendar;
+    private Context context;
+    private int Width = 20;
     public interface CallBack {
 
         void clickDate(CustomDate date);//回调点击的日期
@@ -82,6 +87,7 @@ public class CalendarView extends View {
     }
     public CalendarView(Context context, Calendar calendar , List<Integer> SSSportDay, CallBack mCallBack) {
         super(context);
+        this.context = context;
         this.mCallBack = mCallBack;
         this.SSSportDay = SSSportDay;
         SSSportDaySize = SSSportDay.size();
@@ -205,39 +211,58 @@ public class CalendarView extends View {
         Boolean noData = true;
 
         public void drawSelf(Canvas canvas) {
+            String day = date.day + "";
             switch (state) {
                 case CURRENT_MONTH_DAY:
                     //当前正常状态
                     //字体颜色
-                    mTextPaint.setColor(Color.parseColor("#c7c7c7"));
-                    String content = date.day + "";
+                    if (!isToday(getString(date.year + ""), getString(date.month + ""), getString(date.day + ""))) {
+                        mCirclePaint2 = new Paint(2);
+                        mCirclePaint2.setStyle(Paint.Style.STROKE);
+                        mCirclePaint2.setAntiAlias(true);
+                        mCirclePaint2.setColor(Color.parseColor("#c7c7c7"));
+                        canvas.drawCircle((float) (mCellSpace * (i + 0.5)),
+                                (float) ((j + 0.5) * mCellSpace), mCellSpace / 3,
+                                mCirclePaint2);
+                        Log.e("r", (float) (mCellSpace / 3) + "-----2");
+                        Log.e("r", (float) (mCellSpace / 3 - 1) + "-----2");
+                        mTextPaint.setColor(Color.parseColor("#c7c7c7"));
+
+                    } else {
+                        mCirclePaint.setColor(Color.parseColor("#c7c7c7"));
+                        RectF rect = new RectF((float) ((mCellSpace * (i + 0.5)) - mCellSpace / 3),
+                                (float) ((j + 0.5) * mCellSpace - mCellSpace / 3),
+
+                                (float) ((mCellSpace * (i + 0.5)) + mCellSpace / 3),
+                                (float) ((j + 0.5) * mCellSpace + mCellSpace / 3));
+                        canvas.drawArc(rect, //弧线所使用的矩形区域大小
+                                -90,  //开始角度
+                                360, //扫过的角度
+                                false, //是否使用中心
+                                mCirclePaint);
 
 
-                    //内环圆
-                  /*  canvas.drawCircle((float) (mCellSpace * (i + 0.5)),
-                            (float) ((j + 0.5) * mCellSpace), (float) (mCellSpace / 3-10),
-                            mCirclePaint);
-                    Log.e("r", (float) (mCellSpace / 3) + "-----1");
-                    Log.e("r", (float) (mCellSpace / 3 - 1) + "-----1");*/
+                        DrawWhiteRing(canvas);
 
 
-                    //画内环圆字体
-                    canvas.drawText(content,
-                            (float) ((i + 0.5) * mCellSpace - mTextPaint.measureText(content) / 2),
+                        mCirclePaint.setColor(Color.parseColor("#c7c7c7"));
+                        RectF rect1 = new RectF((float) ((mCellSpace * (i + 0.5)) - mCellSpace / 3 + px2dip(context, Width)),
+                                (float) ((j + 0.5) * mCellSpace - mCellSpace / 3 + px2dip(context, Width)),
+
+                                (float) ((mCellSpace * (i + 0.5)) + mCellSpace / 3 - px2dip(context, Width)),
+                                (float) ((j + 0.5) * mCellSpace + mCellSpace / 3 - px2dip(context, Width)));
+                        canvas.drawArc(rect1, //弧线所使用的矩形区域大小
+                                -90,  //开始角度
+                                360, //扫过的角度
+                                false, //是否使用中心
+                                mCirclePaint);
+
+                        mTextPaint.setColor(Color.parseColor("#000000"));
+
+                    }
+                    canvas.drawText(day, (float) ((i + 0.5) * mCellSpace - mTextPaint.measureText(day) / 2),
                             (float) ((j + 0.7) * mCellSpace - mTextPaint.measureText(
-                                    content, 0, 1) / 2), mTextPaint);
-
-
-                    //画外环圆
-                    mCirclePaint2 = new Paint((int) 2);
-                    mCirclePaint2.setStyle(Paint.Style.STROKE);
-                    mCirclePaint2.setAntiAlias(true);
-                    mCirclePaint2.setColor(Color.parseColor("#c7c7c7"));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),
-                            (float) ((j + 0.5) * mCellSpace), mCellSpace / 3,
-                            mCirclePaint2);
-                    Log.e("r", (float) (mCellSpace / 3) + "-----2");
-                    Log.e("r", (float) (mCellSpace / 3 - 1) + "-----2");
+                                    day, 0, 1) / 2), mTextPaint);
                     break;
                 case NEXT_MONTH_DAY:
                 case PAST_MONTH_DAY:
@@ -246,15 +271,50 @@ public class CalendarView extends View {
                     break;
                 case SPORT_DAY:
 
-                    mTextPaint.setColor(Color.parseColor("#00ffff"));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),
-                            (float) ((j + 0.5) * mCellSpace), mCellSpace / 3,
-                            mCirclePaint);
-                    String content2 = date.day + "";
-                    canvas.drawText(content2,
-                            (float) ((i + 0.5) * mCellSpace - mTextPaint.measureText(content2) / 2),
+                    if (!isToday(getString(date.year + ""), getString(date.month + ""), getString(date.day + ""))) {
+                        //Log.i("yyyyyyyyyyyy", this.date.day + "");
+
+                        mCirclePaint.setColor(Color.parseColor("#42c3f7"));
+                        canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3,
+                                mCirclePaint);
+                        DrawWhiteRing(canvas);
+
+                    } else {
+                        mCirclePaint.setColor(Color.parseColor("#42c3f7"));
+                        RectF rect = new RectF((float) ((mCellSpace * (i + 0.5)) - mCellSpace / 3),
+                                (float) ((j + 0.5) * mCellSpace - mCellSpace / 3),
+
+                                (float) ((mCellSpace * (i + 0.5)) + mCellSpace / 3),
+                                (float) ((j + 0.5) * mCellSpace + mCellSpace / 3));
+                        canvas.drawArc(rect, //弧线所使用的矩形区域大小
+                                -90,  //开始角度
+                                360, //扫过的角度
+                                false, //是否使用中心
+                                mCirclePaint);
+
+
+                        DrawWhiteRing(canvas);
+
+
+                        mCirclePaint.setColor(Color.parseColor("#42c3f7"));
+                        RectF rect1 = new RectF((float) ((mCellSpace * (i + 0.5)) - mCellSpace / 3 + px2dip(context, Width)),
+                                (float) ((j + 0.5) * mCellSpace - mCellSpace / 3 + px2dip(context, Width)),
+
+                                (float) ((mCellSpace * (i + 0.5)) + mCellSpace / 3 - px2dip(context, Width)),
+                                (float) ((j + 0.5) * mCellSpace + mCellSpace / 3 - px2dip(context, Width)));
+                        canvas.drawArc(rect1, //弧线所使用的矩形区域大小
+                                -90,  //开始角度
+                                360, //扫过的角度
+                                false, //是否使用中心
+                                mCirclePaint);
+
+
+                    }
+                    mTextPaint.setColor(Color.parseColor("#000000"));
+                    canvas.drawText(day,
+                            (float) ((i + 0.5) * mCellSpace - mTextPaint.measureText(day) / 2),
                             (float) ((j + 0.7) * mCellSpace - mTextPaint.measureText(
-                                    content2, 0, 1) / 2), mTextPaint);
+                                    day, 0, 1) / 2), mTextPaint);
                     break;
             }
          /* // 绘制文字
@@ -264,8 +324,24 @@ public class CalendarView extends View {
                     (float) ((j + 0.7) * mCellSpace - mTextPaint.measureText(
                             content, 0, 1) / 2), mTextPaint);*/
         }
-    }
 
+        private void DrawWhiteRing(Canvas canvas) {
+            mCirclePaint.setColor(Color.WHITE);
+            RectF rect = new RectF((float) ((mCellSpace * (i + 0.5)) - mCellSpace / 3 + px2dip(context, Width / 2)),
+                    (float) ((j + 0.5) * mCellSpace - mCellSpace / 3 + px2dip(context, Width / 2)),
+                    (float) ((mCellSpace * (i + 0.5)) + mCellSpace / 3 - px2dip(context, Width / 2)),
+                    (float) ((j + 0.5) * mCellSpace + mCellSpace / 3 - px2dip(context, Width / 2)));
+            canvas.drawArc(rect, //弧线所使用的矩形区域大小
+                    -90,  //开始角度
+                    360, //扫过的角度
+                    true, //是否使用中心
+                    mCirclePaint);
+        }
+    }
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
     /**
      * @author huang
      *         cell的state
@@ -399,7 +475,34 @@ public class CalendarView extends View {
 
     //向右滑动
 
+    private boolean isToday(String year, String month, String day) {//判断当前天是否被点击过
+        String str = ShareUitls.getString(context, "CLICKDADE", "");
+        // Log.i("CCCCCCCCCC11", str + "  " + getString(year+"") + " " + getString(month +"")+ " " + getString(day+""));
+        if (str.equals("")) {
+            return false;
+        } else {
+            if (str.substring(0, 4).equals(getString(year + ""))) {
+                // Log.i("CCCCCCCCCC22", str.substring(0, 4));
+                if (str.substring(5, 7).equals(getString(month + ""))) {
+                    //  Log.i("CCCCCCCCCC33", str.substring(5, 7));
+                    //   Log.i("CCCCCCCCCC44", str.substring(8, 10));
+                    return str.substring(8, 10).equals(getString(day + ""));
 
+                } else {
+                    return false;
+                }
+
+            } else {
+                return false;
+            }
+        }
+    }
+    private String getString(String str) {
+        if (str.length() == 1) {
+            return "0" + str;
+        }
+        return str;
+    }
     private Map<String, Object> mapSport;
 
   /*  public void updateSportDate(Map<String, Object> mapSport) {

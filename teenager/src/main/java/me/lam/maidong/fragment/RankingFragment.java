@@ -3,11 +3,16 @@ package me.lam.maidong.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -26,18 +31,24 @@ import java.util.ArrayList;
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.spvscl;
+import me.lam.maidong.utils.ImageUtil;
 
 
 @ContentView(R.layout.fragment_ranking)
 public class RankingFragment extends Fragment {
     spvscl spcl;
-
-
-    @ViewInject(R.id.fragment_ranking_barChart)
-    private BarChart fragment_ranking_barChart;
-    private XAxis xAxis;
-
-
+   // private XAxis xAxis;
+    @ViewInject(R.id.public_barchat_layout)
+    private LinearLayout public_barchat_layout;
+    @ViewInject(R.id.barChart_1)
+    private Button barChart_1;
+    @ViewInject(R.id.barChart_2)
+    private Button barChart_2;
+    @ViewInject(R.id.barChart_3)
+    private Button barChart_3;
+    int low;
+    int med;
+    int hight;
     @ViewInject(R.id.fragment_ranking_schoolname)
     private TextView fragment_ranking_schoolname;
     @ViewInject(R.id.fragment_ranking_vaildtime)
@@ -85,20 +96,43 @@ public class RankingFragment extends Fragment {
         ;
         fragment_ranking_vaildtime.setText(dayRanking.EffectTime);
         ;
-        BarChatIaitialize();
-        int  SchoolRanking=dayRanking.SchoolRanking.equals("")?0:Integer.parseInt(dayRanking.SchoolRanking);
-        int  ClassRanking=dayRanking.ClassRanking.equals("")?0:Integer.parseInt(dayRanking.ClassRanking);
-        int  SameAgeRanking=dayRanking.SameAgeRanking.equals("")?0:Integer.parseInt(dayRanking.SameAgeRanking);
-
-        if(SchoolRanking==0&&ClassRanking==0&&SameAgeRanking==0){
-            fragment_ranking_barChart.setVisibility(View.INVISIBLE);
-        }else
-        BarChatSet(SchoolRanking,ClassRanking, SameAgeRanking);
+       // BarChatIaitialize();
+        low = dayRanking.SchoolRanking.equals("") ? 0 : Integer.parseInt(dayRanking.SchoolRanking);
+        med = dayRanking.ClassRanking.equals("") ? 0 : Integer.parseInt(dayRanking.ClassRanking);
+        hight =dayRanking.SameAgeRanking.equals("") ? 0 : Integer.parseInt(dayRanking.SameAgeRanking);
+            BarChatSet();
 
     }
 
-    private void BarChatSet(int low, int med, int hight) {
-        ArrayList<String> xValues = new ArrayList<String>();
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            BarChatSet();
+        }
+    };
+
+    private void BarChatSet() {
+        int public_barchat_layout_hight = public_barchat_layout.getHeight();
+        if (public_barchat_layout_hight != 0) {
+            RelativeLayout.LayoutParams linearParams1 = (RelativeLayout.LayoutParams) barChart_1.getLayoutParams();
+            RelativeLayout.LayoutParams linearParams2 = (RelativeLayout.LayoutParams) barChart_2.getLayoutParams();
+            RelativeLayout.LayoutParams linearParams3 = (RelativeLayout.LayoutParams) barChart_3.getLayoutParams();
+            linearParams1.height =public_barchat_layout_hight * low/100;
+            linearParams2.height = public_barchat_layout_hight * med/100;
+            linearParams3.height = public_barchat_layout_hight * hight/100;
+            barChart_1.setLayoutParams(linearParams1);
+            barChart_2.setLayoutParams(linearParams2);
+            barChart_3.setLayoutParams(linearParams3);
+            barChart_1.setBackgroundColor(color[0]);
+            barChart_2.setBackgroundColor(color[1]);
+            barChart_3.setBackgroundColor(color[2]);
+        } else {
+            handler.sendEmptyMessageDelayed(0,1);
+        }
+
+
+     /*   ArrayList<String> xValues = new ArrayList<String>();
         xValues.add("");
         xValues.add("");
         xValues.add("");
@@ -120,13 +154,14 @@ public class RankingFragment extends Fragment {
         //6、设置柱状图的颜色
         barDataSet.setColors(new int[]{color[0], color[1], color[2]});
         //7、显示，柱状图的宽度和动画效果
+
         BarData barData = new BarData(xValues, barDataSet);
         barDataSet.setBarSpacePercent(40f);//值越大，柱状图就越宽度越小；
         fragment_ranking_barChart.animateY(1500);
-        fragment_ranking_barChart.setData(barData); //
+        fragment_ranking_barChart.setData(barData); //*/
 
     }
-
+/*
     private void BarChatIaitialize() {
 
         //1、基本设置
@@ -150,5 +185,5 @@ public class RankingFragment extends Fragment {
 
         //3、x轴数据,和显示位置
 
-    }
+    }*/
 }
