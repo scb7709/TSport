@@ -351,10 +351,11 @@ public class MaiDongActivityFragment extends Fragment {
             mRoundProgressBar2.setMmnun(dailySportEntity.TotalTime);
         }
         if (dailySportEntity.ValidTime > 0) {
+
             progress = 0;
            // sleep = (int) (Math.random() * (4000 / dailySportEntity.ValidTime - 2000 / dailySportEntity.ValidTime + 1) + 2000 / dailySportEntity.ValidTime);//最多不超过4秒 最低不少于2秒
             sleep=1;
-            new Thread(new Runnable() {
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     while (progress <= dailySportEntity.ValidTime) {
@@ -369,9 +370,15 @@ public class MaiDongActivityFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
+                }
+            });
+           /* new Thread(new Runnable() {
+                @Override
+                public void run() {
+
 
                 }
-            }).start();
+            }).start();*/
         }
         if (location == 0) {//每天各时长运功状态
             fragment_maidong_heartrate_image.setVisibility(View.GONE);

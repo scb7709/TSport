@@ -3,6 +3,7 @@ package me.lam.maidong.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,18 +15,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+/*
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ValueFormatter;
+import com.github.mikephil.charting.utils.ValueFormatter;*/
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -65,7 +66,10 @@ public class MaiDongNotodayFragment extends Fragment {
     float low;
     float med;
     float hight;
-
+    List<Button> BarChartList;
+   // int K = 30;
+   // private float[] innerRadii = {K, K, K, K, 0, 0, 0, 0};//内矩形 圆角半径
+   // private RoundRectShape roundRectShape;
 
     @ViewInject(R.id.fragment_maidong_TotalTime)
     TextView TotalTime;
@@ -285,6 +289,10 @@ public class MaiDongNotodayFragment extends Fragment {
         if (dailySportEntity == null) {
             return;
         }
+        BarChartList = new ArrayList<>();
+        BarChartList.add(barChart_1);
+        BarChartList.add(barChart_2);
+        BarChartList.add(barChart_3);
         setTitle(location, size);
         if (((dailySportEntity.HeartRateTable == null || dailySportEntity.HeartRateTable.size() == 0))) {
             Log.i("myblue", "2");
@@ -444,19 +452,22 @@ public class MaiDongNotodayFragment extends Fragment {
 
         int public_barchat_layout_hight = public_barchat_layout.getHeight();
         if (public_barchat_layout_hight != 0) {
-            RelativeLayout.LayoutParams linearParams1 = (RelativeLayout.LayoutParams) barChart_1.getLayoutParams();
-            RelativeLayout.LayoutParams linearParams2 = (RelativeLayout.LayoutParams) barChart_2.getLayoutParams();
-            RelativeLayout.LayoutParams linearParams3 = (RelativeLayout.LayoutParams) barChart_3.getLayoutParams();
-            linearParams1.height =(int)(public_barchat_layout_hight * low);
-            linearParams2.height = (int)(public_barchat_layout_hight * med);
-            linearParams3.height = (int)(public_barchat_layout_hight * hight);
-            barChart_1.setLayoutParams(linearParams1);
-            barChart_2.setLayoutParams(linearParams2);
-            barChart_3.setLayoutParams(linearParams3);
-            barChart_1.setBackgroundColor(color[1]);
-            barChart_2.setBackgroundColor(color[2]);
-            barChart_3.setBackgroundColor(color[3]);
-            MyToash.Log(public_barchat_layout_hight+"' "+low+"  "+med+"  "+hight);
+            for (int i = 0; i < 3; i++) {
+                Button button=BarChartList.get(i);
+                RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+                switch (i){
+                    case 0:
+                        linearParams.height = (int) (public_barchat_layout_hight * low);
+                        break;
+                    case 1:
+                        linearParams.height = (int) (public_barchat_layout_hight * med);
+                        break;
+                    case 2:
+                        linearParams.height = (int) (public_barchat_layout_hight * hight);
+                        break;
+                }
+                button.setLayoutParams(linearParams);
+            }
         } else {
             handler.sendEmptyMessageDelayed(0,1);
         }

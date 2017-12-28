@@ -28,6 +28,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.spvscl;
@@ -49,6 +50,7 @@ public class RankingFragment extends Fragment {
     int low;
     int med;
     int hight;
+    List<Button> BarChartList;
     @ViewInject(R.id.fragment_ranking_schoolname)
     private TextView fragment_ranking_schoolname;
     @ViewInject(R.id.fragment_ranking_vaildtime)
@@ -100,6 +102,10 @@ public class RankingFragment extends Fragment {
         low = dayRanking.SchoolRanking.equals("") ? 0 : Integer.parseInt(dayRanking.SchoolRanking);
         med = dayRanking.ClassRanking.equals("") ? 0 : Integer.parseInt(dayRanking.ClassRanking);
         hight =dayRanking.SameAgeRanking.equals("") ? 0 : Integer.parseInt(dayRanking.SameAgeRanking);
+        BarChartList = new ArrayList<>();
+        BarChartList.add(barChart_1);
+        BarChartList.add(barChart_2);
+        BarChartList.add(barChart_3);
             BarChatSet();
 
     }
@@ -115,18 +121,22 @@ public class RankingFragment extends Fragment {
     private void BarChatSet() {
         int public_barchat_layout_hight = public_barchat_layout.getHeight();
         if (public_barchat_layout_hight != 0) {
-            RelativeLayout.LayoutParams linearParams1 = (RelativeLayout.LayoutParams) barChart_1.getLayoutParams();
-            RelativeLayout.LayoutParams linearParams2 = (RelativeLayout.LayoutParams) barChart_2.getLayoutParams();
-            RelativeLayout.LayoutParams linearParams3 = (RelativeLayout.LayoutParams) barChart_3.getLayoutParams();
-            linearParams1.height =public_barchat_layout_hight * low/100;
-            linearParams2.height = public_barchat_layout_hight * med/100;
-            linearParams3.height = public_barchat_layout_hight * hight/100;
-            barChart_1.setLayoutParams(linearParams1);
-            barChart_2.setLayoutParams(linearParams2);
-            barChart_3.setLayoutParams(linearParams3);
-            barChart_1.setBackgroundColor(color[0]);
-            barChart_2.setBackgroundColor(color[1]);
-            barChart_3.setBackgroundColor(color[2]);
+            for (int i = 0; i < 3; i++) {
+                Button button=BarChartList.get(i);
+                RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+                switch (i){
+                    case 0:
+                        linearParams.height = (int) (public_barchat_layout_hight * low/100);
+                        break;
+                    case 1:
+                        linearParams.height = (int) (public_barchat_layout_hight * med/100);
+                        break;
+                    case 2:
+                        linearParams.height = (int) (public_barchat_layout_hight * hight/100);
+                        break;
+                }
+                button.setLayoutParams(linearParams);
+            }
         } else {
             handler.sendEmptyMessageDelayed(0,1);
         }

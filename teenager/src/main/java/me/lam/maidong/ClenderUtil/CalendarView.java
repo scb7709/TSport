@@ -374,16 +374,11 @@ public class CalendarView extends View {
 
   /*  int first=1;*/
     public void fillMonthDate() {
-        Log.e("DDD", "fillMonthDate1");
-         /*   if(back!=null){
-                back.Back( first);
-            }*/
-        int monthDay = DateUtil.getCurrentMonthDay();
+
         int lastMonthDays = DateUtil.getMonthDays(mShowDate.year, mShowDate.month - 1);
         int currentMonthDays = DateUtil.getMonthDays(mShowDate.year, mShowDate.month);
         int firstDayWeek = DateUtil.getWeekDayFromDate(mShowDate.year, mShowDate.month);
 
-        //   Log.e("llll", "fillMonthDate" + copy.getInstance().SSSportDay.toString() + "----" + currentMonthDays);
         boolean isCurrentMonth = false;
         if (DateUtil.isCurrentMonth(mShowDate)) {
             isCurrentMonth = true;
@@ -446,34 +441,7 @@ public class CalendarView extends View {
         invalidate();
     }
 
-   /* if ( new Dir().getDir()) {
-        Log.e("ooo","左减");
-                       *//* copy.getInstance().SSSportDay=copy1.getInstance().SSSportDay;*//*
-        if (copy.getInstance().SSSportDay.get(day - 1) != 0) {
 
-            date.week = i;
-            rows[j].cells[i] = new Cell(date, State.SPORT_DAY, i, j);
-                     *//*   try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }*//*
-            continue;
-        }
-    }
-    if(!new Dir().getDir()){
-        Log.e("ooo","右加");
-                    *//*    copy2.getInstance().SSSportDay=copy1.getInstance().SSSportDay;*//*
-        if (copy2.getInstance().SSSportDay.get(day - 1) != 0) {
-
-            date.week = i;
-            rows[j].cells[i] = new Cell(date, State.SPORT_DAY, i, j);
-
-            continue;
-        }
-    }*/
-
-    //向右滑动
 
     private boolean isToday(String year, String month, String day) {//判断当前天是否被点击过
         String str = ShareUitls.getString(context, "CLICKDADE", "");

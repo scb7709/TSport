@@ -2,11 +2,7 @@ package me.lam.maidong.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.RoundRectShape;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,19 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
+/*import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ValueFormatter;
+import com.github.mikephil.charting.utils.ValueFormatter;*/
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -43,6 +38,7 @@ import me.lam.maidong.R;
 import me.lam.maidong.activity.WebViewActivity;
 import me.lam.maidong.circle.RoundProgressBar;
 import me.lam.maidong.entity.dataResualtCallBack;
+import me.lam.maidong.myview.HistogramButton;
 import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.myview.NoPreloadViewPager;
 import me.lam.maidong.utils.Constant;
@@ -70,11 +66,15 @@ public class MaiDongTodayFragment extends Fragment {
     private Button barChart_2;
     @ViewInject(R.id.barChart_3)
     private Button barChart_3;
+
+
     float low;
     float med;
     float hight;
-
-
+    List<Button> BarChartList;
+    int K = 20;
+   // private float[] innerRadii = {K, K, K, K, 0, 0, 0, 0};//内矩形 圆角半径
+   // private RoundRectShape roundRectShape;
     @ViewInject(R.id.fragment_maidong_TotalTime)
     TextView TotalTime;
     //  @ViewInject(R.id.fragment_maidong_ValidRate)
@@ -115,8 +115,8 @@ public class MaiDongTodayFragment extends Fragment {
     TextView yundongpingjia;
 
     //心率
-    List<String> times = new ArrayList<String>();
-    List<dataResualtCallBack.DailySportEntity.HeartRateTableEntity> heartRateTableEntityList;
+ //   List<String> times = new ArrayList<String>();
+  //  List<dataResualtCallBack.DailySportEntity.HeartRateTableEntity> heartRateTableEntityList;
 
 
 /*    @ViewInject(R.id.drawline)
@@ -256,15 +256,21 @@ public class MaiDongTodayFragment extends Fragment {
 
 
     private void setData() {
+      //  roundRectShape = new RoundRectShape(innerRadii, null, null); //无内矩形
+        BarChartList = new ArrayList<>();
+        BarChartList.add(barChart_1);
+        BarChartList.add(barChart_2);
+        BarChartList.add(barChart_3);
         ISOVER = false;
         //int size=DailySport.size();
-        Log.i("myblue", size + "   " + location+" "+dailySportEntity.MessageInfo);
+        Log.i("myblue", size + "   " + location + " " + dailySportEntity.MessageInfo);
         if (location < 0 || location >= size) {
             return;
         }
         if (dailySportEntity == null) {
             return;
         }
+
         setTitle(location, size);
         int allTime = dailySportEntity.TotalTime / 60;
         int youxiao = dailySportEntity.ValidTime;
@@ -282,9 +288,9 @@ public class MaiDongTodayFragment extends Fragment {
         TotalHighRateTime.setText(totalHighRateTime + "%");
         pingjia.setBackgroundResource(R.drawable.layout);
         //柱状图
-        Log.i("myblue", dailySportEntity.TotalLowRateTime + "   " + dailySportEntity.TotalMediumRateTime + "  " + dailySportEntity.TotalHighRateTime);
+       // Log.i("myblue", dailySportEntity.TotalLowRateTime + "   " + dailySportEntity.TotalMediumRateTime + "  " + dailySportEntity.TotalHighRateTime);
 
-        low =dailySportEntity.TotalLowRateTime;
+        low = dailySportEntity.TotalLowRateTime;
         med = dailySportEntity.TotalMediumRateTime;
         hight = dailySportEntity.TotalHighRateTime;
         BarChatSet();
@@ -298,6 +304,8 @@ public class MaiDongTodayFragment extends Fragment {
             progress = 0;
             // sleep = (int) (Math.random() * (4000 / dailySportEntity.ValidTime - 2000 / dailySportEntity.ValidTime + 1) + 2000 / dailySportEntity.ValidTime);//最多不超过4秒 最低不少于2秒
             sleep = 1;
+
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -318,12 +326,10 @@ public class MaiDongTodayFragment extends Fragment {
             }).start();
         }
         SportRate.setText("等级：" + dailySportEntity.SportRate);
-
         SportEvaluate.setText("   " + dailySportEntity.SportEvaluate);
-
         SuggestEnergyCar = dailySportEntity.SuggestEnergy;
-        SuggestEnergy.setText("" + SuggestEnergyCar+" 千卡");
-        Fat.setText("" + dailySportEntity.Fat+" 克");
+        SuggestEnergy.setText("" + SuggestEnergyCar + " 千卡");
+        Fat.setText("" + dailySportEntity.Fat + " 克");
      /*
             dataResualtCallBack.DailySportEntity.SportDayInfo SportDayInfo = dailySportEntity.SportDayInfo;
      for (int j = 1; j < 4; j++) {
@@ -392,6 +398,7 @@ public class MaiDongTodayFragment extends Fragment {
             fragment_maidong_jia.setVisibility(View.VISIBLE);
         }
     }
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -403,21 +410,24 @@ public class MaiDongTodayFragment extends Fragment {
     private void BarChatSet() {
         int public_barchat_layout_hight = public_barchat_layout.getHeight();
         if (public_barchat_layout_hight != 0) {
-            RelativeLayout.LayoutParams linearParams1 = (RelativeLayout.LayoutParams) barChart_1.getLayoutParams();
-            RelativeLayout.LayoutParams linearParams2 = (RelativeLayout.LayoutParams) barChart_2.getLayoutParams();
-            RelativeLayout.LayoutParams linearParams3 = (RelativeLayout.LayoutParams) barChart_3.getLayoutParams();
-            linearParams1.height =(int)(public_barchat_layout_hight * low);
-            linearParams2.height = (int)(public_barchat_layout_hight * med);
-            linearParams3.height = (int)(public_barchat_layout_hight * hight);
-            barChart_1.setLayoutParams(linearParams1);
-            barChart_2.setLayoutParams(linearParams2);
-            barChart_3.setLayoutParams(linearParams3);
-            barChart_1.setBackgroundColor(color[1]);
-            barChart_2.setBackgroundColor(color[2]);
-            barChart_3.setBackgroundColor(color[3]);
-            MyToash.Log(public_barchat_layout_hight+"' "+low+"  "+med+"  "+hight);
+            for (int i = 0; i < 3; i++) {
+                Button button=BarChartList.get(i);
+                RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+                switch (i){
+                    case 0:
+                        linearParams.height = (int) (public_barchat_layout_hight * low);
+                        break;
+                    case 1:
+                        linearParams.height = (int) (public_barchat_layout_hight * med);
+                        break;
+                    case 2:
+                        linearParams.height = (int) (public_barchat_layout_hight * hight);
+                        break;
+                }
+                button.setLayoutParams(linearParams);
+            }
         } else {
-            handler.sendEmptyMessageDelayed(0,1);
+            handler.sendEmptyMessageDelayed(0, 1);
         }
 
     }
