@@ -548,8 +548,13 @@
                     android:layout_marginRight="20dp"
                     android:layout_height="180dp"></include>
 
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/analizegray"
+                    ></View>
                 <LinearLayout
+                    android:layout_marginTop="1dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -563,7 +568,8 @@
                         android:layout_weight="1"></View>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
@@ -583,7 +589,7 @@
                             android:layout_gravity="center_horizontal"
                             android:text="低强度运动"
                             android:textColor="#c7c7c7"
-                            android:textSize="11.5dp" />
+                            android:textSize="11.5sp" />
 
 
                     </LinearLayout>
@@ -592,10 +598,11 @@
                         android:layout_width="0dp"
                         android:layout_height="1dp"
 
-                        android:layout_weight="1.2"></View>
+                        android:layout_weight="1"></View>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
@@ -624,10 +631,11 @@
                         android:layout_width="0dp"
                         android:layout_height="1dp"
 
-                        android:layout_weight="1.2"></View>
+                        android:layout_weight="1"></View>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 

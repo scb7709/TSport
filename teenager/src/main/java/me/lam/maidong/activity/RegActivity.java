@@ -174,14 +174,18 @@ public class RegActivity extends BaseActivity  {
 
                     if (etPwd.length() >= 6) {
                         if (et_confirm.getText().toString().length() > 0) {
-                            if (!Message.equals("fail")) {
-                                if (et_confirm.getText().toString().equals(Message)) {
-                                    CheckUser(et_phone.getText().toString(),etPwd.getText().toString());
-                                } else {
-                                    Toast.makeText(this, "验证码验证错误", Toast.LENGTH_LONG).show();
-                                }
+                            if(myMessage.length()==0){
+                                Toast.makeText(this, "请先点击获取验证码", Toast.LENGTH_LONG).show();
                             }else {
-                                Toast.makeText(this, "验证码获取失败，请重新获取", Toast.LENGTH_LONG).show();
+                                if (!myMessage.equals("fail")) {
+                                    if (et_confirm.getText().toString().equals(myMessage)) {
+                                        CheckUser(et_phone.getText().toString(), etPwd.getText().toString());
+                                    } else {
+                                        Toast.makeText(this, "验证码验证错误", Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    Toast.makeText(this, "验证码获取失败，请重新获取", Toast.LENGTH_LONG).show();
+                                }
                             }
                         } else {
                             Toast.makeText(this, "请输入验证码", Toast.LENGTH_LONG).show();
@@ -223,7 +227,8 @@ public class RegActivity extends BaseActivity  {
         }
     }
 
-    String Message = "fail";
+
+    String myMessage = "";
     private void getSMS(String phone) {
         String url ="SMS/?Mobile=" + phone;
         OKHttp.sendRequestRequestParams(RegActivity.this, "", true, url, new OKHttp.ResponseListener() {
@@ -233,10 +238,10 @@ public class RegActivity extends BaseActivity  {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getString("Status").equals("1")) {
-                    Message = jsonObject.getString("Message");
+                    myMessage = jsonObject.getString("Message");
                     } else if (jsonObject.getString("Status").equals("0")) {
                         Toast.makeText(RegActivity.this, "获取获取码失败", Toast.LENGTH_SHORT).show();
-                        Message = "fail";
+                        myMessage = "fail";
                     }
                     // ShareUitls.putString(getApplicationContext(), "SMSMessage", Message);
 
@@ -247,7 +252,7 @@ public class RegActivity extends BaseActivity  {
 
             @Override
             public void onErrorResponse() {
-                Message = "fail";
+                myMessage = "fail";
 
                 Toast.makeText(RegActivity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
 

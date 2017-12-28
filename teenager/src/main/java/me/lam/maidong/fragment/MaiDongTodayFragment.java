@@ -322,8 +322,8 @@ public class MaiDongTodayFragment extends Fragment {
         SportEvaluate.setText("   " + dailySportEntity.SportEvaluate);
 
         SuggestEnergyCar = dailySportEntity.SuggestEnergy;
-        SuggestEnergy.setText("" + SuggestEnergyCar);
-        Fat.setText("" + dailySportEntity.Fat);
+        SuggestEnergy.setText("" + SuggestEnergyCar+" 千卡");
+        Fat.setText("" + dailySportEntity.Fat+" 克");
      /*
             dataResualtCallBack.DailySportEntity.SportDayInfo SportDayInfo = dailySportEntity.SportDayInfo;
      for (int j = 1; j < 4; j++) {

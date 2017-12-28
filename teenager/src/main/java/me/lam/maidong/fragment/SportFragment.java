@@ -120,7 +120,7 @@ public class SportFragment extends Fragment implements View.OnClickListener {
     List<spvscl.DataEntity.DetailEntity> detailBeanList;
     private Activity activity;
     private int screenWidth;
-    int totalColar,lineColar ,effectColar;
+    int totalColar, lineColar, effectColar;
     public boolean ISOVER;//由于本界面有网络请求，有延迟线程 所以设立此标记当本Fragment结束时 终止线程 和网络任务
 
     @Override
@@ -144,7 +144,7 @@ public class SportFragment extends Fragment implements View.OnClickListener {
         ButterKnife.inject(this, view);
         activity = getActivity();
         totalColar = activity.getResources().getColor(R.color.analizegray);
-        lineColar= activity.getResources().getColor(R.color.analizeline);
+        lineColar = activity.getResources().getColor(R.color.analizeline);
         effectColar = activity.getResources().getColor(R.color.analizeeffect);
         return view;
     }
@@ -210,7 +210,7 @@ public class SportFragment extends Fragment implements View.OnClickListener {
                         ts.get(i).setText(spcl.getData().getDetail().get(i).getDay());*/
                     }
 
-                }else {
+                } else {
                     h.sendEmptyMessageDelayed(1, 1);
                 }
             }
@@ -258,20 +258,25 @@ public class SportFragment extends Fragment implements View.OnClickListener {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
             canvas.drawBitmap(bitmap, x + zhouyi.getWidth() / 4, y - 45, paint);*/
             int zhouyiall_Width = zhouyiall.getWidth();
-            int effectwidth = x + (zhouyiall.getWidth() - getTextWidth(effect, paint)) / 2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
-            int tatalwidth = x + (zhouyiall.getWidth() - getTextWidth(tatal, paint)) / 2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
-        /*    canvas.drawText(effect, effectwidth, y - 90, paint);
-            canvas.drawLine(x, y - 85, x + zhouerall.getWidth(), y - 85, paint);
-            canvas.drawText(tatal, tatalwidth, y - 60, paint);
+            int effectwidth;
+            int tatalwidth;
+            effectwidth = x + (zhouyiall_Width - getTextWidth(effect, paint)) / 2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
+            tatalwidth = x + (zhouyiall_Width - getTextWidth(tatal, paint)) / 2;//要居中的话 柱状图的宽度减去文字的宽度的一半 加上X 就等于文字的起始坐标
 
-            canvas.drawBitmap(bitmap, x + zhouerall.getWidth() / 4, y - 50, paint);*/
-            paint.setColor(totalColar);
-            canvas.drawText(tatal, effectwidth, y - ImageUtil.dp2px(activity, 35), paint);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_triangle_blue);
+            /*paint.setColor(totalColar);
+            canvas.drawText(tatal, tatalwidth, y - ImageUtil.dp2px(activity, 31), paint);
             paint.setColor(lineColar);
-            canvas.drawLine(x, y - ImageUtil.dp2px(activity, 32), x + zhouyiall_Width, y - ImageUtil.dp2px(activity, 32), paint);
+            canvas.drawLine(x, y - ImageUtil.dp2px(activity, 28), x + zhouyiall_Width, y - ImageUtil.dp2px(activity, 28), paint);
             paint.setColor(effectColar);
-            canvas.drawText(effect, tatalwidth, y - ImageUtil.dp2px(activity, 20), paint);
+            canvas.drawText(effect, effectwidth, y - ImageUtil.dp2px(activity, 20), paint);*/
+
+            paint.setColor(totalColar);
+            canvas.drawText(tatal, tatalwidth, y - 90, paint);
+            paint.setColor(lineColar);
+            canvas.drawLine(x, y - 82, x + zhouyiall_Width, y-82, paint);
+            paint.setColor(effectColar);
+            canvas.drawText(effect, effectwidth, y-50, paint);
 
             canvas.drawBitmap(bitmap, x + (zhouyiall_Width - bitmap.getWidth()) / 2, y - ImageUtil.dp2px(activity, 12), paint);
 
@@ -399,7 +404,7 @@ public class SportFragment extends Fragment implements View.OnClickListener {
                 String effect = StringForTime.stringForTime3(detailEntity.getEffectTime());
                 String tatal = StringForTime.stringForTime3(detailEntity.getTotalTime());
 
-                MyToash.Log("setOnClickListener"+effect+"  "+tatal+"  "+location55[0]+"   "+location55[1]);
+                MyToash.Log("setOnClickListener" + effect + "  " + tatal + "  " + location55[0] + "   " + location55[1]);
                 showdraw(effect, tatal, location55[0], location55[1]);//绘制点击的 时间显示
 
 
