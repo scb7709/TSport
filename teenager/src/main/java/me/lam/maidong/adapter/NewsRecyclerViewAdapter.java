@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 
 import com.lidroid.xutils.BitmapUtils;
+import com.squareup.picasso.Picasso;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -27,6 +28,8 @@ import java.util.List;
 import me.lam.maidong.R;
 import me.lam.maidong.entity.msgCallBack;
 import me.lam.maidong.entity.newsEntity;
+import me.lam.maidong.myview.MyToash;
+import me.lam.maidong.utils.Constant;
 
 
 /**
@@ -40,13 +43,14 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
     BitmapUtils bitmapUtils;
 
     Handler handler;
+
     public NewsRecyclerViewAdapter(List<newsEntity.NewsListEntity> newsListEntities, Activity activity, Handler handler) {
         this.newsListEntities = newsListEntities;
         this.activity = activity;
         this.handler = handler;
         bitmapUtils = new BitmapUtils(activity);
 
-        Log.i("messageListlist", newsListEntities.size() + "   "+newsListEntities.toString());
+        Log.i("messageListlist", newsListEntities.size() + "   " + newsListEntities.toString());
     }
 
     @Override
@@ -61,7 +65,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
         final newsEntity.NewsListEntity messageListEntity = newsListEntities.get(position);
         //判断是否设置了监听器
 
-     //为ItemView设置监听器
+        //为ItemView设置监听器
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,16 +100,25 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
     public int getItemCount() {
         return newsListEntities.size();
     }
+
     private void initializeViews(final newsEntity.NewsListEntity object, NewsViewHolder holder) {
-        bitmapUtils.display(holder.imageView1, object.getImgUrl());
+        String url =object.getImgUrl();
+        Picasso.with(activity)
+                .load((url == null||url.length()==0) ? "11" : url)//图片网址
+                .placeholder(R.drawable.logo)//默认图标
+                .into(holder.imageView1);//控件
+
+        MyToash.Log("messageListlist   ==" + url);
+        // bitmapUtils.display(holder.imageView1, object.getImgUrl());
+        //  bitmapUtils.
        /* holder.imageView1.setImageBitmap(drawableToBitamp());*/
         holder.textView1.setText(object.getArticleTitle());
-        if(object.getContent().length()<2){
+        if (object.getContent().length() < 2) {
             holder.textView3.setText("无");
-        }else{
-            if(object.getContent().length()>20){
-                holder.textView3.setText(object.getContent().substring(0,19)+"...");
-            }else{
+        } else {
+            if (object.getContent().length() > 20) {
+                holder.textView3.setText(object.getContent().substring(0, 19) + "...");
+            } else {
                 holder.textView3.setText(object.getContent());
             }
 
@@ -116,24 +129,24 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
             @Override
             public void onClick(View v) {
 
-                Log.e("ffff", object.getArticleCategoryID()+"点击了listview中的按钮");
+                Log.e("ffff", object.getArticleCategoryID() + "点击了listview中的按钮");
             }
         });
 
-        if(object.getArticleCategoryID().equals("1")){
+        if (object.getArticleCategoryID().equals("1")) {
 
             holder.bt.setText("新闻动态");
-        }else if(object.getArticleCategoryID().equals("2")){
+        } else if (object.getArticleCategoryID().equals("2")) {
             holder.bt.setText("阳光体育");
-        }else if(object.getArticleCategoryID().equals("3")){
+        } else if (object.getArticleCategoryID().equals("3")) {
             holder.bt.setText("健身指导");
-        }else if(object.getArticleCategoryID().equals("4")){
+        } else if (object.getArticleCategoryID().equals("4")) {
             holder.bt.setText("健身新闻");
-        }else if(object.getArticleCategoryID().equals("5")){
+        } else if (object.getArticleCategoryID().equals("5")) {
             holder.bt.setText("系统通知");
-        }else if(object.getArticleCategoryID().equals("7")){
+        } else if (object.getArticleCategoryID().equals("7")) {
             holder.bt.setText("线下活动");
-        }else if(object.getArticleCategoryID().equals("8")){
+        } else if (object.getArticleCategoryID().equals("8")) {
             holder.bt.setText("运动宝典");
         }
     }
@@ -149,12 +162,6 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
     public TextView textView3;
     @ViewInject(R.id.data_fenglei)
     public Button bt;
-
-
-
-
-
-
 
 
     public NewsViewHolder(View itemView) {

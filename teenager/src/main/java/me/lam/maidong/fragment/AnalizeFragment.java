@@ -22,16 +22,16 @@ import com.google.gson.Gson;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 import me.lam.maidong.R;
+import me.lam.maidong.adapter.MyFragmentPagerAdapter;
 import me.lam.maidong.entity.spvscl;
 import me.lam.maidong.myview.NoPreloadViewPager;
-import me.lam.maidong.utils.Constant;
-import me.lam.maidong.utils.HttpUtils;
+
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
-import me.lam.maidong.welcomepage.MyFragmentPagerAdapter;
+
 
 
 public class AnalizeFragment extends Fragment {

@@ -73,4 +73,5 @@ dependencies {
     compile files('libs/mpchartlib.jar')
     compile project(':heartimage')
     compile project(':PushSDK')
+    compile files('libs/picasso-2.5.2.jar')
 }

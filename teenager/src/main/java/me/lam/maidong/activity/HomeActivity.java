@@ -4,19 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
+
 import android.os.Message;
-import android.support.v4.app.Fragment;
+
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -26,23 +29,15 @@ import me.lam.maidong.R;
 import me.lam.maidong.entity.NewLogCallBack;
 import me.lam.maidong.entity.PublicDataClass;
 import me.lam.maidong.entity.VersionClass;
-import me.lam.maidong.utils.Constant;
+
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
-import me.lam.maidong.utils.UpadteApp;
-import me.lam.maidong.utils.VersonUtils;
-import me.lam.maidong.welcomepage.MyFragmentPagerAdapter;
-import me.lam.maidong.welcomepage.fragment3;
-import me.lam.maidong.welcomepage.fragment4;
-import me.lam.maidong.welcomepage.fragment5;
+
 
 
 public class HomeActivity extends OriginalActivity {
     ViewPager mPager;
-    ArrayList<Fragment> fragmentsList;
-    fragment3 frag1;
-    fragment4 frag2;
-    fragment5 frag3;
+    ArrayList<View> GuidePageList;
     TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
@@ -65,18 +60,7 @@ public class HomeActivity extends OriginalActivity {
             }
         }
     };
- /*   static Activity TokenActivity;
-    static String Phone;
-    static Handler token = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (TokenActivity != null && Phone != null) {
-              //  updateToken();
-            }
 
-        }
-    };*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +84,60 @@ public class HomeActivity extends OriginalActivity {
         } else {
             ShareUitls.putString(HomeActivity.this, "first", "no");
             mPager.setVisibility(View.VISIBLE);
-            fragmentsList = new ArrayList<Fragment>();
-            frag1 = new fragment3();
-            frag2 = new fragment4();
-            frag3 = new fragment5();
-            fragmentsList.add(frag1);
-            fragmentsList.add(frag2);
-            fragmentsList.add(frag3);
-            mPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentsList));
-            mPager.setOffscreenPageLimit(2);
-            mPager.setCurrentItem(0);
+            GuidePageList = new ArrayList<View>();
+            LayoutInflater layoutInflater=LayoutInflater.from(HomeActivity.this);
+            for(int i=0;i<3;i++){
+                View view=layoutInflater.inflate(R.layout.layout_guide_page,null);
+                RelativeLayout relativeLayout=(RelativeLayout)view.findViewById(R.id.layout_guide_page_layout);
+                LinearLayout linearLayout=(LinearLayout)view.findViewById(R.id.layout_guide_page_go);
+                switch (i){
+                    case  0:
+                        relativeLayout.setBackgroundResource(R.mipmap.guide_page_1);
+                        break;
+                    case 1:
+                        relativeLayout.setBackgroundResource(R.mipmap.guide_page_2);
+                        break;
+                    case 2:
+                        relativeLayout.setBackgroundResource(R.mipmap.guide_page_3);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        linearLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                startActivity(new Intent(HomeActivity.this,LogActivity.class));
+                                finish();
+                            }
+                        });
+                        break;
+                };
+                GuidePageList.add(view);
+            }
+            PagerAdapter pagerAdapter=new PagerAdapter() {
+                // 获取要滑动的控件的数量，在这里我们以滑动的广告栏为例，那么这里就应该是展示的广告图片的ImageView数量
+                @Override
+                public int getCount() {
+                    return 3;
+                }
+
+                // 来判断显示的是否是同一张图片，这里我们将两个参数相比较返回即可
+                @Override
+                public boolean isViewFromObject(View arg0, Object arg1) {
+                    return arg0 == arg1;
+                }
+
+                // PagerAdapter只缓存三张要显示的图片，如果滑动的图片超出了缓存的范围，就会调用这个方法，将图片销毁
+                @Override
+                public void destroyItem(ViewGroup view, int position, Object object) {
+                    view.removeView(GuidePageList.get(position));
+                }
+
+                // 当要显示的图片可以进行缓存的时候，会调用这个方法进行显示图片的初始化，我们将要显示的ImageView加入到ViewGroup中，然后作为返回值返回即可
+                @Override
+                public Object instantiateItem(ViewGroup view, int position) {
+                    view.addView(GuidePageList.get(position));
+                    return GuidePageList.get(position);
+                }
+            };
+            mPager.setAdapter(pagerAdapter);
         }
     }
 

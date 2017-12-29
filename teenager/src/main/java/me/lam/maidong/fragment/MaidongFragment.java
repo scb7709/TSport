@@ -1,14 +1,9 @@
 package me.lam.maidong.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +18,10 @@ import java.util.Date;
 import java.util.List;
 
 import me.lam.maidong.R;
-import me.lam.maidong.activity.MainActivity;
 import me.lam.maidong.entity.dataResualtCallBack;
-import me.lam.maidong.entity.spvscl;
 import me.lam.maidong.myview.NoPreloadViewPager;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
-import me.lam.maidong.welcomepage.MyFragmentPagerAdapter;
 
 
 public class MaidongFragment extends Fragment {

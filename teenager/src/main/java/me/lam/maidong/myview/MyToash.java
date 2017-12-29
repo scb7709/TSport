@@ -17,6 +17,6 @@ public class MyToash {
     }
 
     public static  void  Log(String Message){
-        Log.i("myblue",Message);
+       // Log.i("myblue",Message);
     }
 }

@@ -1,4 +1,4 @@
-package me.lam.maidong.welcomepage;
+package me.lam.maidong.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

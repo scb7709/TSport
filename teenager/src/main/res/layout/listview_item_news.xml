@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#009ACD"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -23,7 +23,6 @@
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="12dp"
-            android:padding="3dp"
             android:src="@drawable/logo" />
 
         <LinearLayout
@@ -40,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="2"
-                android:text="zhishiyitiaozhixun"
+                android:text=""
                 android:textColor="#333333"
 
                 android:textSize="15sp" />
@@ -59,7 +58,7 @@
                     android:layout_alignParentTop="true"
                     android:ellipsize="end"
                     android:lines="2"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="12sp" />
 
                 <LinearLayout
@@ -89,5 +88,9 @@
         </LinearLayout>
     </LinearLayout>
 
-
+<View
+    android:layout_width="match_parent"
+    android:layout_height="10dp"
+    android:background="#c6eaf9"
+    ></View>
 </LinearLayout>
