@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -85,7 +84,7 @@ public class CalendarActivity extends BaseActivity {
         }
         //位置移到上次点击的月份 默认今天
 
-        String date = ShareUitls.getString(activity, "CLICKDADE", dformatHaveDay.format(new Date()));
+        String   date = ShareUitls.getString(activity, "CLICKDADE", dformatHaveDay.format(new Date()));
         try {
             date = date.substring(0, 7);
         } catch (StringIndexOutOfBoundsException e) {
