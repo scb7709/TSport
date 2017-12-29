@@ -58,7 +58,7 @@ public class CalendarActivity extends BaseActivity {
         x.view().inject(this);
         LinearLayout.LayoutParams linearParamsall = (LinearLayout.LayoutParams) noPreloadViewPager.getLayoutParams();
         activity = this;
-        linearParamsall.height= GetWindowSize.getInstance(activity).getGetWindowwidth()- ImageUtil.dp2px(activity,20);
+        linearParamsall.height = GetWindowSize.getInstance(activity).getGetWindowwidth() - ImageUtil.dp2px(activity, 20);
         noPreloadViewPager.setLayoutParams(linearParamsall);
 
 
@@ -84,7 +84,12 @@ public class CalendarActivity extends BaseActivity {
 
         }
         //位置移到上次点击的月份 默认今天
-        String date = ShareUitls.getString(activity, "CLICKDADE", dformatHaveDay.format(new Date())).substring(0, 7);
+
+        String date = ShareUitls.getString(activity, "CLICKDADE", dformatHaveDay.format(new Date()));
+        try {
+            date = date.substring(0, 7);
+        } catch (StringIndexOutOfBoundsException e) {
+        }
         int CurrentItem = 36;
         for (int i = 0; i < 48; i++) {
             if (date.equals(dateList.get(i))) {
@@ -121,7 +126,7 @@ public class CalendarActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.bt_recent:
-                if(MainActivity.activity!=null){
+                if (MainActivity.activity != null) {
                     MainActivity.activity.finish();
                 }
                 String recent = ShareUitls.getString(getApplicationContext(), "recent", "null");

@@ -18,10 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
+
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
 import me.lam.maidong.R;
 import me.lam.maidong.activity.WebViewActivity;
 import me.lam.maidong.adapter.NewsRecyclerViewAdapter;
@@ -56,14 +59,16 @@ public class NewsActivityFragment2 extends LazyFragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            int possition = msg.arg1;
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), WebViewActivity.class);
-            intent.putExtra("title","资讯详情");//
-            //http://www.ssp365.com/ArticleView.aspx?id=123
-
-            intent.putExtra("URL",Constant.WEBVIEW+"ArticleView.aspx?id="+NewsList.getInstance().newsListEntities.get(possition).getID());
-            startActivity(intent);
+            try {
+                int possition = msg.arg1;
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), WebViewActivity.class);
+                intent.putExtra("title", "资讯详情");//
+                //http://www.ssp365.com/ArticleView.aspx?id=123
+                intent.putExtra("URL", Constant.WEBVIEW + "ArticleView.aspx?id=" + NewsList.getInstance().newsListEntities.get(possition).getID());
+                startActivity(intent);
+            } catch (IndexOutOfBoundsException e) {
+            }
         }
     };
 
@@ -112,7 +117,7 @@ public class NewsActivityFragment2 extends LazyFragment {
             public void onRefresh() {
                 frgment_news_SwipeRefreshLayout.setRefreshing(true);
                 NewsList.getInstance().newsListEntities.clear();
-                flag="Refreshing";
+                flag = "Refreshing";
                 getNews();
             }
         });
@@ -122,8 +127,8 @@ public class NewsActivityFragment2 extends LazyFragment {
                 new EndLessOnScrollListener(linearLayoutManager) {
                     @Override
                     public void onLoadMore(int currentPage) {
-                        if (NewsList.getInstance().newsListEntities.size()!=0) {
-                            flag="loadmore";
+                        if (NewsList.getInstance().newsListEntities.size() != 0) {
+                            flag = "loadmore";
                             getNews();
                         }
                         ;
@@ -165,18 +170,18 @@ public class NewsActivityFragment2 extends LazyFragment {
                 ((LinearLayoutManager) frgment_news_recyclerView.getLayoutManager()).scrollToPositionWithOffset(lastPosition, lastOffset);
             }
         } else {
-            flag="first";
+            flag = "first";
             getNews();
         }
     }
 
     private void getNews() {
         String url = "GetNews";
-        Log.i("myblue",flag+"  "+NewsList.getInstance().newsListEntities.size()+"  ");
+        Log.i("myblue", flag + "  " + NewsList.getInstance().newsListEntities.size() + "  ");
 
         if (flag.equals("loadmore")) {
-            url=url+"/?Date="+NewsList.getInstance().newsListEntities.get(NewsList.getInstance().newsListEntities.size()-1).getArticleModified();
-            Log.i("myblue",flag+"  "+NewsList.getInstance().newsListEntities.size()+"  "+NewsList.getInstance().newsListEntities.get(NewsList.getInstance().newsListEntities.size()-1).getArticleModified());
+            url = url + "/?Date=" + NewsList.getInstance().newsListEntities.get(NewsList.getInstance().newsListEntities.size() - 1).getArticleModified();
+            Log.i("myblue", flag + "  " + NewsList.getInstance().newsListEntities.size() + "  " + NewsList.getInstance().newsListEntities.get(NewsList.getInstance().newsListEntities.size() - 1).getArticleModified());
         }
         OKHttp.sendRequestRequestParams(getActivity(), "", true, url, new OKHttp.ResponseListener() {
             @Override
@@ -191,22 +196,22 @@ public class NewsActivityFragment2 extends LazyFragment {
 
 
                 if (news != null) {
-                    if (news.getStatus() == 1&&news.getNewsList().size()!=0) {
+                    if (news.getStatus() == 1 && news.getNewsList().size() != 0) {
                         if (NewsList.getInstance().newsListEntities.size() == 0) {
                             NewsList.getInstance().newsListEntities.addAll(news.getNewsList());
                             // newsListEntities = news.getNewsList();
                             newsRecyclerViewAdapter = new NewsRecyclerViewAdapter(NewsList.getInstance().newsListEntities, getActivity(), handler);
                             frgment_news_recyclerView.setAdapter(newsRecyclerViewAdapter);
                         } else {
-                            NewsList.getInstance().newsListEntities.addAll(NewsList.getInstance().newsListEntities.size(),news.getNewsList());
+                            NewsList.getInstance().newsListEntities.addAll(NewsList.getInstance().newsListEntities.size(), news.getNewsList());
                             newsRecyclerViewAdapter.notifyItemRangeInserted(NewsList.getInstance().newsListEntities.size(), news.getNewsList().size());
                         }
 
 
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -69,12 +69,12 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    Log.i("mOnItemClickListener", "mOnItemClickListener");
+                    Message message = Message.obtain();
+                    message.arg1 = position;
+                    message.arg2 = 0;
+                    handler.sendMessage(message);
 
-                Log.i("mOnItemClickListener", "mOnItemClickListener");
-                Message message = Message.obtain();
-                message.arg1 = position;
-                message.arg2 = 0;
-                handler.sendMessage(message);
             }
         });
 
@@ -102,9 +102,9 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
     }
 
     private void initializeViews(final newsEntity.NewsListEntity object, NewsViewHolder holder) {
-        String url =object.getImgUrl();
+        String url = object.getImgUrl();
         Picasso.with(activity)
-                .load((url == null||url.length()==0) ? "11" : url)//图片网址
+                .load((url == null || url.length() == 0) ? "11" : url)//图片网址
                 .placeholder(R.drawable.logo)//默认图标
                 .into(holder.imageView1);//控件
 
