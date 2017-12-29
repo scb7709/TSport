@@ -166,6 +166,9 @@ public class UpdateService extends Service {
      */
     private PendingIntent getContentIntent() {
        /* Log.e("tag", "getContentIntent()");
+
+
+
         File apkFile = new File(filePath);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
