@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.os.Message;
-
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -20,7 +18,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,13 +26,12 @@ import me.lam.maidong.R;
 import me.lam.maidong.entity.NewLogCallBack;
 import me.lam.maidong.entity.PublicDataClass;
 import me.lam.maidong.entity.VersionClass;
-
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
 
 
 
-public class HomeActivity extends OriginalActivity {
+public class HomeActivity extends Activity {
     ViewPager mPager;
     ArrayList<View> GuidePageList;
     TimerTask timerTask = new TimerTask() {
@@ -95,10 +91,10 @@ public class HomeActivity extends OriginalActivity {
                         relativeLayout.setBackgroundResource(R.mipmap.guide_page_1);
                         break;
                     case 1:
-                        relativeLayout.setBackgroundResource(R.mipmap.guide_page_2);
+                        relativeLayout.setBackgroundResource(R.mipmap.guide_page_3);
                         break;
                     case 2:
-                        relativeLayout.setBackgroundResource(R.mipmap.guide_page_3);
+                        relativeLayout.setBackgroundResource(R.mipmap.guide_page_2);
                         linearLayout.setVisibility(View.VISIBLE);
                         linearLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -108,7 +104,7 @@ public class HomeActivity extends OriginalActivity {
                             }
                         });
                         break;
-                };
+                }
                 GuidePageList.add(view);
             }
             PagerAdapter pagerAdapter=new PagerAdapter() {

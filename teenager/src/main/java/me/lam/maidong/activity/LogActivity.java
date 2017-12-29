@@ -3,15 +3,10 @@ package me.lam.maidong.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-
-import android.support.v4.app.FragmentActivity;
-
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +17,8 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import me.lam.maidong.R;
+import me.lam.maidong.myview.ClearEditText;
+import me.lam.maidong.myview.VisibleEditText;
 import me.lam.maidong.utils.ShareUitls;
 
 @ContentView(R.layout.activity_log)
@@ -35,9 +32,9 @@ public class LogActivity extends OriginalActivity {
     @ViewInject(R.id.imageView)
     ImageView imageView;
     @ViewInject(R.id.et_phone)
-    EditText etPhone;
+    ClearEditText etPhone;
     @ViewInject(R.id.et_pwd)
-    EditText etPwd;
+    VisibleEditText etPwd;
     Boolean miandenglu = false;
     Boolean firstLog = false;
 

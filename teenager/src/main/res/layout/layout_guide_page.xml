@@ -9,11 +9,11 @@
     <LinearLayout
         android:id="@+id/layout_guide_page_go"
         android:orientation="horizontal"
-        android:layout_width="100dp"
+        android:layout_width="200dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="80dp"
-        android:layout_height="25dp"
+        android:layout_marginBottom="60dp"
+        android:layout_height="40dp"
         android:background="@drawable/layout"
         android:visibility="gone"
         >

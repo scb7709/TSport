@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -13,8 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
-
-
 
 import org.xutils.HttpManager;
 import org.xutils.common.Callback;
@@ -48,7 +45,7 @@ public class UpdateService extends Service {
         if (!DOWNLOADING) {
             notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             //  filePath = Environment.getExternalStorageDirectory()+"/AppUpdate/czhappy.apk";
-            File tempfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/maidong/apk/" + new Date().getTime() + "Version");
+            File tempfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/maidongteenager/apk/" + new Date().getTime() + "Version");
             if (!tempfile.exists()) {
                 tempfile.mkdirs();
             }
