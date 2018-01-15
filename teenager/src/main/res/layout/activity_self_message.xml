@@ -38,11 +38,16 @@
                 android:textColor="#666666"
                 android:textSize="15sp" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></View>
+
             <TextView
                 android:id="@+id/data_name"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="240dp"
+                android:layout_marginRight="15dp"
                 android:gravity="center_vertical|end"
 
                 android:text="25mb"
@@ -79,12 +84,15 @@
                 android:text="性别"
                 android:textColor="#666666"
                 android:textSize="15sp" />
-
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></View>
             <TextView
                 android:id="@+id/data_sex"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="240dp"
+                android:layout_marginRight="15dp"
                 android:gravity="center_vertical|end"
 
                 android:text="男"
@@ -120,15 +128,17 @@
                 android:text="年龄"
                 android:textColor="#666666"
                 android:textSize="15sp" />
-
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></View>
             <TextView
                 android:id="@+id/data_age"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="240dp"
                 android:gravity="center_vertical|end"
-
                 android:text="14岁"
+                android:layout_marginRight="15dp"
                 android:textColor="#aaaaaa"
                 android:textSize="15dp" />
 
@@ -161,12 +171,15 @@
                 android:text="身高"
                 android:textColor="#666666"
                 android:textSize="15sp" />
-
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></View>
             <TextView
                 android:id="@+id/data_high"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="240dp"
+                android:layout_marginRight="15dp"
                 android:gravity="center_vertical|end"
 
                 android:text="160cm"
@@ -202,14 +215,17 @@
                 android:text="体重"
                 android:textColor="#666666"
                 android:textSize="15sp" />
-
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></View>
             <TextView
                 android:id="@+id/data_weight"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="240dp"
-                android:gravity="center_vertical|end"
 
+                android:gravity="center_vertical|end"
+android:layout_marginRight="15dp"
                 android:text="45kg"
                 android:textColor="#aaaaaa"
                 android:textSize="15dp" />

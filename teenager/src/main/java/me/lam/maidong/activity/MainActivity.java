@@ -1,9 +1,7 @@
 package me.lam.maidong.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,19 +17,18 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import me.lam.maidong.R;
-import me.lam.maidong.fragment.MaidongFragment;
-
 import me.lam.maidong.entity.msgCallBack;
 import me.lam.maidong.fragment.AnalizeFragment;
+import me.lam.maidong.fragment.MaidongFragment;
 import me.lam.maidong.fragment.NewsActivityFragment2;
 import me.lam.maidong.fragment.SelfActivityFragment;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
 import me.lam.maidong.utils.UpadteApp;
@@ -145,7 +142,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
                 NewsActivityFragment2 newsActivityFragment2 = new NewsActivityFragment2();
-                changeFragment(newsActivityFragment2, "NewsActivityFragment2");
+               changeFragment(newsActivityFragment2, "NewsActivityFragment2");
                 break;
             case R.id.activity_main_my:
                 xiaoxi.setVisibility(View.GONE);
@@ -197,7 +194,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         MainActivity.this.startActivity(intent);
                         return;
                     } else {
-                        Log.e("res", "获取新闻失败" + "正在请求");
+                     //   Log.e("res", "获取新闻失败" + "正在请求");
                     }
 
                 }
@@ -205,9 +202,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
             @Override
             public void onErrorResponse() {
-
-                Toast.makeText(MainActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
-
+                MyToash.ToashNoNet(activity);
             }
         });
     }
@@ -228,7 +223,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (System.currentTimeMillis() - temptime > 2000) // 2s内再次选择back键有效
             {
                 System.out.println(Toast.LENGTH_LONG);
-                Toast.makeText(this, "请再按一次返回退出", Toast.LENGTH_SHORT).show();
+                MyToash.Toash(activity,"请再按一次返回退出");
+
                 temptime = System.currentTimeMillis();
             } else {
                 finish();

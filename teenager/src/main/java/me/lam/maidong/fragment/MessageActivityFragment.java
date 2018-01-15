@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +30,8 @@ public class MessageActivityFragment extends Fragment {
     }
     @SuppressLint("ValidFragment")
     public MessageActivityFragment(msgCallBack news) {
-        Log.e("ffff", news.getMessageList().size() + "传递过来的");
-        this.news = news;
+      ///  Log.e("ffff", news.getMessageList().size() + "传递过来的");
+        MessageActivityFragment.news = news;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

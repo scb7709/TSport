@@ -1,34 +1,25 @@
 package me.lam.maidong.fragment;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import org.xutils.http.RequestParams;
-
 import java.util.ArrayList;
-
 
 import me.lam.maidong.R;
 import me.lam.maidong.adapter.MyFragmentPagerAdapter;
 import me.lam.maidong.entity.spvscl;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.myview.NoPreloadViewPager;
-
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
 
@@ -100,7 +91,6 @@ public class AnalizeFragment extends Fragment {
             InitViewPager(spvscl);
         } else {
             getData();
-            ;
         }
 
 
@@ -173,8 +163,8 @@ public class AnalizeFragment extends Fragment {
            arg0 :当前页面，及你点击滑动的页面
            arg1:当前页面偏移的百分比
            arg2:当前页面偏移的像素位置 *//**//**/
-            Log.e("huadong", "onPageScrolled？");
-            Log.e("huadong", vPager.getCurrentItem() + "---------onPageScrolled");
+           // Log.e("huadong", "onPageScrolled？");
+          //  Log.e("huadong", vPager.getCurrentItem() + "---------onPageScrolled");
         }
 
 
@@ -196,11 +186,11 @@ public class AnalizeFragment extends Fragment {
         OKHttp.sendRequestRequestParams(getActivity(), "", true, url, new OKHttp.ResponseListener() {
             @Override
             public void onResponse(String response) {
-                Log.i("getspvscl", response.toString());
+               // Log.i("getspvscl", response.toString());
                // try {
                     spvscl spvscl = new Gson().fromJson(response, spvscl.class);
 
-                    Log.i("getspvscl", response.toString());
+                //    Log.i("getspvscl", response.toString());
                     if (spvscl != null) {
                         ShareUitls.putString(getActivity(), "analizedata", response);
                         ShareUitls.putString(getActivity(), "analizeflag", "0");
@@ -212,8 +202,8 @@ public class AnalizeFragment extends Fragment {
 
             @Override
             public void onErrorResponse() {
+                MyToash.ToashNoNet(getActivity());
 
-                Toast.makeText(getActivity(), "网络请求失败", Toast.LENGTH_SHORT).show();
 
             }
         });

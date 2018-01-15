@@ -1,17 +1,9 @@
 package me.lam.maidong.activity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -20,12 +12,9 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import me.lam.maidong.R;
 import me.lam.maidong.entity.SelfDetailCallBack;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
 
@@ -82,26 +71,28 @@ public class SelfDetailActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
 
-                Log.i("getAsynHttp", response.toString());
+             //   Log.i("getAsynHttp", response.toString());
 
                 dataRes = new Gson().fromJson(response, SelfDetailCallBack.class);
-                dataName.setText(dataRes.getStudentName() + "");
-                if (dataRes.getSex() == 1) {
-                    dataSex.setText("男");
-                } else {
-                    dataSex.setText("女");
+                if(dataRes!=null){
+                    ShareUitls.putString(SelfDetailActivity.this,"mydata",response);
+                    dataName.setText(dataRes.getStudentName() + "");
+
+                    if (dataRes.getSex() == 1) {
+                        dataSex.setText("男");
+                    } else {
+                        dataSex.setText("女");
+                    }
+                    dataAge.setText(dataRes.getAge() + "岁");
+                    dataHigh.setText(dataRes.getHeight() + "cm");
+                    dataWeight.setText(dataRes.getWeight() + "kg");
                 }
-
-                dataAge.setText(dataRes.getAge() + "岁");
-                dataHigh.setText(dataRes.getHeight() + "cm");
-                dataWeight.setText(dataRes.getWeight() + "kg");
-
             }
 
             @Override
             public void onErrorResponse() {
-
-                Toast.makeText(SelfDetailActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
+                MyToash.ToashNoNet(SelfDetailActivity.this);
+                //Toast.makeText(SelfDetailActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
 
 
 

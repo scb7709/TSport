@@ -2,26 +2,17 @@ package me.lam.maidong.utils;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
-import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.IOException;
-import java.util.Map;
-
 import me.lam.maidong.activity.LogActivity;
 import me.lam.maidong.entity.PublicDataClass;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 
 /**
@@ -247,6 +238,7 @@ public class OKHttp {
 
 */
         } else {
+            responseListener.onErrorResponse();
             if (dialogMessage.equals("Login")) {
                 activity.startActivity(new Intent(activity, LogActivity.class));
                 activity.finish();

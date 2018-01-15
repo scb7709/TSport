@@ -1,7 +1,6 @@
 package me.lam.maidong.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,8 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +34,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +41,7 @@ import java.util.List;
 import me.lam.maidong.R;
 import me.lam.maidong.activity.WebViewActivity;
 import me.lam.maidong.circle.RoundProgressBar;
-
 import me.lam.maidong.entity.dataResualtCallBack;
-
 import me.lam.maidong.myview.NoPreloadViewPager;
 import me.lam.maidong.utils.Constant;
 import tech.linjiang.suitlines.SuitLines;
@@ -234,7 +228,7 @@ public class MaiDongActivityFragment extends Fragment {
         activity_main_title_right = (TextView) getActivity().findViewById(R.id.activity_main_title_right);
         activity_main_title_left = (TextView) getActivity().findViewById(R.id.activity_main_title_left);
         BarChatIaitialize();
-        Log.i("DailySportsize4", size+"  "+location);
+     //   Log.i("DailySportsize4", size+"  "+location);
         setData();
     }
 
@@ -303,15 +297,15 @@ public class MaiDongActivityFragment extends Fragment {
         }
         setTitle(location, size);
             if (((dailySportEntity.SportDayInfo==null||dailySportEntity.SportDayInfo.DurationList.length == 0 || dailySportEntity.SportDayInfo.IntermitDurations.length == 0) && location == 0)) {
-                Log.i("myblue","1");
+               // Log.i("myblue","1");
                 return;
 
             }
         if (((dailySportEntity.HeartRateTable== null || dailySportEntity.HeartRateTable.size() == 0) && location != 0)) {
-            Log.i("myblue","2");
+         //   Log.i("myblue","2");
             return;
         }
-        Log.i("myblue","3");
+        //Log.i("myblue","3");
 
         int allTime = dailySportEntity.TotalTime/ 60;
         int youxiao = dailySportEntity.ValidTime;
@@ -336,9 +330,9 @@ public class MaiDongActivityFragment extends Fragment {
         TotalHighRateTime.setText(totalHighRateTime + "%");
         pingjia.setBackgroundResource(R.drawable.layout);
         //柱状图
-        Log.i("myblue", dailySportEntity.TotalLowRateTime + "   " + dailySportEntity.TotalMediumRateTime + "  " + dailySportEntity.TotalHighRateTime);
+      //  Log.i("myblue", dailySportEntity.TotalLowRateTime + "   " + dailySportEntity.TotalMediumRateTime + "  " + dailySportEntity.TotalHighRateTime);
         if (dailySportEntity.TotalLowRateTime == 0 && dailySportEntity.TotalMediumRateTime == 0 && dailySportEntity.TotalHighRateTime == 0) {
-            Log.i("myblue", "quanshiO");
+         //   Log.i("myblue", "quanshiO");
             fragment_maidong_barChart.setVisibility(View.INVISIBLE);
         } else {
             fragment_maidong_barChart.setVisibility(View.VISIBLE);
@@ -399,7 +393,7 @@ public class MaiDongActivityFragment extends Fragment {
                 View fragment_mai_dongnew_time_view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_mai_dongnew_time_view, null);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
                 ImageView fragment_mai_dongnew_view_man = (ImageView) fragment_mai_dongnew_time_view.findViewById(R.id.fragment_mai_dongnew_view_man);
-                View fragment_mai_dongnew_view_round = (View) fragment_mai_dongnew_time_view.findViewById(R.id.fragment_mai_dongnew_view_round);
+                View fragment_mai_dongnew_view_round = fragment_mai_dongnew_time_view.findViewById(R.id.fragment_mai_dongnew_view_round);
                 TextView fragment_mai_dongnew_view_time = (TextView) fragment_mai_dongnew_time_view.findViewById(R.id.fragment_mai_dongnew_view_time);
                 fragment_mai_dongnew_view_man.setImageResource(manid[j]);
 
@@ -459,7 +453,7 @@ public class MaiDongActivityFragment extends Fragment {
                 //  point2.add(dataRes.getDailySport().get(i).getHeartRateTable().get(t).getRate());
                 if (t == 3) {
                     times.add(dailySportEntity.HeartRateTable.get(t).SportTime);
-                    Log.i("times.get", "" + times.get(0));
+                //    Log.i("times.get", "" + times.get(0));
                     t0.setText(times.get(0));
                     // t0.setText(times.get(0).substring(11, 16));
                 }

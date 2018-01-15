@@ -2,28 +2,21 @@ package me.lam.maidong.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Notification;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,12 +27,9 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.lam.maidong.R;
-import me.lam.maidong.circle.RoundProgressBar;
-import me.lam.maidong.circle.RoundProgressBar2;
 import me.lam.maidong.entity.spvscl;
 import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.utils.ImageUtil;
-import me.lam.maidong.utils.StringForTime;
 
 
 public class ClFragment extends Fragment {
@@ -87,7 +77,7 @@ public class ClFragment extends Fragment {
     TextView t6;
     @InjectView(R.id.t7)
     TextView t7;
-    private TextView botomLin;
+  //  private TextView botomLin;
     View view;
     List<Button> bts = null;
     List<TextView> ts = null;
@@ -101,7 +91,7 @@ public class ClFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_layout_cl, null);
         ButterKnife.inject(this, view);
 
-        botomLin = (TextView) view.findViewById(R.id.t1);
+      //  botomLin = (TextView) view.findViewById(R.id.t1);
         mRoundProgressBar4 = (RelativeLayout) getActivity().findViewById(R.id.roundProgressBar4);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.view);
         activity=getActivity();
@@ -164,7 +154,7 @@ public class ClFragment extends Fragment {
 
 
             mRoundProgressBar4 = (RelativeLayout) getActivity().findViewById(R.id.roundProgressBar4);
-           // Log.e("mRoundProgressBar4", mRoundProgressBar4.getHeight() + "::::::" + mRoundProgressBar4.getWidth());
+            // Log.e("mRoundProgressBar4", mRoundProgressBar4.getHeight() + "::::::" + mRoundProgressBar4.getWidth());
 
             mRoundProgressBar4.addView(new MyTestView(getActivity()));
 
@@ -208,7 +198,7 @@ public class ClFragment extends Fragment {
         public draw(Context context, String data, int x, int y) {
             super(context);
             setWillNotDraw(false);
-            Log.e("0000", x + "开始画了---1111" + y + "开始画了");
+            //Log.e("0000", x + "开始画了---1111" + y + "开始画了");
 
             this.data =data;
             this.x = x;
@@ -219,7 +209,7 @@ public class ClFragment extends Fragment {
         public void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
-            Log.e("0000", x + "开始画了---22222" + y + "开始画了");
+           // Log.e("0000", x + "开始画了---22222" + y + "开始画了");
             Paint paint = new Paint();
             paint.setStyle(Paint.Style.FILL);
             paint.setAntiAlias(true);
@@ -245,77 +235,53 @@ public class ClFragment extends Fragment {
 
     }
 
-   // int x;
-  //  int y;
-  //  int bootom;
-int gap;
-   // int top;
-   // int count;
+    // int x;
+    //  int y;
+    //  int bootom;
+    int gap;
+    // int top;
+    // int count;
     int mRoundProgressBar4x;
     int mRoundProgressBar4y;
     int mRoundProgressBargap;
     public Handler h = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 1) {
-                if (mRoundProgressBar4.getWidth() != 0 && mRoundProgressBar4.getHeight() != 0 && relativeLayout.getWidth() != 0 && relativeLayout.getHeight() != 0 && zhu.getWidth() != 0 && zhu.getHeight() != 0 && botomLin.getWidth() != 0 && botomLin.getHeight() != 0) {
-                    int[] mRoundProgressBar4xlocation = new int[2];
-                    mRoundProgressBar4.getLocationOnScreen(mRoundProgressBar4xlocation);
-                    mRoundProgressBar4x = mRoundProgressBar4xlocation[0];
-                    mRoundProgressBar4y = mRoundProgressBar4xlocation[1];
-                    mRoundProgressBargap = mRoundProgressBar4.getWidth();
-                   // Log.e("zuobiao", "zhux:" + mRoundProgressBar4x + "zhuy:" + mRoundProgressBar4y + "mRoundProgressBargap" + mRoundProgressBargap);
-                  //  Log.e("zuobiao", "zhuLeft：" + mRoundProgressBar4.getLeft() + "zhuRight：" + mRoundProgressBar4.getRight() + "zhuTop：" + mRoundProgressBar4.getTop() + "zhuBottom：" + zhu.getBottom());
+            try {
+                if (msg.what == 1) {//&& botomLin.getWidth() != 0 && botomLin.getHeight() != 0
+                    if (mRoundProgressBar4.getWidth() != 0 && mRoundProgressBar4.getHeight() != 0 && relativeLayout.getWidth() != 0 && relativeLayout.getHeight() != 0 && zhu.getWidth() != 0 && zhu.getHeight() != 0 ) {
+                        int[] mRoundProgressBar4xlocation = new int[2];
+                        mRoundProgressBar4.getLocationOnScreen(mRoundProgressBar4xlocation);
+                        mRoundProgressBar4x = mRoundProgressBar4xlocation[0];
+                        mRoundProgressBar4y = mRoundProgressBar4xlocation[1];
+                        mRoundProgressBargap = mRoundProgressBar4.getWidth();
+                        int[] location666 = new int[2];
+                        relativeLayout.getLocationOnScreen(location666);
+                        daohangHigh = location666[1];
+                        int[] location = new int[2];
+                        zhu.getLocationOnScreen(location);
+                       // int[] location0 = new int[2];
+                       // botomLin.getLocationOnScreen(location0);
+                        gap = zhu.getHeight();
+                        List<spvscl.DataEntity.DetailEntity> detailEntities = spcl.getData().getDetail();
+                        double temp2 = Double.parseDouble(spcl.getData().getSummary().get(0).getMaxCalory());
+                        if (temp2 != 0) {
+                            for (int i = 0; i < detailEntities.size(); i++) {
+                                RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) bts.get(i).getLayoutParams();
+                                MyToash.Log("  cl=" + temp2 + "   " + Double.parseDouble(detailEntities.get(i).getCalory()));
+                                linearParams.height = (int) (gap * (Double.parseDouble(detailEntities.get(i).getCalory()) / (temp2))); //
+                                bts.get(i).setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
+                                ts.get(i).setText(detailEntities.get(i).getDay());
 
-
-                    int[] location666 = new int[2];
-                    relativeLayout.getLocationOnScreen(location666);
-                    daohangHigh = location666[1];
-
-                    int[] location = new int[2];
-                    zhu.getLocationOnScreen(location);
-                   // x = location[0];
-                  //  y = location[1];
-                    //Log.e("zuobiao", "zhux:" + x + "zhuy:" + y);
-                   // Log.e("zuobiao", "zhuLeft：" + zhu.getLeft() + "zhuRight：" + zhu.getRight() + "zhuTop：" + zhu.getTop() + "zhuBottom：" + zhu.getBottom());
-
-                    int[] location0 = new int[2];
-                    botomLin.getLocationOnScreen(location0);
-                  //  int x0 = location0[0];
-                  //  int y0 = location0[1];
-                    //Log.e("zuobiao", "botomLinx1:" + x0 + "botomLiny1:" + y0);
-                   // Log.e("zuobiao", "botomLint1：" + botomLin.getLeft() + "botomLinRight：" + botomLin.getRight() + "botomLinTop：" + botomLin.getTop() + "botomLinBottom：" + botomLin.getBottom());
-                   // bootom = zhu.getTop();
-                    //top = botomLin.getTop();
-                   // gap = (botomLin.getTop() - zhu.getTop());
-
-                    gap = zhu.getHeight();
-                    List<spvscl.DataEntity.DetailEntity>  detailEntities= spcl.getData().getDetail();
-                    double temp2=Double.parseDouble(spcl.getData().getSummary().get(0).getMaxCalory() );
-                   /* for (int i = 0; i < detailEntities.size(); i++) {
-                        Log.e("zhixin???", "gap:==");
-                        FrameLayout.LayoutParams linearParams = (FrameLayout.LayoutParams) bts.get(i).getLayoutParams();
-                        // 取控件aaa当前的布局参数
-                        double temp=Double.parseDouble(detailEntities.get(i).getCalory() );
-                        linearParams.height = (int) (gap * temp/ temp2); // 当控件的高强制设成365象素
-                        bts.get(i).setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
-                        ts.get(i).setText(spcl.getData().getDetail().get(i).getDay());
-
-                    }*/
-                    if(temp2!=0) {
-                        for (int i = 0; i < detailEntities.size(); i++) {
-                            RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) bts.get(i).getLayoutParams();
-                            MyToash.Log("  cl="+temp2+"   "+Double.parseDouble(detailEntities.get(i).getCalory()));
-                            linearParams.height = (int) (gap * (Double.parseDouble(detailEntities.get(i).getCalory()) / (temp2))); //
-                            bts.get(i).setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
-                            ts.get(i).setText(detailEntities.get(i).getDay());
-
+                            }
                         }
-                    }
 
-                } else {
-                    h.sendEmptyMessageDelayed(1, 1);
+                    } else {
+                        h.sendEmptyMessageDelayed(1, 1);
+                    }
                 }
+            }catch (Exception e){
+                h.sendEmptyMessageDelayed(1, 1);
             }
         }
     };

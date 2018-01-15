@@ -5,16 +5,12 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 
 import com.lidroid.xutils.BitmapUtils;
 import com.squareup.picasso.Picasso;
@@ -22,14 +18,10 @@ import com.squareup.picasso.Picasso;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.lam.maidong.R;
-import me.lam.maidong.entity.msgCallBack;
 import me.lam.maidong.entity.newsEntity;
-import me.lam.maidong.myview.MyToash;
-import me.lam.maidong.utils.Constant;
 
 
 /**
@@ -50,7 +42,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
         this.handler = handler;
         bitmapUtils = new BitmapUtils(activity);
 
-        Log.i("messageListlist", newsListEntities.size() + "   " + newsListEntities.toString());
+       // Log.i("messageListlist", newsListEntities.size() + "   " + newsListEntities.toString());
     }
 
     @Override
@@ -69,7 +61,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Log.i("mOnItemClickListener", "mOnItemClickListener");
+                   // Log.i("mOnItemClickListener", "mOnItemClickListener");
                     Message message = Message.obtain();
                     message.arg1 = position;
                     message.arg2 = 0;
@@ -108,7 +100,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
                 .placeholder(R.drawable.logo)//默认图标
                 .into(holder.imageView1);//控件
 
-        MyToash.Log("messageListlist   ==" + url);
+      //  MyToash.Log("messageListlist   ==" + url);
         // bitmapUtils.display(holder.imageView1, object.getImgUrl());
         //  bitmapUtils.
        /* holder.imageView1.setImageBitmap(drawableToBitamp());*/
@@ -129,7 +121,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsViewHolder
             @Override
             public void onClick(View v) {
 
-                Log.e("ffff", object.getArticleCategoryID() + "点击了listview中的按钮");
+               // Log.e("ffff", object.getArticleCategoryID() + "点击了listview中的按钮");
             }
         });
 

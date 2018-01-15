@@ -1,15 +1,11 @@
 package me.lam.maidong.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -17,13 +13,11 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.RegEntity;
 import me.lam.maidong.selfdefine.PickerView;
-import me.lam.maidong.selfdefine.WheelView;
 
 @ContentView(R.layout.activity_age)
 public class AgeActivity extends BaseActivity {
@@ -47,19 +41,16 @@ public class AgeActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_age);
-
-
         x.view().inject(this);
         initialize();
 
     }
-
+//
 
     private void initialize() {
         view_publictitle_title.setText("青少年个人信息");
         regEntity = RegEntity.getInstance();
-        regEntity.RegActivityList.add(this);
+        RegEntity.RegActivityList.add(this);
         regEntity.setAge("12");
 
         List<String> data = new ArrayList<String>();

@@ -1,7 +1,6 @@
 package me.lam.maidong.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
-
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.msgCallBack;
@@ -54,13 +52,13 @@ public class NewsAdapter extends BaseAdapter {
 
             convertView.setTag(viewHolder);
         }
-        initializeViews((msgCallBack.MessageListEntity) getItem(position), (ViewHolder) convertView.getTag());
+        initializeViews(getItem(position), (ViewHolder) convertView.getTag());
         return convertView;
     }
 
     private void initializeViews(msgCallBack.MessageListEntity object, ViewHolder holder) {
 
-        Log.e("initializeViewsobject",object.toString());
+      //  Log.e("initializeViewsobject",object.toString());
         holder.imageView1.setImageResource(R.drawable.xiaoxi);
        /* holder.imageView1.setImageBitmap(drawableToBitamp());*/
         holder.textView1.setText(object.getMessageTitle());

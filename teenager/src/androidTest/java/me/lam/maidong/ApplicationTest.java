@@ -10,4 +10,8 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
     }
+
+
+
+    //monkey –p me.lam.maidong –v –v –v 50000 –throttle 5000>D:\monkey\test.txt
 }

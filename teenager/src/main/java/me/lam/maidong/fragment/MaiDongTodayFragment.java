@@ -2,7 +2,6 @@ package me.lam.maidong.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,18 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-/*import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ValueFormatter;*/
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -38,12 +28,16 @@ import me.lam.maidong.R;
 import me.lam.maidong.activity.WebViewActivity;
 import me.lam.maidong.circle.RoundProgressBar;
 import me.lam.maidong.entity.dataResualtCallBack;
-import me.lam.maidong.myview.HistogramButton;
-import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.myview.NoPreloadViewPager;
 import me.lam.maidong.utils.Constant;
-import tech.linjiang.suitlines.SuitLines;
-import tech.linjiang.suitlines.Unit;
+
+/*import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ValueFormatter;*/
 
 @ContentView(R.layout.fragment_mai_dong_today)
 public class MaiDongTodayFragment extends Fragment {
@@ -73,8 +67,8 @@ public class MaiDongTodayFragment extends Fragment {
     float hight;
     List<Button> BarChartList;
     int K = 20;
-   // private float[] innerRadii = {K, K, K, K, 0, 0, 0, 0};//内矩形 圆角半径
-   // private RoundRectShape roundRectShape;
+    // private float[] innerRadii = {K, K, K, K, 0, 0, 0, 0};//内矩形 圆角半径
+    // private RoundRectShape roundRectShape;
     @ViewInject(R.id.fragment_maidong_TotalTime)
     TextView TotalTime;
     //  @ViewInject(R.id.fragment_maidong_ValidRate)
@@ -115,8 +109,8 @@ public class MaiDongTodayFragment extends Fragment {
     TextView yundongpingjia;
 
     //心率
- //   List<String> times = new ArrayList<String>();
-  //  List<dataResualtCallBack.DailySportEntity.HeartRateTableEntity> heartRateTableEntityList;
+    //   List<String> times = new ArrayList<String>();
+    //  List<dataResualtCallBack.DailySportEntity.HeartRateTableEntity> heartRateTableEntityList;
 
 
 /*    @ViewInject(R.id.drawline)
@@ -256,7 +250,7 @@ public class MaiDongTodayFragment extends Fragment {
 
 
     private void setData() {
-      //  roundRectShape = new RoundRectShape(innerRadii, null, null); //无内矩形
+        //  roundRectShape = new RoundRectShape(innerRadii, null, null); //无内矩形
         BarChartList = new ArrayList<>();
         BarChartList.add(barChart_1);
         BarChartList.add(barChart_2);
@@ -288,7 +282,7 @@ public class MaiDongTodayFragment extends Fragment {
         TotalHighRateTime.setText(totalHighRateTime + "%");
         pingjia.setBackgroundResource(R.drawable.layout);
         //柱状图
-       // Log.i("myblue", dailySportEntity.TotalLowRateTime + "   " + dailySportEntity.TotalMediumRateTime + "  " + dailySportEntity.TotalHighRateTime);
+        // Log.i("myblue", dailySportEntity.TotalLowRateTime + "   " + dailySportEntity.TotalMediumRateTime + "  " + dailySportEntity.TotalHighRateTime);
 
         low = dailySportEntity.TotalLowRateTime;
         med = dailySportEntity.TotalMediumRateTime;
@@ -408,28 +402,32 @@ public class MaiDongTodayFragment extends Fragment {
     };
 
     private void BarChatSet() {
-        int public_barchat_layout_hight = public_barchat_layout.getHeight();
-        if (public_barchat_layout_hight != 0) {
-            for (int i = 0; i < 3; i++) {
-                Button button=BarChartList.get(i);
-                RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
-                switch (i){
-                    case 0:
-                        linearParams.height = (int) (public_barchat_layout_hight * low);
-                        break;
-                    case 1:
-                        linearParams.height = (int) (public_barchat_layout_hight * med);
-                        break;
-                    case 2:
-                        linearParams.height = (int) (public_barchat_layout_hight * hight);
-                        break;
+        try {
+            int public_barchat_layout_hight = public_barchat_layout.getHeight();
+            if (public_barchat_layout_hight != 0) {
+                for (int i = 0; i < 3; i++) {
+                    Button button = BarChartList.get(i);
+                    RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+                    switch (i) {
+                        case 0:
+                            linearParams.height = (int) (public_barchat_layout_hight * low);
+                            break;
+                        case 1:
+                            linearParams.height = (int) (public_barchat_layout_hight * med);
+                            break;
+                        case 2:
+                            linearParams.height = (int) (public_barchat_layout_hight * hight);
+                            break;
+                    }
+                    button.setLayoutParams(linearParams);
                 }
-                button.setLayoutParams(linearParams);
+            } else {
+                handler.sendEmptyMessageDelayed(0, 1);
             }
-        } else {
+
+        } catch (Exception e) {
             handler.sendEmptyMessageDelayed(0, 1);
         }
-
     }
 
     private String getChinese(int i, int size) {

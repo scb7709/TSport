@@ -1,12 +1,8 @@
 package me.lam.maidong.activity;
 
-import android.app.Activity;
-import android.app.Application;
 import android.app.Notification;
 import android.content.Context;
-import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
-import android.util.Log;
 
 import com.tencent.bugly.Bugly;
 import com.umeng.message.IUmengRegisterCallback;
@@ -19,8 +15,6 @@ import com.umeng.message.entity.UMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.x;
-
-import java.util.List;
 
 import me.lam.maidong.utils.ShareUitls;
 
@@ -45,12 +39,12 @@ public class MyAPP extends MultiDexApplication {
             @Override
             public void onSuccess(String deviceToken) {
                 ShareUitls.putString(getApplicationContext(), "token", deviceToken);
-                Log.i("myblue", deviceToken);
+              //  Log.i("myblue", deviceToken);
             }
 
             @Override
             public void onFailure(String s, String s1) {
-                Log.i("myblue", s + "  " + s1);
+               // Log.i("myblue", s + "  " + s1);
             }
         });
         mPushAgent.setMessageHandler(messageHandler);
@@ -98,7 +92,7 @@ public class MyAPP extends MultiDexApplication {
 
                 }
             } catch (JSONException e) {
-                Log.i("ASDFGJSONException", "ASDFGMsgtypeId");
+              //  Log.i("ASDFGJSONException", "ASDFGMsgtypeId");
 
                 e.printStackTrace();
             }

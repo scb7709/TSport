@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -146,11 +145,12 @@ public class HomeActivity extends Activity {
         OKHttp.sendRequestRequestParams(activity, flag, true, url, new OKHttp.ResponseListener() {
             @Override
             public void onResponse(String response) {
-                Log.i("getAsynHttp", response.toString());
+               // Log.i("getAsynHttp", response.toString());
                 NewLogCallBack logEntity = new Gson().fromJson(response, NewLogCallBack.class);
 
-                Log.i("Login", logEntity.toString() + "");
+              //  Log.i("Login", logEntity.toString() + "");
                 if (logEntity.MyStatus.equals("1")) {
+                    ShareUitls.putString(activity,"mydata","");// 我界面的缓存去掉
                     ShareUitls.putString(activity, "maidongflag", "1");//刷新首页数据
                     ShareUitls.putString(activity, "recent", logEntity.LastSportDay);//2017-08-10 logEntity.LastSportDay
                     ShareUitls.putString(activity, "LastSportDay",logEntity.LastSportDay);
@@ -183,14 +183,14 @@ public class HomeActivity extends Activity {
 
     public static void updateToken(final Activity TokenActivity, String Phone) {
         final String DeviceToken = ShareUitls.getString(TokenActivity, "token", "");
-        Log.i("updateToken", "ff   " + DeviceToken + "   " + Phone);
+       // Log.i("updateToken", "ff   " + DeviceToken + "   " + Phone);
         if (DeviceToken.length() != 0) {
-            Log.i("updateToken", "OK");
+          //  Log.i("updateToken", "OK");
             String url = "User?Mobile=" + Phone + "&DeviceToken=" + DeviceToken + "&DeviceType=1";
             OKHttp.sendRequestRequestParams(TokenActivity, "TokenActivity", false, url, new OKHttp.ResponseListener() {
                 @Override
                 public void onResponse(String response) {
-                    Log.i("updateToken", response);
+                 //   Log.i("updateToken", response);
                    /* try {
                         JSONObject jsonObject=new JSONObject(response);
 
@@ -223,7 +223,6 @@ String str="{\"VersionCode\":\"11\",\"VersionName\":\"3.0.0\",\"Description\":\"
         OKHttp.sendRequestRequestParamsNew(activity, "", false, url, new OKHttp.ResponseListenerNew() {
             @Override
             public void onResponse(String response, PublicDataClass.StatusModel statusModel) {
-                Log.i("mybluee", response);
                 if (statusModel.StatusCode == 1) {
                     if (response != null) {
                         VersionClass versionClass = new Gson().fromJson(response, VersionClass.class);

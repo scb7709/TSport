@@ -74,4 +74,5 @@ dependencies {
     compile project(':heartimage')
     compile project(':PushSDK')
     compile files('libs/picasso-2.5.2.jar')
+    compile files('libs/Amap_2DMap_V5.2.0_20170627.jar')
 }

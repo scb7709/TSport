@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -19,6 +17,7 @@ import java.util.List;
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.dataResualtCallBack;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.myview.NoPreloadViewPager;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
@@ -180,13 +179,13 @@ public class MaidongFragment extends Fragment {
 
     private void getOKHttp() {
         String LastSportDay = ShareUitls.getString(getActivity(), "LastSportDay", "");
-        Log.i("myblue", "" + LastSportDay+  "   "+EducationalCode);
+       // Log.i("myblue", "" + LastSportDay+  "   "+EducationalCode);
         String url = "NewSportDate/?EducationalCode=" + EducationalCode + "&Date=" + LastSportDay;
         OKHttp.sendRequestRequestParams(getActivity(), "", true, url, new OKHttp.ResponseListener() {
             @Override
             public void onResponse(String response) {
                 freash = true;
-                Log.i("myblue", "" + response);
+              //  Log.i("myblue", "" + response);
                 ShareUitls.putString(getActivity(), "maidongdata", response);
                 ShareUitls.putString(getActivity(), "maidongflag", "0");
                 InitViewPager(response);//
@@ -194,8 +193,8 @@ public class MaidongFragment extends Fragment {
 
             @Override
             public void onErrorResponse() {
-
-                Toast.makeText(getActivity(), "网络请求失败", Toast.LENGTH_SHORT).show();
+                MyToash.ToashNoNet(getActivity());
+               // Toast.makeText(getActivity(), "网络请求失败", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -217,13 +216,13 @@ public class MaidongFragment extends Fragment {
 
         @Override
         public int getCount() {
-            Log.e("tag", "getCount");
+         //   Log.e("tag", "getCount");
             return fragmentsList.size();
         }
 
         @Override
         public Fragment getItem(int arg0) {
-            Log.e("nage", arg0 + "");
+           // Log.e("nage", arg0 + "");
             return fragmentsList.get(arg0);
         }
 

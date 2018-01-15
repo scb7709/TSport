@@ -1,12 +1,10 @@
 package me.lam.maidong.fragment;
 
 import android.app.ProgressDialog;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.View;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import me.lam.maidong.R;
@@ -19,7 +17,7 @@ import me.lam.maidong.R;
         ProgressDialog pd;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            Log.e("huadong", "onCreateView");
+         //   Log.e("huadong", "onCreateView");
             View view = inflater.inflate(R.layout.quanzi,null);
             //XXX初始化view的各控件
             textView77= (TextView) view.findViewById(R.id.textView77);
@@ -46,7 +44,7 @@ import me.lam.maidong.R;
                     while (true) {
                         if (dd > 10) {
                             pd.dismiss();
-                            Log.e("huadong", "onPageSelected？ 循环结束"+dd);
+                          //  Log.e("huadong", "onPageSelected？ 循环结束"+dd);
 
                             return;
                         } else {

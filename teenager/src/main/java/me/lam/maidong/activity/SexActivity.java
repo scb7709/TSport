@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -20,6 +19,8 @@ import org.xutils.x;
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.RegEntity;
+import me.lam.maidong.myview.MyToash;
+
 @ContentView(R.layout.activity_sex)
 public class SexActivity extends BaseActivity {
     @ViewInject(R.id.img_female)
@@ -44,7 +45,7 @@ public class SexActivity extends BaseActivity {
 
     private void initialize() {
         regEntity =RegEntity.getInstance();
-        regEntity.RegActivityList.add(this);
+        RegEntity.RegActivityList.add(this);
 
     }
     long temptime;
@@ -57,7 +58,8 @@ public class SexActivity extends BaseActivity {
             if (System.currentTimeMillis() - temptime > 2000) // 2s内再次选择back键有效
             {
                 System.out.println(Toast.LENGTH_LONG);
-                Toast.makeText(this, "请再按一次返回退出", Toast.LENGTH_SHORT).show();
+                MyToash.Toash(SexActivity.this,"请再按一次返回退出");
+
                 temptime = System.currentTimeMillis();
             } else {
                 finish();

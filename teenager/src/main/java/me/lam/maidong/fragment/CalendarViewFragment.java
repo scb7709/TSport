@@ -2,26 +2,20 @@ package me.lam.maidong.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-
-import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +29,7 @@ import me.lam.maidong.ClenderUtil.WaitDialog;
 import me.lam.maidong.R;
 import me.lam.maidong.activity.MainActivity;
 import me.lam.maidong.entity.CalendarData;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.utils.DataString;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
@@ -112,7 +107,7 @@ public class CalendarViewFragment extends BaseFragment {
         public void clickDate(CustomDate date) {
             final String yearmonth = date.year + "-" + getNum(date.month);
             String yearmonthdate = yearmonth + "-" + getNum(date.day);
-            Log.i("myblue", yearmonthdate);
+         //   Log.i("myblue", yearmonthdate);
             if (DataString.isToDayDate(yearmonthdate + "") != 1&&((calendar.get(GregorianCalendar.MONTH)+1)==date.getMonth())) {//只能点击本月不大于今天的
                 if(MainActivity.activity!=null){
                     MainActivity.activity.finish();
@@ -123,7 +118,8 @@ public class CalendarViewFragment extends BaseFragment {
                 activity.startActivity(new Intent(activity, MainActivity.class));
                 activity.finish();
             } else if(DataString.isToDayDate(yearmonthdate + "") == 1){
-                Toast.makeText(activity, "暂无数据", Toast.LENGTH_SHORT).show();
+                MyToash.Toash(activity,"暂无数据");
+
             }else {
 
             }
@@ -156,7 +152,7 @@ public class CalendarViewFragment extends BaseFragment {
         OKHttp.sendRequestRequestParams(activity, "", false, url, new OKHttp.ResponseListener() {
             @Override
             public void onResponse(String response) {
-                Log.i("AAAAAATTTTTTTT", response + "  " + getdate(calendar));
+                //Log.i("AAAAAATTTTTTTT", response + "  " + getdate(calendar));
                 fragment_calendarview_layout.removeAllViews();
                 CalendarData calendarData = gson.fromJson(response, CalendarData.class);
                 list.clear();

@@ -12,13 +12,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,7 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import me.lam.maidong.R;
 import me.lam.maidong.circle.RoundProgressBar;
-import me.lam.maidong.entity.sevenDataTime;
 import me.lam.maidong.entity.spvscl;
 import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.utils.ImageUtil;
@@ -111,7 +108,7 @@ public class SportFragment extends Fragment implements View.OnClickListener {
     private TextView MaxTotalTime;
     private LinearLayout zhu;
     private TextView midleTime;
-    private TextView botomLin;
+    //  private TextView botomLin;
     View view;
     List<Button> btalls = null;
     List<TextView> ts = null;
@@ -140,7 +137,7 @@ public class SportFragment extends Fragment implements View.OnClickListener {
         MaxTotalTime = (TextView) view.findViewById(R.id.MaxTotalTime);
         midleTime = (TextView) view.findViewById(R.id.midleTime);
         zhu = (LinearLayout) view.findViewById(R.id.zhu);
-        botomLin = (TextView) view.findViewById(R.id.t1);
+        //  botomLin = (TextView) view.findViewById(R.id.t1);
         ButterKnife.inject(this, view);
         activity = getActivity();
         totalColar = activity.getResources().getColor(R.color.analizegray);
@@ -160,35 +157,34 @@ public class SportFragment extends Fragment implements View.OnClickListener {
     public Handler h = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            try {
+                if (msg.what == 1) {
+                    if (relativeLayout != null && zhu != null && relativeLayout.getWidth() != 0 && relativeLayout.getHeight() != 0 && zhu.getWidth() != 0 && zhu.getHeight() != 0) {
+                        int[] location666 = new int[2];
+                        relativeLayout.getLocationOnScreen(location666);
+                        daohangHigh = location666[1];
+                        int[] location = new int[2];
+                        zhu.getLocationOnScreen(location);
+                        //int[] location0 = new int[2];
+                        //  botomLin.getLocationOnScreen(location0);
+                        MaxHight = zhu.getHeight();
+                        for (int i = 0; i < detailBeanList.size(); i++) {
+                            RelativeLayout.LayoutParams linearParamsall = (RelativeLayout.LayoutParams) btalls.get(i).getLayoutParams();
+                            RelativeLayout.LayoutParams linearParamsshows = (RelativeLayout.LayoutParams) shows.get(i).getLayoutParams();
 
-            if (msg.what == 1) {
-                if (relativeLayout.getWidth() != 0 && relativeLayout.getHeight() != 0 && zhu.getWidth() != 0 && zhu.getHeight() != 0 && botomLin.getWidth() != 0 && botomLin.getHeight() != 0) {
-                    int[] location666 = new int[2];
-                    relativeLayout.getLocationOnScreen(location666);
-                    daohangHigh = location666[1];
-                    int[] location = new int[2];
-                    zhu.getLocationOnScreen(location);
-                    int[] location0 = new int[2];
-                    botomLin.getLocationOnScreen(location0);
-                    MaxHight = zhu.getHeight();
-                    ;
-                    for (int i = 0; i < detailBeanList.size(); i++) {
-                        RelativeLayout.LayoutParams linearParamsall = (RelativeLayout.LayoutParams) btalls.get(i).getLayoutParams();
-                        RelativeLayout.LayoutParams linearParamsshows = (RelativeLayout.LayoutParams) shows.get(i).getLayoutParams();
+                            if (MaxTime != 0) {
 
-                        if (MaxTime != 0) {
-
-                            int TotalTime = detailBeanList.get(i).getTotalTime();
-                            linearParamsshows.height = MaxHight * TotalTime / (MaxTime); //
-                            shows.get(i).setLayoutParams(linearParamsshows);
+                                int TotalTime = detailBeanList.get(i).getTotalTime();
+                                linearParamsshows.height = MaxHight * TotalTime / (MaxTime); //
+                                shows.get(i).setLayoutParams(linearParamsshows);
 
 
-                            int EffectTime = detailBeanList.get(i).getEffectTime();
-                            //  MyToash.Log(EffectTime+"    EffectTime"+"  "+MaxTime+"  "+MaxHight);
-                            linearParamsall.height = MaxHight * EffectTime / (MaxTime); //
-                            btalls.get(i).setLayoutParams(linearParamsall);
-                            ts.get(i).setText(detailBeanList.get(i).getDay());
-                        }
+                                int EffectTime = detailBeanList.get(i).getEffectTime();
+                                //  MyToash.Log(EffectTime+"    EffectTime"+"  "+MaxTime+"  "+MaxHight);
+                                linearParamsall.height = MaxHight * EffectTime / (MaxTime); //
+                                btalls.get(i).setLayoutParams(linearParamsall);
+                                ts.get(i).setText(detailBeanList.get(i).getDay());
+                            }
 
                       /* // Log.e("zhixin???", "gap:==");
                         FrameLayout.LayoutParams linearParamsall = (FrameLayout.LayoutParams) btalls.get(i).getLayoutParams();
@@ -208,13 +204,17 @@ public class SportFragment extends Fragment implements View.OnClickListener {
                         linearParams.height = gap * (detailEntity.getEffectTime() / 60) / (summaryEntity.getMaxTotalTime() / 60); // 当控件的高强制设成365象素
                         bts.get(i).setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
                         ts.get(i).setText(spcl.getData().getDetail().get(i).getDay());*/
-                    }
+                        }
 
-                } else {
-                    h.sendEmptyMessageDelayed(1, 1);
+                    } else {
+                        h.sendEmptyMessageDelayed(1, 1);
+                    }
                 }
+            } catch (Exception e) {
+                h.sendEmptyMessageDelayed(1, 1);
             }
         }
+
     };
     int count;
     draw d;
@@ -274,9 +274,9 @@ public class SportFragment extends Fragment implements View.OnClickListener {
             paint.setColor(totalColar);
             canvas.drawText(tatal, tatalwidth, y - 90, paint);
             paint.setColor(lineColar);
-            canvas.drawLine(x, y - 82, x + zhouyiall_Width, y-82, paint);
+            canvas.drawLine(x, y - 82, x + zhouyiall_Width, y - 82, paint);
             paint.setColor(effectColar);
-            canvas.drawText(effect, effectwidth, y-50, paint);
+            canvas.drawText(effect, effectwidth, y - 50, paint);
 
             canvas.drawBitmap(bitmap, x + (zhouyiall_Width - bitmap.getWidth()) / 2, y - ImageUtil.dp2px(activity, 12), paint);
 

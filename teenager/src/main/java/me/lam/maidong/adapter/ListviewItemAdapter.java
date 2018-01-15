@@ -1,12 +1,9 @@
 package me.lam.maidong.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.BitmapUtils;
+
+import java.util.List;
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.newsEntity;
@@ -29,7 +28,7 @@ public class ListviewItemAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     BitmapUtils bitmapUtils;
     public ListviewItemAdapter(Context context, List<newsEntity.NewsListEntity> objects) {
-        Log.e("ffff", objects.size() + "objects传递过来的");
+      //  Log.e("ffff", objects.size() + "objects传递过来的");
         this.objects=objects;
         bitmapUtils = new BitmapUtils(context);
         this.context = context;
@@ -95,7 +94,7 @@ public class ListviewItemAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                Log.e("ffff", object.getArticleCategoryID()+"点击了listview中的按钮");
+               // Log.e("ffff", object.getArticleCategoryID()+"点击了listview中的按钮");
             }
         });
 

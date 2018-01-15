@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="#42c3f4"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <include
+        layout="@layout/view_publicctitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></include>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.amap.api.maps2d.MapView
+            android:id="@+id/activity_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom">
+
+            <Button
+                android:id="@+id/activity_amap_connect"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="连接" />
+            <Button
+                android:id="@+id/activity_amap_send"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="发送" />
+            <Button
+                android:id="@+id/activity_amap_close"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="断开" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="100dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/activity_amap_receivecomment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</LinearLayout>
+
+

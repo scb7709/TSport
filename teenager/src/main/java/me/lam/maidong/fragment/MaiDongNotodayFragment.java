@@ -3,30 +3,19 @@ package me.lam.maidong.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-/*
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ValueFormatter;*/
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -40,11 +29,19 @@ import me.lam.maidong.R;
 import me.lam.maidong.activity.WebViewActivity;
 import me.lam.maidong.circle.RoundProgressBar;
 import me.lam.maidong.entity.dataResualtCallBack;
-import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.myview.NoPreloadViewPager;
 import me.lam.maidong.utils.Constant;
 import tech.linjiang.suitlines.SuitLines;
 import tech.linjiang.suitlines.Unit;
+
+/*
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ValueFormatter;*/
 
 @ContentView(R.layout.fragment_mai_dong_notoday)
 public class MaiDongNotodayFragment extends Fragment {
@@ -52,7 +49,6 @@ public class MaiDongNotodayFragment extends Fragment {
 
     @ViewInject(R.id.fragment_maidong_heartrate_image)
     FrameLayout fragment_maidong_heartrate_image;
-
 
 
     @ViewInject(R.id.public_barchat_layout)
@@ -67,9 +63,9 @@ public class MaiDongNotodayFragment extends Fragment {
     float med;
     float hight;
     List<Button> BarChartList;
-   // int K = 30;
-   // private float[] innerRadii = {K, K, K, K, 0, 0, 0, 0};//内矩形 圆角半径
-   // private RoundRectShape roundRectShape;
+    // int K = 30;
+    // private float[] innerRadii = {K, K, K, K, 0, 0, 0, 0};//内矩形 圆角半径
+    // private RoundRectShape roundRectShape;
 
     @ViewInject(R.id.fragment_maidong_TotalTime)
     TextView TotalTime;
@@ -180,7 +176,7 @@ public class MaiDongNotodayFragment extends Fragment {
 
     @SuppressLint("ValidFragment")
     public MaiDongNotodayFragment(dataResualtCallBack.DailySportEntity dailySportEntity, int size, int location, NoPreloadViewPager vPager) {
-        Log.i("DailySportsize3", size + "  " + location);
+       // Log.i("DailySportsize3", size + "  " + location);
         this.location = location;
         this.size = size;
         this.dailySportEntity = dailySportEntity;
@@ -222,7 +218,7 @@ public class MaiDongNotodayFragment extends Fragment {
         activity_main_title_center = (TextView) getActivity().findViewById(R.id.activity_main_title_center);
         activity_main_title_right = (TextView) getActivity().findViewById(R.id.activity_main_title_right);
         activity_main_title_left = (TextView) getActivity().findViewById(R.id.activity_main_title_left);
-        Log.i("DailySportsize4", size + "  " + location);
+      //  Log.i("DailySportsize4", size + "  " + location);
         setData();
     }
 
@@ -282,7 +278,7 @@ public class MaiDongNotodayFragment extends Fragment {
     private void setData() {
         ISOVER = false;
         //int size=DailySport.size();
-        Log.i("myblue", size + "   " + location);
+       // Log.i("myblue", size + "   " + location);
         if (location < 0 || location >= size) {
             return;
         }
@@ -295,10 +291,10 @@ public class MaiDongNotodayFragment extends Fragment {
         BarChartList.add(barChart_3);
         setTitle(location, size);
         if (((dailySportEntity.HeartRateTable == null || dailySportEntity.HeartRateTable.size() == 0))) {
-            Log.i("myblue", "2");
+         //   Log.i("myblue", "2");
             return;
         }
-        Log.i("myblue", "3");
+    //    Log.i("myblue", "3");
 
         int allTime = dailySportEntity.TotalTime / 60;
         int youxiao = dailySportEntity.ValidTime;
@@ -322,7 +318,7 @@ public class MaiDongNotodayFragment extends Fragment {
         TotalMediumRateTime.setText(totalMediumRateTime + "%");
         TotalHighRateTime.setText(totalHighRateTime + "%");
         //柱状图
-        low =dailySportEntity.TotalLowRateTime;
+        low = dailySportEntity.TotalLowRateTime;
         med = dailySportEntity.TotalMediumRateTime;
         hight = dailySportEntity.TotalHighRateTime;
         BarChatSet();
@@ -367,7 +363,7 @@ public class MaiDongNotodayFragment extends Fragment {
             //  point2.add(dataRes.getDailySport().get(i).getHeartRateTable().get(t).getRate());
             if (t == 3) {
                 times.add(dailySportEntity.HeartRateTable.get(t).SportTime);
-                Log.i("times.get", "" + times.get(0));
+                //Log.i("times.get", "" + times.get(0));
                 t0.setText(times.get(0));
                 // t0.setText(times.get(0).substring(11, 16));
             }
@@ -440,7 +436,6 @@ public class MaiDongNotodayFragment extends Fragment {
     }
 
 
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -448,28 +443,32 @@ public class MaiDongNotodayFragment extends Fragment {
             BarChatSet();
         }
     };
-    private void BarChatSet() {
 
-        int public_barchat_layout_hight = public_barchat_layout.getHeight();
-        if (public_barchat_layout_hight != 0) {
-            for (int i = 0; i < 3; i++) {
-                Button button=BarChartList.get(i);
-                RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
-                switch (i){
-                    case 0:
-                        linearParams.height = (int) (public_barchat_layout_hight * low);
-                        break;
-                    case 1:
-                        linearParams.height = (int) (public_barchat_layout_hight * med);
-                        break;
-                    case 2:
-                        linearParams.height = (int) (public_barchat_layout_hight * hight);
-                        break;
+    private void BarChatSet() {
+        try {
+            int public_barchat_layout_hight = public_barchat_layout.getHeight();
+            if (public_barchat_layout_hight != 0) {
+                for (int i = 0; i < 3; i++) {
+                    Button button = BarChartList.get(i);
+                    RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+                    switch (i) {
+                        case 0:
+                            linearParams.height = (int) (public_barchat_layout_hight * low);
+                            break;
+                        case 1:
+                            linearParams.height = (int) (public_barchat_layout_hight * med);
+                            break;
+                        case 2:
+                            linearParams.height = (int) (public_barchat_layout_hight * hight);
+                            break;
+                    }
+                    button.setLayoutParams(linearParams);
                 }
-                button.setLayoutParams(linearParams);
+            } else {
+                handler.sendEmptyMessageDelayed(0, 1);
             }
-        } else {
-            handler.sendEmptyMessageDelayed(0,1);
+        } catch (Exception e) {
+            handler.sendEmptyMessageDelayed(0, 1);
         }
     }
 

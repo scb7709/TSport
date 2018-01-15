@@ -3,7 +3,6 @@ package me.lam.maidong.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -88,7 +87,7 @@ public class LogActivity extends OriginalActivity {
             phoneWeak = false;
         }
         if (!phoneWeak) {
-            Log.i("LogActivityLogin", phoneWeak + "");
+         //   Log.i("LogActivityLogin", phoneWeak + "");
             HomeActivity.Login(LogActivity.this, phone, pwd, "LogActivity");
         }
 

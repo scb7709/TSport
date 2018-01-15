@@ -4,20 +4,14 @@ package me.lam.maidong.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-
 import android.support.annotation.Nullable;
-
-
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -31,6 +25,7 @@ import me.lam.maidong.adapter.NewsRecyclerViewAdapter;
 import me.lam.maidong.entity.NewsList;
 import me.lam.maidong.entity.newsEntity;
 import me.lam.maidong.myview.EndLessOnScrollListener;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.utils.Constant;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
@@ -131,7 +126,6 @@ public class NewsActivityFragment2 extends LazyFragment {
                             flag = "loadmore";
                             getNews();
                         }
-                        ;
                     }
 
                     @Override
@@ -177,22 +171,22 @@ public class NewsActivityFragment2 extends LazyFragment {
 
     private void getNews() {
         String url = "GetNews";
-        Log.i("myblue", flag + "  " + NewsList.getInstance().newsListEntities.size() + "  ");
+     //   Log.i("myblue", flag + "  " + NewsList.getInstance().newsListEntities.size() + "  ");
 
         if (flag.equals("loadmore")) {
             url = url + "/?Date=" + NewsList.getInstance().newsListEntities.get(NewsList.getInstance().newsListEntities.size() - 1).getArticleModified();
-            Log.i("myblue", flag + "  " + NewsList.getInstance().newsListEntities.size() + "  " + NewsList.getInstance().newsListEntities.get(NewsList.getInstance().newsListEntities.size() - 1).getArticleModified());
+           // Log.i("myblue", flag + "  " + NewsList.getInstance().newsListEntities.size() + "  " + NewsList.getInstance().newsListEntities.get(NewsList.getInstance().newsListEntities.size() - 1).getArticleModified());
         }
         OKHttp.sendRequestRequestParams(getActivity(), "", true, url, new OKHttp.ResponseListener() {
             @Override
             public void onResponse(String response) {
-                Log.i("getAsynHttp", response.toString());
+              //  Log.i("getAsynHttp", response.toString());
                 if (flag.equals("Refreshing")) {
                     frgment_news_SwipeRefreshLayout.setRefreshing(false);
                 }
                 newsEntity news = gson.fromJson(response, newsEntity.class);
 
-                Log.i("getAsynHttp", news.toString());
+         //       Log.i("getAsynHttp", news.toString());
 
 
                 if (news != null) {
@@ -209,17 +203,19 @@ public class NewsActivityFragment2 extends LazyFragment {
 
 
                     } else {
-                        Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_SHORT).show();
+                        MyToash.Toash(getActivity(),"没有更多数据");
+
                     }
                 } else {
-                    Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_SHORT).show();
+                    MyToash.Toash(getActivity(),"没有更多数据");
+
                 }
             }
 
             @Override
             public void onErrorResponse() {
+                MyToash.ToashNoNet(getActivity());
 
-                Toast.makeText(getActivity(), "网络请求失败", Toast.LENGTH_SHORT).show();
 
             }
         });
