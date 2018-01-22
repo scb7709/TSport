@@ -25,6 +25,7 @@ import me.lam.maidong.R;
 import me.lam.maidong.entity.NewLogCallBack;
 import me.lam.maidong.entity.PublicDataClass;
 import me.lam.maidong.entity.VersionClass;
+import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
 
@@ -64,8 +65,6 @@ public class HomeActivity extends Activity {
 
         mPager = (ViewPager) this.findViewById(R.id.vPager);
         checkVersion(this);
-
-
        // ShareUitls.putString(HomeActivity.this, "count", "null");
        // checkVersion(HomeActivity.this);
         // initialize();
@@ -145,7 +144,7 @@ public class HomeActivity extends Activity {
         OKHttp.sendRequestRequestParams(activity, flag, true, url, new OKHttp.ResponseListener() {
             @Override
             public void onResponse(String response) {
-               // Log.i("getAsynHttp", response.toString());
+               MyToash.Log(response.toString());
                 NewLogCallBack logEntity = new Gson().fromJson(response, NewLogCallBack.class);
 
               //  Log.i("Login", logEntity.toString() + "");
@@ -156,6 +155,7 @@ public class HomeActivity extends Activity {
                     ShareUitls.putString(activity, "LastSportDay",logEntity.LastSportDay);
                     ShareUitls.putString(activity, "CLICKDADE", logEntity.LastSportDay);
                     ShareUitls.putString(activity, "EducationCode", logEntity.EducationCode);
+                  ShareUitls.putString(activity, "TOKEN", logEntity.Token);
 
                     // Log.i("getAsynHttp",logEntity.EducationCode+"  "+logEntity.LastSportDay+"  "+ response.toString());
                     ShareUitls.putString(activity, "phone", phone);

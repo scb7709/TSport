@@ -12,4 +12,17 @@ public class Location {
     public int steps;
     public double latitude;
     public double longitude;
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "userId=" + userId +
+                ", Index=" + Index +
+                ", heartRate=" + heartRate +
+                ", time='" + time + '\'' +
+                ", steps=" + steps +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }

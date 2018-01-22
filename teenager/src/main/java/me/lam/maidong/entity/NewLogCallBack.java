@@ -8,6 +8,7 @@ public class NewLogCallBack {
     public  String StatusMessage;
     public  String EducationCode;
     public  String LastSportDay;
+    public  String Token;
 
     @Override
     public String toString() {
@@ -16,9 +17,10 @@ public class NewLogCallBack {
                 ", StatusMessage='" + StatusMessage + '\'' +
                 ", EducationCode='" + EducationCode + '\'' +
                 ", LastSportDay='" + LastSportDay + '\'' +
+                ", Token='" + Token + '\'' +
                 '}';
     }
-    /*
+/*
 
     *//**
      * MyStatus : 1

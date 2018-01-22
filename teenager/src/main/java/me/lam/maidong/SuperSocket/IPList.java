@@ -6,7 +6,7 @@ package me.lam.maidong.SuperSocket;
 public //放常数的类
 class IPList {
     /***
-     * 服务端ip
+    IP  192.168.1.250:8051
      ***/
     public static final String _ip = "192.168.1.167";
     /***

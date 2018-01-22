@@ -27,6 +27,7 @@ import me.lam.maidong.activity.SelfDetailActivity;
 import me.lam.maidong.activity.WebViewActivity;
 import me.lam.maidong.entity.SelfDetailCallBack;
 import me.lam.maidong.myview.MyToash;
+import me.lam.maidong.service.SocketStartService;
 import me.lam.maidong.utils.FileSizeUtil;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
@@ -118,7 +119,11 @@ public class SelfActivityFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.fragment_my_exit:
-                intent.setClass(getActivity(), LogActivity.class);
+                try {
+                    activity.stopService(new Intent(activity, SocketStartService.class));
+                } catch (Exception e) {
+                }
+                intent.setClass(activity, LogActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("backLog", "backLog");
                 intent.putExtras(bundle);

@@ -25,10 +25,13 @@ import org.xutils.x;
 import me.lam.maidong.R;
 import me.lam.maidong.entity.msgCallBack;
 import me.lam.maidong.fragment.AnalizeFragment;
+import me.lam.maidong.fragment.LocationFragment;
+import me.lam.maidong.fragment.LocationFragment2;
 import me.lam.maidong.fragment.MaidongFragment;
 import me.lam.maidong.fragment.NewsActivityFragment2;
 import me.lam.maidong.fragment.SelfActivityFragment;
 import me.lam.maidong.myview.MyToash;
+import me.lam.maidong.service.SocketStartService;
 import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
 import me.lam.maidong.utils.UpadteApp;
@@ -62,10 +65,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     AnalizeFragment analizeFragment;
     SelfActivityFragment selfActivityFragment;
+    LocationFragment locationFragment;
     public static FragmentActivity activity;
     Gson gson = new Gson();
-    public   FragmentManager fragmentManager;
-
+    public FragmentManager fragmentManager;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +91,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public String LastSportDate;
 
 
-    public  void changeFragment(Fragment fragment, String tag) {
+    public void changeFragment(Fragment fragment, String tag) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment, fragment, tag);
         transaction.commit();
@@ -109,51 +113,81 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.activity_main_maindong:
-                xiaoxi.setVisibility(View.VISIBLE);
-                btData.setVisibility(View.VISIBLE);
-                activity_main_title_left.setVisibility(View.VISIBLE);
-                activity_main_title_right.setVisibility(View.VISIBLE);
+                if (position != 0) {
+                    position = 0;
+                    xiaoxi.setVisibility(View.VISIBLE);
+                    btData.setVisibility(View.VISIBLE);
+                    activity_main_title_left.setVisibility(View.VISIBLE);
+                    activity_main_title_right.setVisibility(View.VISIBLE);
             /*    maiDongActivityFragment = new MaiDongActivityFragment();
                 changeFragment( maiDongActivityFragment, "MaiDongActivityFragment");*/
 
-                MaidongFragment maidongFragment = new MaidongFragment();
-                changeFragment(maidongFragment, "MaidongFragment");
+                    MaidongFragment maidongFragment = new MaidongFragment();
+                    changeFragment(maidongFragment, "MaidongFragment");
+                }
                 break;
             case R.id.activity_main_analyze:
-                xiaoxi.setVisibility(View.GONE);
-                btData.setVisibility(View.GONE);
-                activity_main_title_left.setVisibility(View.VISIBLE);
-                activity_main_title_right.setVisibility(View.VISIBLE);
+                if (position != 1) {
+                    position = 1;
+                    xiaoxi.setVisibility(View.GONE);
+                    btData.setVisibility(View.GONE);
+                    activity_main_title_left.setVisibility(View.VISIBLE);
+                    activity_main_title_right.setVisibility(View.VISIBLE);
 
-                analizeFragment = new AnalizeFragment();
-                changeFragment(analizeFragment, "AnalizeFragment");
+                    analizeFragment = new AnalizeFragment();
+                    changeFragment(analizeFragment, "AnalizeFragment");
+                }
                 break;
             case R.id.activity_main_maidongcircle:
-                xiaoxi.setVisibility(View.GONE);
-                btData.setVisibility(View.GONE);
+                if (position != 2) {
+                    position = 2;
+                    xiaoxi.setVisibility(View.GONE);
+                    btData.setVisibility(View.GONE);
 
 
-                activity_main_title_left.setVisibility(View.GONE);
-                activity_main_title_right.setVisibility(View.GONE);
-                activity_main_title_center.setText("资讯");
+                    activity_main_title_left.setVisibility(View.GONE);
+                    activity_main_title_right.setVisibility(View.GONE);
+                    activity_main_title_center.setText("资讯");
 
                /* roundActivityFragment = new DongtaiFragment();
                 changeFragment( roundActivityFragment, "DongtaiFragment");*/
 
 
-                NewsActivityFragment2 newsActivityFragment2 = new NewsActivityFragment2();
-               changeFragment(newsActivityFragment2, "NewsActivityFragment2");
+                    NewsActivityFragment2 newsActivityFragment2 = new NewsActivityFragment2();
+                    changeFragment(newsActivityFragment2, "NewsActivityFragment2");
+                }
                 break;
+            case R.id.activity_main_location:
+                if (position != 3) {
+                    position = 3;
+                    xiaoxi.setVisibility(View.GONE);
+                    btData.setVisibility(View.GONE);
+
+                    activity_main_title_left.setVisibility(View.GONE);
+                    activity_main_title_right.setVisibility(View.GONE);
+                    activity_main_title_center.setText("位置");
+                    LocationFragment2 locationFragment = new LocationFragment2();
+                    changeFragment(locationFragment, "LocationFragment2");
+              /*  locationFragment = new LocationFragment();
+                changeFragment(locationFragment, "LocationFragment");*/
+                }
+                break;
+
+
             case R.id.activity_main_my:
-                xiaoxi.setVisibility(View.GONE);
-                btData.setVisibility(View.GONE);
+                if (position != 4) {
+                    position = 4;
+                    xiaoxi.setVisibility(View.GONE);
+                    btData.setVisibility(View.GONE);
 
-                activity_main_title_left.setVisibility(View.GONE);
-                activity_main_title_right.setVisibility(View.GONE);
-                activity_main_title_center.setText("我");
+                    activity_main_title_left.setVisibility(View.GONE);
+                    activity_main_title_right.setVisibility(View.GONE);
+                    activity_main_title_center.setText("我");
 
-                selfActivityFragment = new SelfActivityFragment();
-                changeFragment(selfActivityFragment, "SelfActivityFragment");
+                    selfActivityFragment = new SelfActivityFragment();
+                    changeFragment(selfActivityFragment, "SelfActivityFragment");
+
+                }
                 break;
         }
     }
@@ -194,7 +228,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         MainActivity.this.startActivity(intent);
                         return;
                     } else {
-                     //   Log.e("res", "获取新闻失败" + "正在请求");
+                        //   Log.e("res", "获取新闻失败" + "正在请求");
                     }
 
                 }
@@ -223,8 +257,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (System.currentTimeMillis() - temptime > 2000) // 2s内再次选择back键有效
             {
                 System.out.println(Toast.LENGTH_LONG);
-                MyToash.Toash(activity,"请再按一次返回退出");
-
+                MyToash.Toash(activity, "请再按一次返回退出");
+                try {
+                    stopService(new Intent(activity, SocketStartService.class));
+                } catch (Exception e) {
+                }
                 temptime = System.currentTimeMillis();
             } else {
                 finish();

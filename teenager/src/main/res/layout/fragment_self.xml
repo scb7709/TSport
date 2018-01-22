@@ -301,7 +301,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/fragment_my_location"
             android:layout_width="match_parent"
             android:layout_height="50dp"

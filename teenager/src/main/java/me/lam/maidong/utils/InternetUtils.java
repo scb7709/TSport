@@ -24,10 +24,12 @@ public class InternetUtils {
     public static final int NETWORN_3G = 3;
     public static final int NETWORN_4G = 4;
     public static final int NETWORN_MOBILE = 5;
-
+    public   static ConnectivityManager connectivityManager;
     public static boolean internet(final Activity context) {
         //检查当前网络连接
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager==null) {
+            connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        }
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null) {
             return true;
@@ -175,15 +177,11 @@ public class InternetUtils {
 
     public static boolean internett(final Context context) {
         //检查当前网络连接
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null) {
-            return true;
-        } else {
-
-
-            return false;
+        if(connectivityManager==null) {
+            connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         }
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null;
 
     }
 
@@ -235,7 +233,6 @@ public class InternetUtils {
     public static int getNetworkState(Context context) {
 
         ConnectivityManager connManager = (ConnectivityManager) context
-
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (null == connManager)

@@ -4,17 +4,12 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-import anet.channel.util.StringUtils;
 import me.lam.maidong.myview.MyToash;
-import me.lam.maidong.utils.DataTransferUtils;
 
 /**
  * Created by abc on 2018/1/3.
@@ -34,6 +29,7 @@ public class SocketClient {
     private ICoallBack CoallBack = null;
     private ISocketPacket _packet = null;
     private ISendResult _Result = null;
+    public static boolean SERVER_IS_DISCONNECT;
 
 
     /**
@@ -41,13 +37,17 @@ public class SocketClient {
      * @param timeOut 链接超市时间 秒
      * @param// port端口号
      */
-    public SocketClient(String host, int port, int timeOut, ICoallBack CoallBack) {
+    public SocketClient(String host, int port, int timeOut, ICoallBack CoallBack, ISocketPacket iSocketPacket) {
         this.host = host;
         this.port = port;
         this.timeout = timeOut;
         this.CoallBack = CoallBack;
+        this._packet = iSocketPacket;
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
 
     /**
      * @param //设置连接服务器监听
@@ -111,6 +111,11 @@ public class SocketClient {
                 if (CoallBack != null) {
                     CoallBack.OnFailure(e1);
                 }
+                if(msgReceiveThread!=null){
+                    msgReceiveThread.STOP_RECEIVE = true;
+                }
+                closeConnection();
+
             } else if (msg.what == RECEIVEMESSAGE) {
                 if (_packet != null) {
                     _packet.SocketPacket(msg.obj.toString());
@@ -167,6 +172,7 @@ public class SocketClient {
                     MyToash.Log("5");
                     message.what = CONNECTFAILURE;
                     message.obj = e1;
+                    handler.sendMessage(message);
                     e1.printStackTrace();
                     MyToash.Log("SocketClient  连接失败");
 
@@ -187,29 +193,30 @@ public class SocketClient {
     public void closeConnection() {
         CoallBack.OnFailure(null);
         try {
-
             if (socket != null) {
                 socket.close();// 关闭socket
             }
-            msgReceiveThread.STOP_RECEIVE = true;
 
         } catch (Exception e) {
         }
-
-        try	{
+        try {
+            msgReceiveThread.STOP_RECEIVE = true;
+        } catch (Exception e) {
+        }
+        try {
 //关闭输出
-            if(serverOutput!=null) {
+            if (serverOutput != null) {
                 serverOutput.close();
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             //log.error("SocketClient:Exception when closeConnection()-" + e);
         }
-        try{
+        try {
 //关闭输入
-            if(msgReceiveThread.dataInputStream!=null) {
+            if (msgReceiveThread.dataInputStream != null) {
                 msgReceiveThread.dataInputStream.close();
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             //log.error("SocketClient:Exception when closeConnection()-" + e);
         }
     }
@@ -226,60 +233,70 @@ public class SocketClient {
 
     /**
      * 发送数据
-     *
-     *      public int VERSION { get; set; }
-     public int ENCRYPT { get; set; }
-     public int STATUS { get; set; }
-     public string TOKEN { get; set; }
-     public int COMMAND { get; set; }
-     public int MODE { get; set; }
-     public int LENGTH { get; set; }
-     public byte[] DATA { get; set; }
-
-
+     * <p>
+     * public int VERSION { get; set; }
+     * public int ENCRYPT { get; set; }
+     * public int STATUS { get; set; }
+     * public string TOKEN { get; set; }
+     * public int COMMAND { get; set; }
+     * public int MODE { get; set; }
+     * public int LENGTH { get; set; }
+     * public byte[] DATA { get; set; }
      *
      * @param sndStr
      * @return boolean
      */
-    public boolean SenddData(String sndStr) {
-        MyToash.Log("JIANYUid"+sndStr);
-        JSONObject jsonObject= new JSONObject();
+  //  String string = "1 0 0 0 0 0 56 49 52 52 55 55 49 98 56 53 54 99 52 54 99 48 97 100 98 98 53 100 49 52 97 48 57 51 49 49 99 54 0 1 59 -87 8 0 0 0 32 0 0 0 4 100 97 116 97 35 35 95 42 42";
+
+    public boolean SenddData(String sndStr, boolean is_connect) {
+
+        if (sndStr == null || sndStr.length() != 32) {
+            return false;
+        }
+        MyToash.Log("JIANYUid" + sndStr + "  " + is_connect);
         try {
+            serverOutput = socket.getOutputStream();
             if (serverOutput != null) {
-                String str="";
-                byte [] data=new byte[52];
-                byte [] bytes1=hexStr2ByteArray("010000000000");
-                String token="8144771b856c46c0adbb5d14a09311c6";
-                byte [] bytes2= DataTransferUtils.get4Bytes(00001, 4);
-                byte [] bytes3=hexStr2ByteArray("010000000023235F2A2A");
-                for(int  i=0;i<6;i++) {
-                    data[i]=bytes1[i];
-                    MyToash.Log("data["+i+"]="+data[i]+"");
-                    str+=data[i];
+                String str = "";
+                byte[] data = new byte[60];
+                for (int i = 0; i < 6; i++) {
+                    if (i == 0) {
+                        data[i] = 1;
+                    } else {
+                        data[i] = 0;
+                    }
+                    MyToash.Log("data[" + (i) + "]=" + data[i] + "");
+                    str += data[i] + " ";
                 }
-                for(int  i=0;i<32;i++) {
-                    data[i+6]= (byte)(int)Integer.valueOf(token.charAt(i));
-                    MyToash.Log("data["+(i+6)+"]="+data[i+6]+"");
-                    str+=data[i+6];
+
+                byte bytes1[] = sndStr.getBytes("utf-8");
+                for (int i = 0; i < 32; i++) {
+                    data[i + 6] = bytes1[i];
+                    MyToash.Log("data[" + (i + 6) + "]=" + data[i + 6] + "");
+                    str += data[i + 6] + " ";
                 }
-                for(int  i=0;i<4;i++) {
-                    data[i+38]= bytes2[i];
-                    MyToash.Log("data["+(i+38)+"]="+data[i+38]+"");
-                    str+=data[i+38];
+                byte[] bytes2;
+                if (!is_connect) {
+                    byte[] tempbytes2 = {0, 0, (byte) 237, (byte) 237, 8, 0, 0, 0, 32, 0, 0, 0, 4, 100, 97, 116, 97, 35, 35, 95, 42, 42};
+                    bytes2 = tempbytes2;
+                } else {
+                    byte[] tempbytes2 = {0, 0, (byte) 237, (byte) 137, 8, 0, 0, 0, 32, 0, 0, 0, 4, 100, 97, 116, 97, 35, 35, 95, 42, 42};
+                    bytes2 = tempbytes2;
                 }
-                for(int  i=0;i<10;i++) {
-                    data[i+42]= bytes3[i];
-                    MyToash.Log("data["+(i+42)+"]="+data[i+42]+"");
-                    str+=data[i+42];
+                for (int i = 0; i < 22; i++) {
+                    data[i + 38] = bytes2[i];
+                    MyToash.Log("data[" + (i + 38) + "]=" + data[i + 38] + "");
+                    str += data[i + 38] + " ";
+
                 }
                 MyToash.Log(str);
                 serverOutput.write(data);
                 serverOutput.flush();
-               // serverOutput.close();
-                MyToash.Log("已发送");
+                SERVER_IS_DISCONNECT = false;
                 return true;
             } else {
                 MyToash.Log("serverOutput==null");
+                SERVER_IS_DISCONNECT = true;
                 return false;
             }
 
@@ -287,11 +304,14 @@ public class SocketClient {
         } catch (SocketTimeoutException ste) {
             MyToash.Log("发送超时");
             //closeConnection();
+            SERVER_IS_DISCONNECT = true;
             return false;
 
 
         } catch (Exception e) {
+            MyToash.Log("发送异常" + e.getMessage());
             MyToash.Log("发送异常");
+            SERVER_IS_DISCONNECT = true;
             return false;
 
 
@@ -301,61 +321,35 @@ public class SocketClient {
     }
 
 
-
-    /**
-     * @param
-     * @return
-     */
-    public byte[] toByteArray(Object obj)
-    {
-        try
-        {
-            return obj.toString().getBytes("utf-8");
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            MyToash.Log("JIANYUidBUDENGYUKON");
-            return null;
-        }
-
-    }
-
-    //16进制字符串转化字节数组
-    public static byte[] hexStr2ByteArray(String hexString) {
-        hexString = hexString.toLowerCase();
-        final byte[] byteArray = new byte[hexString.length() / 2];
-        int k = 0;
-        for (int i = 0; i < byteArray.length; i++) {
-            //因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
-            //将hex 转换成byte   "&" 操作为了防止负数的自动扩展
-            // hex转换成byte 其实只占用了4位，然后把高位进行右移四位
-            // 然后“|”操作  低四位 就能得到 两个 16进制数转换成一个byte.
-            //
-            byte high = (byte) (Character.digit(hexString.charAt(k), 16) & 0xff);
-            byte low = (byte) (Character.digit(hexString.charAt(k + 1), 16) & 0xff);
-            byteArray[i] = (byte) (high << 4 | low);
-            k += 2;
-        }
-        return byteArray;
-    }
-
-    public static String string2Unicode(String string) {
-        if (StringUtils.isBlank(string)) return null;
-        StringBuffer unicode = new StringBuffer();
-        for (int i = 0; i < string.length(); i++) {
-            // 取出每一个字符
-            char c = string.charAt(i);
-            // 转换为unicode
-            String hex = Integer.toHexString(c);
-            MyToash.Log(hex);
-            if (hex.length() == 2) {//非中文补全两个00
-                unicode.append(hex+"00");
-            } else {//中文颠倒顺序
-                unicode.append(hex.substring(2,4)+hex.substring(0,2));
+    public boolean SenddDataCheck(byte[] CHECK_CONNECT) {
+        try {
+            serverOutput = socket.getOutputStream();
+            if (serverOutput != null) {
+                serverOutput.write(CHECK_CONNECT);
+                serverOutput.flush();
+                SERVER_IS_DISCONNECT = false;
+                return true;
+            } else {
+                MyToash.Log("serverOutput==null");
+                SERVER_IS_DISCONNECT = true;
+                return false;
             }
+        } catch (SocketTimeoutException ste) {
+            MyToash.Log("发送超时");
+            //closeConnection();
+            SERVER_IS_DISCONNECT = true;
+            return false;
+
+
+        } catch (Exception e) {
+            MyToash.Log("发送异常" + e.getMessage());
+            MyToash.Log("发送异常");
+            SERVER_IS_DISCONNECT = true;
+            return false;
+
 
         }
-        return unicode.toString();
-    }
 
+
+    }
 }

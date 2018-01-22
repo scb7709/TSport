@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -170,6 +169,19 @@
             android:textColor="@drawable/maintab_text_color_selector"
             android:textSize="12dp" />
 
+        <RadioButton
+            android:id="@+id/activity_main_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/maintab_my_bg_seletor"
+            android:gravity="center_horizontal"
+            android:text="位置"
+            android:textColor="@drawable/maintab_text_color_selector"
+            android:textSize="12dp" />
         <RadioButton
             android:id="@+id/activity_main_my"
             android:layout_width="0dp"
