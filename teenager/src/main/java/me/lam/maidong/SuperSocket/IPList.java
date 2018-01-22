@@ -8,7 +8,7 @@ class IPList {
     /***
     IP  192.168.1.250:8051
      ***/
-    public static final String _ip = "192.168.1.167";
+    public static final String _ip = "192.168.1.250";
     /***
      * 服务端的通讯端口
      ***/

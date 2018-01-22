@@ -81,6 +81,8 @@ public class SocketClient {
      * 发送失败
      **/
     public static final int SENDFAILURE = -2;
+    public int Again_CONNECT_COUNT = 5;//重连次数
+    public static final int Again_CONNECT = 5;//重连
 
     MsgReceiveThread msgReceiveThread;
     //  OutputStream serverOutput;
@@ -91,6 +93,7 @@ public class SocketClient {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == CONNECTSUCCESS) {
+                Again_CONNECT_COUNT=5;
                 msgReceiveThread = new MsgReceiveThread(socket, handler);
                 msgReceiveThread.STOP_RECEIVE = false;
                 msgReceiveThread.start();
@@ -111,7 +114,7 @@ public class SocketClient {
                 if (CoallBack != null) {
                     CoallBack.OnFailure(e1);
                 }
-                if(msgReceiveThread!=null){
+                if (msgReceiveThread != null) {
                     msgReceiveThread.STOP_RECEIVE = true;
                 }
                 closeConnection();
@@ -133,7 +136,11 @@ public class SocketClient {
                     Exception e = (Exception) msg.obj;
                     _Result.OnSendFailure(e);
                 }
+            } else if (msg.what == Again_CONNECT) {
+                Connection();
             }
+
+
         }
     };
 
@@ -153,13 +160,11 @@ public class SocketClient {
      */
     public void Connection() {
 
-        MyToash.Log("2");
+        //MyToash.Log("2");
         Thread thread = new Thread(new Runnable() {
-
-
             @Override
             public void run() {
-                MyToash.Log("3");
+                // MyToash.Log("3");
                 Message message = new Message();
                 try {
                     socket = new Socket(host, port);
@@ -167,15 +172,19 @@ public class SocketClient {
                     MyToash.Log("SocketClient  Socket链接成功");
                     message.what = CONNECTSUCCESS;
                     handler.sendMessage(message);
-                    MyToash.Log("4");
+                    //   MyToash.Log("4");
                 } catch (Exception e1) {
-                    MyToash.Log("5");
-                    message.what = CONNECTFAILURE;
-                    message.obj = e1;
-                    handler.sendMessage(message);
-                    e1.printStackTrace();
-                    MyToash.Log("SocketClient  连接失败");
-
+                    if (Again_CONNECT_COUNT > 0) {
+                        handler.sendEmptyMessageDelayed(Again_CONNECT, Again_CONNECT / 2);//2.5秒重连一次
+                        MyToash.Log("SocketClient  重新连接" + Again_CONNECT_COUNT);
+                    } else {
+                        message.what = CONNECTFAILURE;
+                        message.obj = e1;
+                        handler.sendMessage(message);
+                        e1.printStackTrace();
+                        MyToash.Log("SocketClient  连接失败");
+                    }
+                    --Again_CONNECT_COUNT;
                 }
 
 
@@ -233,7 +242,7 @@ public class SocketClient {
 
     /**
      * 发送数据
-     * <p>
+     * <p/>
      * public int VERSION { get; set; }
      * public int ENCRYPT { get; set; }
      * public int STATUS { get; set; }
@@ -246,8 +255,7 @@ public class SocketClient {
      * @param sndStr
      * @return boolean
      */
-  //  String string = "1 0 0 0 0 0 56 49 52 52 55 55 49 98 56 53 54 99 52 54 99 48 97 100 98 98 53 100 49 52 97 48 57 51 49 49 99 54 0 1 59 -87 8 0 0 0 32 0 0 0 4 100 97 116 97 35 35 95 42 42";
-
+    //  String string = "1 0 0 0 0 0 56 49 52 52 55 55 49 98 56 53 54 99 52 54 99 48 97 100 98 98 53 100 49 52 97 48 57 51 49 49 99 54 0 1 59 -87 8 0 0 0 32 0 0 0 4 100 97 116 97 35 35 95 42 42";
     public boolean SenddData(String sndStr, boolean is_connect) {
 
         if (sndStr == null || sndStr.length() != 32) {

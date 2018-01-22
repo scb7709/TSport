@@ -37,7 +37,7 @@ public class SocketStartService extends Service {
     Location location;
     private MySQLiteDataDao mySQLiteDataDao;
     boolean IS_OVER;
-    //用来测试和服务端 是链接状态的 心跳包 数据
+    //用来测试和服务端 是链接状态的 心跳包 数据  状态密码 80809
 byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48 ,48, 48, 48, 48, 48, 48, 0, 1, 59, -87, 8 ,0 ,0, 0, 32, 0 ,0 ,0, 4, 100, 97, 116 ,97, 35, 35, 95, 42, 42 };
 
     @Nullable

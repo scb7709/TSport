@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,11 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.MapsInitializer;
 import com.amap.api.maps2d.model.BitmapDescriptor;
-import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -53,6 +52,7 @@ public class LocationFragment2 extends Fragment {
     public SocketService.ServiceBinder mBinderService;
     private Activity activity;
     BitmapDescriptor bitmapDescriptor;
+    CameraUpdate cameraUpdate;
     public LocationFragment2() {
     }
 
@@ -116,7 +116,8 @@ public class LocationFragment2 extends Fragment {
             aMap = mMapView.getMap();
             setUpMap();
         }
-        bitmapDescriptor=BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_me_active));
+       // bitmapDescriptor=BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_me_active));
+        cameraUpdate=CameraUpdateFactory.zoomTo(18);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         MapsInitializer.loadWorldGridMap(true);
         registServiceToActivityReceiver();
@@ -169,6 +170,7 @@ public class LocationFragment2 extends Fragment {
             public void onCameraChange(CameraPosition cameraPosition) {
             }
         });
+
     }
 
     @Override
@@ -184,15 +186,15 @@ public class LocationFragment2 extends Fragment {
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
         String DATA = ShareUitls.getString(activity, "location", "");
-     initMarker(39.9329110, 116.444177);
-       /* if (DATA != null && DATA.length() > 0 && DATA.contains("_")) {
+    // initMarker(39.9329110, 116.444177);
+        if (DATA != null && DATA.length() > 0 && DATA.contains("_")) {
             String[] str = DATA.split("_");
             try {
                 initMarker(Double.parseDouble(str[0]), Double.parseDouble(str[1]));
             }catch (Exception e){}
         }else {
            // initMarker(39.9329110, 116.444177);
-        }*/
+        }
     }
 
     @Override
@@ -209,9 +211,9 @@ public class LocationFragment2 extends Fragment {
         markerOption.position(latLng);//38°39′6.48″ 东经E104°04′35.11
         markerOption.title("孩子的位置").snippet("东经"+latitude+"北纬"+ longitude);
         markerOption.draggable(false);//设置Marker可拖动 bitmapDescriptor  BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.fragment_location_man))
-        markerOption.icon(bitmapDescriptor);
+      //  markerOption.icon(bitmapDescriptor);
         aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-        aMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+        aMap.moveCamera(cameraUpdate);
         aMap.addMarker(markerOption);
         // 将Marker设置为贴地显示，可以双指下拉地图查看效果
         //markerOption.set;
