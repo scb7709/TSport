@@ -4,25 +4,21 @@ package me.lam.maidong.entity;
  * Created by abc on 2018/1/11.
  */
 public class Location {
-
     public int userId;
     public int Index;
     public int heartRate;
-    public String  time;
+    public String time;
     public int steps;
     public double latitude;
     public double longitude;
-
-    @Override
-    public String toString() {
-        return "Location{" +
-                "userId=" + userId +
-                ", Index=" + Index +
-                ", heartRate=" + heartRate +
-                ", time='" + time + '\'' +
-                ", steps=" + steps +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                '}';
-    }
+ /*   public List<LocationData> locationDatas;
+    public class LocationData {
+        public int userId;
+        public int Index;
+        public int heartRate;
+        public String time;
+        public int steps;
+        public double latitude;
+        public double longitude;
+    }*/
 }

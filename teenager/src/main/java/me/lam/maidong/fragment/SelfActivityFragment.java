@@ -48,11 +48,12 @@ public class SelfActivityFragment extends Fragment {
     TextView tvId;
     String EducationalCode;
     private Activity activity;
-    private int RequestCount;
+    //private int RequestCount;
     //  boolean isend;
 
     public SelfActivityFragment() {
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return x.view().inject(this, inflater, container);
@@ -62,38 +63,39 @@ public class SelfActivityFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         activity = getActivity();
-        EducationalCode = ShareUitls.getString(getActivity(), "EducationCode", "");
         initialize();
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        String mydata = ShareUitls.getString(activity, "mydata", "");
-        if (mydata.length() == 0) {
-            getmyData();
-        } else {
-            SelfDetailCallBack person = new Gson().fromJson(mydata, SelfDetailCallBack.class);
-            if (person != null) {
-                if (person.getSex() == 1) {
-                    imgSex.setImageResource(R.drawable.btn_male_active);
-
-                } else {
-                    imgSex.setImageResource(R.drawable.female_active);
+    private void setData() {
+        getmyData(activity, new MyUserData() {
+            @Override
+            public void onResponse(String response) {
+                SelfDetailCallBack person = new Gson().fromJson(response, SelfDetailCallBack.class);
+                if (person != null) {
+                    if (person.getSex() == 1) {
+                        imgSex.setImageResource(R.drawable.btn_male_active);
+                    } else {
+                        imgSex.setImageResource(R.drawable.female_active);
+                    }
+                    tvName.setText(person.getStudentName());
+                }else {
+                    MyToash.ToashNoNet(activity);
+                    ShareUitls.putString(activity, "mydata", "");
                 }
-                tvName.setText(person.getStudentName());
-            } else {
-                getmyData();
             }
 
-        }
+            @Override
+            public void onErrorResponse() {
+                MyToash.ToashNoNet(getActivity());
+            }
+        });
     }
 
     private void initialize() {
-        tvId.setText("教育ID:" + EducationalCode);
+        tvId.setText("教育ID:" +  ShareUitls.getString(activity, "EducationCode", ""));
         long appCache = (long) FileSizeUtil.getFileOrFilesSize("/data/data/me.lam.maidong/shared_prefs/", 3);
         long Cache = (long) FileSizeUtil.getFileOrFilesSize("/data/data/me.lam.maidong/cache/", 3);
         dataCache.setText("" + (Cache + appCache) + "MB");
+        setData();
     }
 
 
@@ -163,37 +165,32 @@ public class SelfActivityFragment extends Fragment {
                 }
             }
     }
-    public void getmyData() {
-        String url = "StudentInfo/?EducationalCode=" + EducationalCode;
-        OKHttp.sendRequestRequestParams(activity, "", true, url, new OKHttp.ResponseListener() {
-            @Override
-            public void onResponse(String response) {
-                SelfDetailCallBack person = new Gson().fromJson(response, SelfDetailCallBack.class);
-                if(person!=null){
-                    ShareUitls.putString(activity,"mydata",response);
-                    if (person.getSex() == 1) {
-                        imgSex.setImageResource(R.drawable.btn_male_active);
-                    } else {
-                        imgSex.setImageResource(R.drawable.female_active);
-                    }
-                    tvName.setText(person.getStudentName());
+
+    public interface MyUserData {
+        void onResponse(String response);
+
+        void onErrorResponse();
+    }
+
+    public static void getmyData(final  Activity activity,final  MyUserData myUserData) {
+        String mydata = ShareUitls.getString(activity, "mydata", "");
+        if (mydata.length() == 0) {
+            String  EducationalCode = ShareUitls.getString(activity, "EducationCode", "");
+            String url = "StudentInfo/?EducationalCode=" + EducationalCode;
+            OKHttp.sendRequestRequestParams(activity, "", true, url, new OKHttp.ResponseListener() {
+                @Override
+                public void onResponse(String response) {
+                    ShareUitls.putString(activity, "mydata", response);
+                    myUserData.onResponse(response);
                 }
 
-            }
-
-            @Override
-            public void onErrorResponse() {
-                if (RequestCount < 2) {
-                    getmyData();
-                }else {
-                    ShareUitls.putString(activity,"mydata","");
-                    MyToash.ToashNoNet(getActivity());
+                @Override
+                public void onErrorResponse() {
+                    myUserData.onErrorResponse();
                 }
-                RequestCount++;
-                //Toast.makeText(getActivity(), "网络请求失败", Toast.LENGTH_SHORT).show();
-
-
-            }
-        });
+            });
+        }else {
+            myUserData.onResponse(mydata);
+        }
     }
 }

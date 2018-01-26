@@ -20,10 +20,18 @@ public class SelfDetailCallBack  implements Serializable{
     private String Weight;
     private String StatusMessage;
 
-
-
-
-
+    @Override
+    public String toString() {
+        return "SelfDetailCallBack{" +
+                "MyStatus=" + MyStatus +
+                ", Sex=" + Sex +
+                ", Height='" + Height + '\'' +
+                ", StudentName='" + StudentName + '\'' +
+                ", Age='" + Age + '\'' +
+                ", Weight='" + Weight + '\'' +
+                ", StatusMessage='" + StatusMessage + '\'' +
+                '}';
+    }
 
     public static SelfDetailCallBack instance=null;
     public static SelfDetailCallBack getInstance(){

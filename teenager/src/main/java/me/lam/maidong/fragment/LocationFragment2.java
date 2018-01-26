@@ -19,7 +19,6 @@ import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.MapsInitializer;
-import com.amap.api.maps2d.model.BitmapDescriptor;
 import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -30,6 +29,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import me.lam.maidong.R;
+import me.lam.maidong.entity.SelfDetailCallBack;
 import me.lam.maidong.myview.MyToash;
 import me.lam.maidong.service.SocketService;
 import me.lam.maidong.service.SocketStartService;
@@ -51,8 +51,9 @@ public class LocationFragment2 extends Fragment {
     boolean IS_OVER;
     public SocketService.ServiceBinder mBinderService;
     private Activity activity;
-    BitmapDescriptor bitmapDescriptor;
+    //BitmapDescriptor bitmapDescriptor;
     CameraUpdate cameraUpdate;
+
     public LocationFragment2() {
     }
 
@@ -65,10 +66,11 @@ public class LocationFragment2 extends Fragment {
                     case "SERIVCE_MSG":
                         if (DATA != null && DATA.length() > 0 && DATA.contains("_")) {
                             String[] str = DATA.split("_");
-                           try {
-                               initMarker(Double.parseDouble(str[0]), Double.parseDouble(str[1]));
-                               activity_amap_receivecomment.setText("服务器返回的数据：\n" + Double.parseDouble(str[0])+"   "+Double.parseDouble(str[1]));
-                           }catch (Exception e){}
+                            try {
+                                initMarker(Double.parseDouble(str[0]), Double.parseDouble(str[1]));
+                                activity_amap_receivecomment.setText("服务器返回的数据：\n" + Double.parseDouble(str[0]) + "   " + Double.parseDouble(str[1]));
+                            } catch (Exception e) {
+                            }
                         }
                         break;
                     case "CONNECY_STATUS":
@@ -101,14 +103,26 @@ public class LocationFragment2 extends Fragment {
         initialize();
     }
 
+    private void setData() {
+        SelfActivityFragment.getmyData(activity, new SelfActivityFragment.MyUserData() {
+            @Override
+            public void onResponse(String response) {
+                SelfDetailCallBack person = new Gson().fromJson(response, SelfDetailCallBack.class);
+                if (person != null) {
+                    MyToash.Log(person.toString());
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+                } else {
+                    MyToash.ToashNoNet(activity);
+                    ShareUitls.putString(activity, "mydata", "");
+                }
+            }
 
-
+            @Override
+            public void onErrorResponse() {
+                MyToash.ToashNoNet(activity);
+            }
+        });
     }
-
 
     private void initialize() {
         gson = new Gson();
@@ -116,12 +130,13 @@ public class LocationFragment2 extends Fragment {
             aMap = mMapView.getMap();
             setUpMap();
         }
-       // bitmapDescriptor=BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_me_active));
-        cameraUpdate=CameraUpdateFactory.zoomTo(18);
+        // bitmapDescriptor=BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_me_active));
+        cameraUpdate = CameraUpdateFactory.zoomTo(18);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         MapsInitializer.loadWorldGridMap(true);
         registServiceToActivityReceiver();
         activity.startService(new Intent(activity, SocketStartService.class));
+      //  setData();
     }
 
     private void registServiceToActivityReceiver() {
@@ -186,14 +201,15 @@ public class LocationFragment2 extends Fragment {
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
         String DATA = ShareUitls.getString(activity, "location", "");
-    // initMarker(39.9329110, 116.444177);
+        // initMarker(39.9329110, 116.444177);
         if (DATA != null && DATA.length() > 0 && DATA.contains("_")) {
             String[] str = DATA.split("_");
             try {
                 initMarker(Double.parseDouble(str[0]), Double.parseDouble(str[1]));
-            }catch (Exception e){}
-        }else {
-           // initMarker(39.9329110, 116.444177);
+            } catch (Exception e) {
+            }
+        } else {
+            // initMarker(39.9329110, 116.444177);
         }
     }
 
@@ -209,9 +225,9 @@ public class LocationFragment2 extends Fragment {
         MarkerOptions markerOption = new MarkerOptions();
         LatLng latLng = new LatLng(latitude, longitude);
         markerOption.position(latLng);//38°39′6.48″ 东经E104°04′35.11
-        markerOption.title("孩子的位置").snippet("东经"+latitude+"北纬"+ longitude);
+        markerOption.title("孩子的位置").snippet("东经" + latitude + "北纬" + longitude);
         markerOption.draggable(false);//设置Marker可拖动 bitmapDescriptor  BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.fragment_location_man))
-      //  markerOption.icon(bitmapDescriptor);
+        //  markerOption.icon(bitmapDescriptor);
         aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
         aMap.moveCamera(cameraUpdate);
         aMap.addMarker(markerOption);
@@ -226,7 +242,11 @@ public class LocationFragment2 extends Fragment {
         IS_OVER = true;
         mMapView.onDestroy();
         activity.unregisterReceiver(ServiceToActivityReceiver);
-        //activity.unbindService(mConnection);
+      /*  try {
+            activity.stopService(new Intent(activity, SocketStartService.class));
+        } catch (Exception e) {
+        }*/
+
     }
 
 }

@@ -38,8 +38,8 @@ public class SocketStartService extends Service {
     private MySQLiteDataDao mySQLiteDataDao;
     boolean IS_OVER;
     //用来测试和服务端 是链接状态的 心跳包 数据  状态密码 80809
-byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48 ,48, 48, 48, 48, 48, 48, 0, 1, 59, -87, 8 ,0 ,0, 0, 32, 0 ,0 ,0, 4, 100, 97, 116 ,97, 35, 35, 95, 42, 42 };
-
+    byte[] CHECK_CONNECT = {1, 0, 0, 0, 0, 0, 49, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 0, 1, 59, -87, 8, 0, 0, 0, 32, 0, 0, 0, 4, 100, 97, 116, 97, 35, 35, 95, 42, 42};
+    Service service;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -49,7 +49,8 @@ byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48,
     @Override
     public void onCreate() {
         super.onCreate();
-        this.mySQLiteDataDao = MySQLiteDataDao.getInstance(SocketStartService.this);
+        service=SocketStartService.this;
+        this.mySQLiteDataDao = MySQLiteDataDao.getInstance(service);
         ServiceToActivityIntent = new Intent();
         ServiceToActivityIntent.setAction("ServiceToActivityReceiver");
         initSuperSocket();
@@ -63,8 +64,9 @@ byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48,
     }
 
     private void initSuperSocket() {
+        ShareUitls.putString(service, "templocation", "");
         gson = new Gson();
-        TOKEN = ShareUitls.getString(this,"TOKEN","");
+        TOKEN = ShareUitls.getString(this, "TOKEN", "");
         client = new SocketClient(IPList._ip, IPList._Port, 6, iCoallBack, iSocketPacket);
         ConnectSocket();
     }
@@ -78,27 +80,47 @@ byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48,
         @Override
         public void SocketPacket(String msg) {
             if (msg != null && msg.length() > 0) {
-                try {
-                    String strlocatio = msg.replace("[", "").replace("]", "");
-                    location = gson.fromJson(strlocatio, Location.class);
-                    if(location!=null){
-                        ShareUitls.putString(SocketStartService.this,"location",location.latitude+"_"+location.longitude);
-                        MyToash.Log(msg);
-                     //   RECEIVE_MESSAGE = msg;
-                        ServiceToActivityIntent.putExtra("FLAG", "SERIVCE_MSG");
-                        ServiceToActivityIntent.putExtra("DATA", location.latitude+"_"+location.longitude);
-                        sendBroadcast(ServiceToActivityIntent);
-                        mySQLiteDataDao.Insert(msg);
-                    }
-
-                } catch (Exception e) {
+                if(msg.endsWith("}")&&msg.startsWith("{")){
+                    hanlderData(msg);
+                }else if(msg.endsWith("]")&&msg.startsWith("[")){
+                    hanlderData(msg);
+                    ShareUitls.putString(service, "templocation", "");
+                }else if(msg.startsWith("[")){
+                   // String temp=ShareUitls.getString(service, "templocation", "");
+                    ShareUitls.putString(service, "templocation", msg);
+                }else  if(msg.endsWith("]")){
+                    String temp=ShareUitls.getString(service, "templocation", "");
+                    hanlderData(temp+msg);
+                    ShareUitls.putString(service, "templocation", "");
+                }else if(!msg.endsWith("**")){
+                     String temp=ShareUitls.getString(service, "templocation", "");
+                    ShareUitls.putString(service, "templocation",temp+ msg);
                 }
-
 
             }
 
         }
     };
+
+    private void hanlderData(String msg) {
+        try {
+            //JSONArray jsonArray = new JSONArray(msg);
+            //if (jsonArray != null && jsonArray.length() > 0) {
+               // MyToash.Log("youshuju"+jsonArray.length());
+               // JSONObject jsonObject = jsonArray.getJSONObject(jsonArray.length() - 1);
+                location = gson.fromJson(msg, Location.class);
+                ShareUitls.putString(service, "location", location.latitude + "_" + location.longitude);
+                MyToash.Log(msg);
+                ServiceToActivityIntent.putExtra("FLAG", "SERIVCE_MSG");
+                ServiceToActivityIntent.putExtra("DATA", location.latitude + "_" + location.longitude);
+                sendBroadcast(ServiceToActivityIntent);
+                mySQLiteDataDao.Insert(msg);
+         //   }
+
+        } catch (Exception e) {
+            MyToash.Log("解析异常youshuju");
+        }
+    }
 
     ICoallBack iCoallBack = new ICoallBack() {
         @Override
@@ -135,11 +157,12 @@ byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48,
     @Override
     public void onDestroy() {
         super.onDestroy();
-         send(true);
+        send(true);
         //stopForeground(true);
         try {
             handler.removeMessages(0);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         //MyToash.Log("onDestroy " + SEND_STATUS);
 
     }
@@ -160,17 +183,15 @@ byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48,
                 if (isover) {
                     if (issend) {
                         SEND_STATUS = "关闭成功";
-                        MyToash.Log("OnSuccess" + SEND_STATUS);
-                        client.closeConnection();
                     } else {
                         SEND_STATUS = "关闭失败";
-                        MyToash.Log("OnSuccess" + SEND_STATUS);
-                        client.closeConnection();
                     }
+                    MyToash.Log("OnSuccess" + SEND_STATUS);
+                    client.closeConnection();
                 } else {
                     if (issend) {
                         SEND_STATUS = "发送成功";
-                        handler.sendEmptyMessageDelayed(0,30000);//每隔30秒检查一次
+                        handler.sendEmptyMessageDelayed(0, 30000);//每隔30秒检查一次
                     } else {
                         SEND_STATUS = "发送失败";
                     }
@@ -193,7 +214,7 @@ byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48,
                 @Override
                 public void run() {//8144771b856c46c0adbb5d14a09311c6
 
-                    if (InternetUtils.internett(SocketStartService.this)) {
+                    if (InternetUtils.internett(service)) {
                         boolean issend = client.SenddDataCheck(CHECK_CONNECT);
                         if (issend) {
                             MyToash.Log("正常连接");
@@ -202,9 +223,8 @@ byte [] CHECK_CONNECT={1, 0, 0, 0, 0, 0, 49, 48 ,48 ,48 ,48 ,48 ,48, 48, 48, 48,
                             MyToash.Log("连接断开");
                             ConnectSocket();//重连一次
                         }
-                    }else {
+                    } else {
                         handler.sendEmptyMessageDelayed(0, 10000);//每隔10秒检查一次
-
                         ServiceToActivityIntent.putExtra("FLAG", "NONET");
                         ServiceToActivityIntent.putExtra("DATA", "");
                         sendBroadcast(ServiceToActivityIntent);

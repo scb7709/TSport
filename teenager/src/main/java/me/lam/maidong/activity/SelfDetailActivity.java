@@ -1,5 +1,6 @@
 package me.lam.maidong.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -14,8 +15,8 @@ import org.xutils.x;
 
 import me.lam.maidong.R;
 import me.lam.maidong.entity.SelfDetailCallBack;
+import me.lam.maidong.fragment.SelfActivityFragment;
 import me.lam.maidong.myview.MyToash;
-import me.lam.maidong.utils.OKHttp;
 import me.lam.maidong.utils.ShareUitls;
 
 @ContentView(R.layout.activity_self_message)
@@ -36,11 +37,13 @@ public class SelfDetailActivity extends BaseActivity {
     @ViewInject(R.id.data_weight)
     TextView dataWeight;
     SelfDetailCallBack dataRes;
+    public Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        activity=this;
         initialize();
 
     }
@@ -65,19 +68,12 @@ public class SelfDetailActivity extends BaseActivity {
     }
 
     public void getData() {
-        String EducationalCode = ShareUitls.getString(SelfDetailActivity.this, "EducationCode", "");
-        String url = "StudentInfo/?EducationalCode=" + EducationalCode;
-        OKHttp.sendRequestRequestParams(SelfDetailActivity.this, "", true, url, new OKHttp.ResponseListener() {
+        SelfActivityFragment.getmyData(activity, new SelfActivityFragment.MyUserData() {
             @Override
             public void onResponse(String response) {
-
-             //   Log.i("getAsynHttp", response.toString());
-
                 dataRes = new Gson().fromJson(response, SelfDetailCallBack.class);
-                if(dataRes!=null){
-                    ShareUitls.putString(SelfDetailActivity.this,"mydata",response);
+                if (dataRes != null) {
                     dataName.setText(dataRes.getStudentName() + "");
-
                     if (dataRes.getSex() == 1) {
                         dataSex.setText("男");
                     } else {
@@ -86,23 +82,18 @@ public class SelfDetailActivity extends BaseActivity {
                     dataAge.setText(dataRes.getAge() + "岁");
                     dataHigh.setText(dataRes.getHeight() + "cm");
                     dataWeight.setText(dataRes.getWeight() + "kg");
+                }else {
+                    MyToash.ToashNoNet(SelfDetailActivity.this);
+                    ShareUitls.putString(SelfDetailActivity.this, "mydata", "");
                 }
             }
 
             @Override
             public void onErrorResponse() {
                 MyToash.ToashNoNet(SelfDetailActivity.this);
-                //Toast.makeText(SelfDetailActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
-
-
-
             }
         });
-
-
     }
-
-
 
 
 }

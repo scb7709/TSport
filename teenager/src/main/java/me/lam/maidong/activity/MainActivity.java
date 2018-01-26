@@ -25,7 +25,6 @@ import org.xutils.x;
 import me.lam.maidong.R;
 import me.lam.maidong.entity.msgCallBack;
 import me.lam.maidong.fragment.AnalizeFragment;
-import me.lam.maidong.fragment.LocationFragment;
 import me.lam.maidong.fragment.LocationFragment2;
 import me.lam.maidong.fragment.MaidongFragment;
 import me.lam.maidong.fragment.NewsActivityFragment2;
@@ -64,13 +63,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     AnalizeFragment analizeFragment;
-    SelfActivityFragment selfActivityFragment;
-    LocationFragment locationFragment;
     public static FragmentActivity activity;
     Gson gson = new Gson();
     public FragmentManager fragmentManager;
     private int position;
 
+
+    private Fragment  maidongFragment,  newsActivityFragment2,locationFragment,selfActivityFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             /*    maiDongActivityFragment = new MaiDongActivityFragment();
                 changeFragment( maiDongActivityFragment, "MaiDongActivityFragment");*/
 
-                    MaidongFragment maidongFragment = new MaidongFragment();
+                     maidongFragment = new MaidongFragment();
                     changeFragment(maidongFragment, "MaidongFragment");
                 }
                 break;
@@ -153,7 +152,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 changeFragment( roundActivityFragment, "DongtaiFragment");*/
 
 
-                    NewsActivityFragment2 newsActivityFragment2 = new NewsActivityFragment2();
+                     newsActivityFragment2 = new NewsActivityFragment2();
                     changeFragment(newsActivityFragment2, "NewsActivityFragment2");
                 }
                 break;
@@ -166,7 +165,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     activity_main_title_left.setVisibility(View.GONE);
                     activity_main_title_right.setVisibility(View.GONE);
                     activity_main_title_center.setText("位置");
-                    LocationFragment2 locationFragment = new LocationFragment2();
+                     locationFragment = new LocationFragment2();
                     changeFragment(locationFragment, "LocationFragment2");
               /*  locationFragment = new LocationFragment();
                 changeFragment(locationFragment, "LocationFragment");*/

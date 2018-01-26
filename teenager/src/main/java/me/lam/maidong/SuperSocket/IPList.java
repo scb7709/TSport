@@ -8,9 +8,9 @@ class IPList {
     /***
     IP  192.168.1.250:8051
      ***/
-    public static final String _ip = "192.168.1.250";
+    public static final String _ip = "123.57.145.215";
     /***
      * 服务端的通讯端口
      ***/
-    public static final int _Port = 7000;
+    public static final int _Port = 5000;
 }

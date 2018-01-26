@@ -81,7 +81,7 @@ public class SocketClient {
      * 发送失败
      **/
     public static final int SENDFAILURE = -2;
-    public int Again_CONNECT_COUNT = 5;//重连次数
+    public int Again_CONNECT_COUNT = 20;//重连次数
     public static final int Again_CONNECT = 5;//重连
 
     MsgReceiveThread msgReceiveThread;
@@ -93,7 +93,7 @@ public class SocketClient {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == CONNECTSUCCESS) {
-                Again_CONNECT_COUNT=5;
+                Again_CONNECT_COUNT = 20;
                 msgReceiveThread = new MsgReceiveThread(socket, handler);
                 msgReceiveThread.STOP_RECEIVE = false;
                 msgReceiveThread.start();
@@ -175,7 +175,7 @@ public class SocketClient {
                     //   MyToash.Log("4");
                 } catch (Exception e1) {
                     if (Again_CONNECT_COUNT > 0) {
-                        handler.sendEmptyMessageDelayed(Again_CONNECT, Again_CONNECT / 2);//2.5秒重连一次
+                        handler.sendEmptyMessageDelayed(Again_CONNECT, 6000);//6秒重连一次
                         MyToash.Log("SocketClient  重新连接" + Again_CONNECT_COUNT);
                     } else {
                         message.what = CONNECTFAILURE;
@@ -184,7 +184,7 @@ public class SocketClient {
                         e1.printStackTrace();
                         MyToash.Log("SocketClient  连接失败");
                     }
-                    --Again_CONNECT_COUNT;
+                     --Again_CONNECT_COUNT;
                 }
 
 
@@ -201,6 +201,10 @@ public class SocketClient {
      */
     public void closeConnection() {
         CoallBack.OnFailure(null);
+        try {
+            handler.removeMessages(Again_CONNECT);
+        } catch (Exception E) {
+        }
         try {
             if (socket != null) {
                 socket.close();// 关闭socket
